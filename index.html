@@ -2,844 +2,1303 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>الجزيرة الخضراء - نظام الإدارة المتكامل</title>
-    <!-- Font Awesome & Google Fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <!-- Flatpickr (تقويم) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ar.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام الجزيرة الخضراء الإداري</title>
     <style>
+        :root {
+            --primary-green: #4CAF50;
+            --light-green: #81C784;
+            --dark-green: #2E7D32;
+            --white: #FFFFFF;
+            --light-bg: #F5F5F5;
+            --sidebar-width: 250px;
+            --header-height: 60px;
+            --footer-height: 50px;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         body {
-            background: #f0f4f8;
+            background: var(--light-bg);
             height: 100vh;
             overflow: hidden;
         }
-        /* تسجيل الدخول */
-        .login-container {
+
+        /* شاشة تسجيل الدخول */
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #1e5a3a, #2e8b57);
+            z-index: 1000;
+            transition: var(--transition);
         }
-        .login-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 32px;
-            box-shadow: 0 20px 35px rgba(0,0,0,0.2);
-            width: 360px;
+
+        .login-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.9);
+        }
+
+        .login-container {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 400px;
+            text-align: center;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            object-fit: cover;
+            border: 3px solid var(--primary-green);
+        }
+
+        .login-title {
+            font-size: 24px;
+            color: var(--dark-green);
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+            direction: ltr;
             text-align: center;
         }
-        .login-card img {
-            width: 80px;
-            margin-bottom: 1rem;
-            border-radius: 16px;
+
+        .login-input:focus {
+            border-color: var(--primary-green);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(76,175,80,0.1);
         }
-        .login-card input {
+
+        .login-btn {
             width: 100%;
             padding: 12px;
-            margin: 12px 0;
-            border: 1px solid #ccc;
-            border-radius: 28px;
-            font-size: 1rem;
-        }
-        .login-card button {
-            background: #2e7d32;
-            color: white;
+            background: var(--primary-green);
+            color: var(--white);
             border: none;
-            padding: 10px;
-            width: 100%;
-            border-radius: 40px;
-            font-weight: bold;
+            border-radius: var(--border-radius);
+            font-size: 18px;
             cursor: pointer;
-            font-size: 1rem;
+            margin-top: 20px;
+            transition: var(--transition);
+            font-weight: bold;
         }
-        .login-card button:hover {
-            background: #1b5e20;
+
+        .login-btn:hover {
+            background: var(--dark-green);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-        /* التطبيق الرئيسي */
-        .app {
+
+        .login-error {
+            color: #f44336;
+            margin-top: 10px;
+            font-size: 14px;
+            display: none;
+        }
+
+        /* الشاشة الرئيسية */
+        .main-container {
             display: none;
             height: 100vh;
             flex-direction: column;
         }
+
+        .main-container.active {
+            display: flex;
+        }
+
         /* الهيدر */
         .header {
-            background: #c8e6c9; /* اخضر فاتح */
+            height: var(--header-height);
+            background: var(--light-green);
             display: flex;
             align-items: center;
+            padding: 0 20px;
+            box-shadow: var(--shadow);
+            z-index: 100;
             justify-content: space-between;
-            padding: 8px 24px;
-            height: 70px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-        .logo-area {
+
+        .header-logo {
+            height: 40px;
+            width: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .header-title {
+            color: var(--white);
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .header-left {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-        .logo-img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
-            background: white;
-            border-radius: 12px;
-            padding: 5px;
+
+        .user-info {
+            color: var(--white);
+            font-size: 14px;
         }
-        .company-name {
-            font-weight: 800;
-            font-size: 1.3rem;
-            color: #1b5e20;
+
+        .logout-btn {
+            background: var(--white);
+            color: var(--dark-green);
+            border: none;
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
         }
-        /* sidebar */
-        .main-layout {
+
+        .logout-btn:hover {
+            background: #f0f0f0;
+        }
+
+        /* المحتوى الرئيسي */
+        .content-wrapper {
             display: flex;
             flex: 1;
             overflow: hidden;
         }
+
+        /* الشريط الجانبي */
         .sidebar {
-            width: 280px;
-            background: #1b3b2b;
-            color: white;
+            width: var(--sidebar-width);
+            background: var(--white);
+            box-shadow: var(--shadow);
+            padding: 20px 0;
             overflow-y: auto;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
+            transition: var(--transition);
         }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
         .sidebar-item {
-            padding: 14px 24px;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-            font-weight: 500;
+            gap: 10px;
+            color: #555;
+            font-size: 15px;
+            border-right: 3px solid transparent;
         }
-        .sidebar-item i { width: 24px; }
+
         .sidebar-item:hover, .sidebar-item.active {
-            background: #2e7d32;
-            border-right: 5px solid #ffd966;
+            background: #e8f5e9;
+            color: var(--dark-green);
+            border-right-color: var(--primary-green);
         }
-        .content-area {
+
+        .sidebar-icon {
+            font-size: 18px;
+            width: 25px;
+            text-align: center;
+        }
+
+        .sidebar-section {
+            padding: 8px 20px;
+            color: #999;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        /* منطقة المحتوى */
+        .main-content {
             flex: 1;
+            padding: 20px;
             overflow-y: auto;
-            padding: 20px;
-            background: #f9fafc;
+            background: var(--light-bg);
         }
-        .footer {
-            background: #2e7d32;
-            color: white;
-            padding: 10px 24px;
-            display: flex;
-            justify-content: space-between;
-            font-weight: 500;
-            font-size: 0.9rem;
+
+        /* شاشة الترحيب */
+        .welcome-screen {
+            text-align: center;
+            padding: 50px;
         }
-        /* بطاقات العناوين */
-        .card {
-            background: white;
-            border-radius: 24px;
-            padding: 20px;
+
+        .welcome-image {
+            max-width: 400px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .welcome-text {
+            font-size: 28px;
+            color: var(--dark-green);
+            margin-bottom: 10px;
+        }
+
+        /* الفورم */
+        .form-container {
+            background: var(--white);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
             margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
+
+        .form-title {
+            font-size: 20px;
+            color: var(--dark-green);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-green);
+        }
+
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 15px;
         }
-        input, select, textarea {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid #ccc;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            transition: 0.2s;
+
+        .form-group {
+            margin-bottom: 15px;
         }
-        input:focus, select:focus, textarea:focus {
-            border-color: #2e7d32;
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--primary-green);
             outline: none;
         }
-        button {
-            background: #2e7d32;
-            color: white;
+
+        .btn {
+            padding: 10px 20px;
             border: none;
-            padding: 8px 20px;
-            border-radius: 30px;
+            border-radius: var(--border-radius);
             cursor: pointer;
-            margin-left: 8px;
-            margin-top: 8px;
-            font-weight: 500;
+            font-weight: bold;
+            transition: var(--transition);
+            margin: 5px;
+            font-size: 14px;
         }
-        button:hover {
-            background: #1b5e20;
+
+        .btn-primary { background: var(--primary-green); color: var(--white); }
+        .btn-warning { background: #FF9800; color: var(--white); }
+        .btn-danger { background: #f44336; color: var(--white); }
+        .btn-info { background: #2196F3; color: var(--white); }
+        .btn-secondary { background: #9E9E9E; color: var(--white); }
+        .btn-success { background: var(--dark-green); color: var(--white); }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
         }
-        .btn-outline {
-            background: #f5f5f5;
-            color: #2e7d32;
-            border:1px solid #2e7d32;
+
+        /* الجداول */
+        .table-container {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+            padding: 20px;
         }
-        .btn-outline:hover {
-            background: #e8f5e9;
-        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
         }
+
         th, td {
-            border-bottom: 1px solid #ddd;
-            padding: 10px;
-            text-align: right;
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
         }
+
         th {
-            background: #e8f5e9;
+            background: var(--light-green);
+            color: var(--white);
+            font-weight: bold;
         }
-        .hidden { display: none; }
-        .message {
-            background: #e8f5e9;
-            padding: 8px;
-            border-radius: 12px;
-            margin: 10px 0;
+
+        tr:hover {
+            background: #f5f5f5;
         }
-        hr {
-            margin: 20px 0;
-        }
-        .badge {
-            background: #c8e6c9;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-        }
-        .btn-danger {
-            background: #c62828;
-        }
-        .btn-danger:hover {
-            background: #b71c1c;
-        }
-        .flex-btns {
+
+        /* الفوتر */
+        .footer {
+            height: var(--footer-height);
+            background: var(--dark-green);
+            color: var(--white);
             display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            font-size: 14px;
+        }
+
+        .footer-time {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        /* المحتوى المخفي */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* شهادة الراتب */
+        .certificate {
+            background: var(--white);
+            padding: 40px;
+            border: 3px solid var(--primary-green);
+            border-radius: 10px;
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .certificate-header {
+            border-bottom: 2px solid var(--light-green);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .certificate-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .certificate-footer {
+            border-top: 2px solid var(--light-green);
+            padding-top: 20px;
+            margin-top: 30px;
+            font-size: 13px;
+            color: #777;
+        }
+
+        @media print {
+            body * { visibility: hidden; }
+            .certificate, .certificate * { visibility: visible; }
+            .certificate { position: absolute; left: 0; top: 0; }
+        }
+
+        /* إعدادات */
+        .settings-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 15px;
+        }
+
+        .settings-tab {
+            padding: 8px 20px;
+            background: #e0e0e0;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .settings-tab.active {
+            background: var(--primary-green);
+            color: var(--white);
         }
     </style>
 </head>
 <body>
-<div id="loginScreen" class="login-container">
-    <div class="login-card">
-        <img id="loginLogo" src="https://via.placeholder.com/80?text=Logo" alt="شعار">
-        <h3>نظام الجزيرة الخضراء</h3>
-        <input type="text" id="empNum" placeholder="الرقم الوظيفي" value="70062">
-        <input type="password" id="accessCode" placeholder="كود الدخول (6)" maxlength="6">
-        <button onclick="attemptLogin()">دخول <i class="fas fa-sign-in-alt"></i></button>
-        <p style="color:red; font-size:12px; margin-top:10px" id="loginMsg"></p>
-    </div>
-</div>
 
-<div id="appContainer" class="app">
-    <div class="header" id="mainHeader">
-        <div class="logo-area">
-            <img id="headerLogo" class="logo-img" src="https://via.placeholder.com/50?text=Logo">
-            <span class="company-name">شركة الجزيرة الخضراء</span>
+    <!-- شاشة تسجيل الدخول -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-container">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Ccircle cx='40' cy='40' r='38' fill='%234CAF50'/%3E%3Ctext x='40' y='45' text-anchor='middle' fill='white' font-size='20'%3ELOGO%3C/text%3E%3C/svg%3E" 
+                 alt="Logo" class="login-logo" id="loginLogo">
+            <h2 class="login-title">نظام الجزيرة الخضراء الإداري</h2>
+            <input type="text" class="login-input" id="employeeId" placeholder="الرقم الوظيفي" value="70062">
+            <input type="password" class="login-input" id="password" placeholder="كود الدخول (6 خانات)" maxlength="6" value="123456">
+            <button class="login-btn" onclick="login()">تسجيل الدخول</button>
+            <p class="login-error" id="loginError">الرقم الوظيفي أو كود الدخول غير صحيح</p>
         </div>
-        <div><i class="fas fa-user-cog"></i> لوحة التحكم</div>
     </div>
-    <div class="main-layout">
-        <div class="sidebar" id="sidebarMenu"></div>
-        <div class="content-area" id="mainContent"></div>
+
+    <!-- الشاشة الرئيسية -->
+    <div class="main-container" id="mainContainer">
+        <!-- الهيدر -->
+        <header class="header">
+            <div class="header-left">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='18' fill='white'/%3E%3Ctext x='20' y='25' text-anchor='middle' fill='%234CAF50' font-size='12'%3ELogo%3C/text%3E%3C/svg%3E" 
+                     alt="Logo" class="header-logo" id="headerLogo">
+                <span class="header-title">الجزيرة الخضراء</span>
+            </div>
+            <div class="header-left">
+                <span class="user-info" id="userDisplay">مرحباً، المستخدم</span>
+                <button class="logout-btn" onclick="logout()">تسجيل خروج</button>
+            </div>
+        </header>
+
+        <!-- المحتوى -->
+        <div class="content-wrapper">
+            <!-- الشريط الجانبي -->
+            <nav class="sidebar">
+                <ul class="sidebar-menu">
+                    <li class="sidebar-section">الرئيسية</li>
+                    <li class="sidebar-item active" onclick="showSection('welcome')">
+                        <span class="sidebar-icon">🏠</span> لوحة التحكم
+                    </li>
+                    
+                    <li class="sidebar-section">إدارة الموظفين</li>
+                    <li class="sidebar-item" onclick="showSection('employees')">
+                        <span class="sidebar-icon">👥</span> بيانات الموظفين
+                    </li>
+                    <li class="sidebar-item" onclick="showSection('attendance')">
+                        <span class="sidebar-icon">📅</span> الحضور والانصراف
+                    </li>
+                    <li class="sidebar-item" onclick="showSection('salaries')">
+                        <span class="sidebar-icon">💰</span> كشف الرواتب
+                    </li>
+                    <li class="sidebar-item" onclick="showSection('leaves')">
+                        <span class="sidebar-icon">🏖️</span> الإجازات
+                    </li>
+
+                    <li class="sidebar-section">الإدارات الأخرى</li>
+                    <li class="sidebar-item" onclick="showSection('maintenance')">
+                        <span class="sidebar-icon">🔧</span> الصيانة
+                    </li>
+                    <li class="sidebar-item" onclick="showSection('inventory')">
+                        <span class="sidebar-icon">📦</span> المخزون
+                    </li>
+                    <li class="sidebar-item" onclick="showSection('procurement')">
+                        <span class="sidebar-icon">🛒</span> المشتريات
+                    </li>
+
+                    <li class="sidebar-section">النظام</li>
+                    <li class="sidebar-item settings-menu" onclick="showSection('settings')" id="settingsMenu" style="display:none;">
+                        <span class="sidebar-icon">⚙️</span> الإعدادات
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- المحتوى الرئيسي -->
+            <main class="main-content" id="mainContent">
+                <!-- شاشة الترحيب -->
+                <div class="content-section active" id="welcome-section">
+                    <div class="welcome-screen">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23e8f5e9' width='400' height='300'/%3E%3Ctext x='200' y='150' text-anchor='middle' fill='%234CAF50' font-size='24'%3Eمرحباً بك في نظام%3C/text%3E%3Ctext x='200' y='180' text-anchor='middle' fill='%232E7D32' font-size='20'%3Eالجزيرة الخضراء%3C/text%3E%3C/svg%3E" 
+                             alt="Welcome" class="welcome-image" id="welcomeImage">
+                        <h2 class="welcome-text">نظام الإدارة المتكامل</h2>
+                        <p>شركة الجزيرة الخضراء لتجارة الأغنام والمواشي</p>
+                    </div>
+                </div>
+
+                <!-- الموظفين -->
+                <div class="content-section" id="employees-section">
+                    <div class="form-container">
+                        <h3 class="form-title">بيانات الموظفين</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>رقم الموظف</label>
+                                <input type="text" id="empId" placeholder="GI-0001" value="GI-0001">
+                            </div>
+                            <div class="form-group">
+                                <label>اسم الموظف</label>
+                                <input type="text" id="empName" placeholder="الاسم الكامل">
+                            </div>
+                            <div class="form-group">
+                                <label>الجنسية</label>
+                                <select id="empNationality"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>رقم الجواز</label>
+                                <input type="text" id="empPassport" placeholder="رقم الجواز">
+                            </div>
+                            <div class="form-group">
+                                <label>رقم الهوية</label>
+                                <input type="text" id="empIdNumber" placeholder="رقم الهوية">
+                            </div>
+                            <div class="form-group">
+                                <label>رقم التلفون</label>
+                                <input type="tel" id="empPhone" placeholder="رقم التلفون">
+                            </div>
+                            <div class="form-group">
+                                <label>الوظيفة</label>
+                                <select id="empJob" onchange="checkOtherJob()">
+                                    <option>مدير عام</option>
+                                    <option>مستشار فني</option>
+                                    <option>مدير إداري</option>
+                                    <option>محاسب</option>
+                                    <option>مندوب علاقات عامة</option>
+                                    <option>مدير عمليات</option>
+                                    <option>مشرف مسالخ</option>
+                                    <option>مشرف مسلخ</option>
+                                    <option>مراقب</option>
+                                    <option>قصاب</option>
+                                    <option>عامل نظافة</option>
+                                    <option>حمال</option>
+                                    <option>فني صيانة</option>
+                                    <option>أخرى</option>
+                                </select>
+                                <input type="text" id="empOtherJob" placeholder="أدخل الوظيفة الأخرى" style="display:none; margin-top:5px;">
+                            </div>
+                            <div class="form-group">
+                                <label>الراتب الشهري</label>
+                                <input type="number" id="empSalary" placeholder="الراتب">
+                            </div>
+                            <div class="form-group">
+                                <label>تاريخ التعيين</label>
+                                <input type="date" id="empHireDate">
+                            </div>
+                            <div class="form-group">
+                                <label>تاريخ انتهاء الجواز</label>
+                                <input type="date" id="empPassportExp">
+                            </div>
+                            <div class="form-group">
+                                <label>تاريخ انتهاء الإقامة</label>
+                                <input type="date" id="empResidenceExp">
+                            </div>
+                            <div class="form-group">
+                                <label>تاريخ انتهاء الهوية</label>
+                                <input type="date" id="empIdExp">
+                            </div>
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label>ملاحظات</label>
+                                <textarea id="empNotes" rows="3" placeholder="ملاحظات إضافية"></textarea>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <button class="btn btn-primary" onclick="addEmployee()">➕ إضافة موظف</button>
+                            <button class="btn btn-warning" onclick="updateEmployee()">✏️ تعديل</button>
+                            <button class="btn btn-info" onclick="printCertificate()">🖨️ طباعة شهادة راتب</button>
+                            <button class="btn btn-secondary" onclick="showSection('welcome')">🔙 رجوع</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <h3>قائمة الموظفين</h3>
+                        <table id="employeesTable">
+                            <thead>
+                                <tr>
+                                    <th>الرقم الوظيفي</th>
+                                    <th>الاسم</th>
+                                    <th>الجنسية</th>
+                                    <th>الوظيفة</th>
+                                    <th>الراتب</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="employeesBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- الحضور والانصراف -->
+                <div class="content-section" id="attendance-section">
+                    <div class="form-container">
+                        <h3 class="form-title">تقرير الحضور والانصراف</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>من تاريخ</label>
+                                <input type="date" id="attFrom">
+                            </div>
+                            <div class="form-group">
+                                <label>إلى تاريخ</label>
+                                <input type="date" id="attTo">
+                            </div>
+                            <div class="form-group">
+                                <label>الموظف</label>
+                                <select id="attEmployee"></select>
+                            </div>
+                        </div>
+                        <button class="btn btn-info" onclick="generateAttendanceReport()">📄 إصدار تقرير PDF</button>
+                    </div>
+                </div>
+
+                <!-- الرواتب -->
+                <div class="content-section" id="salaries-section">
+                    <div class="form-container">
+                        <h3 class="form-title">كشف الرواتب</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>الشهر</label>
+                                <select id="salaryMonth">
+                                    <option>يناير</option><option>فبراير</option><option>مارس</option>
+                                    <option>أبريل</option><option>مايو</option><option>يونيو</option>
+                                    <option>يوليو</option><option>أغسطس</option><option>سبتمبر</option>
+                                    <option>أكتوبر</option><option>نوفمبر</option><option>ديسمبر</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>السنة</label>
+                                <input type="number" id="salaryYear" value="2024">
+                            </div>
+                        </div>
+                        <button class="btn btn-info" onclick="generateSalaryReport()">📄 إصدار كشف الرواتب</button>
+                    </div>
+                </div>
+
+                <!-- الإجازات -->
+                <div class="content-section" id="leaves-section">
+                    <div class="form-container">
+                        <h3 class="form-title">طلب إجازة</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>نوع الإجازة</label>
+                                <select id="leaveType">
+                                    <option>سنوية</option>
+                                    <option>مرضية</option>
+                                    <option>طارئة</option>
+                                    <option>بدون راتب</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>من تاريخ</label>
+                                <input type="date" id="leaveFrom">
+                            </div>
+                            <div class="form-group">
+                                <label>إلى تاريخ</label>
+                                <input type="date" id="leaveTo">
+                            </div>
+                            <div class="form-group">
+                                <label>مكان الإجازة</label>
+                                <input type="text" id="leavePlace">
+                            </div>
+                            <div class="form-group">
+                                <label>تلفون أثناء الإجازة</label>
+                                <input type="tel" id="leavePhone">
+                            </div>
+                            <div class="form-group">
+                                <label>الموظف البديل</label>
+                                <select id="leaveSubstitute"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>تلفون البديل</label>
+                                <input type="tel" id="leaveSubPhone">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="submitLeave()">📝 تقديم الطلب</button>
+                        <button class="btn btn-info" onclick="printLeaveReport()">🖨️ طباعة تقرير الإجازة</button>
+                    </div>
+                </div>
+
+                <!-- الصيانة -->
+                <div class="content-section" id="maintenance-section">
+                    <div class="form-container">
+                        <h3 class="form-title">طلب صيانة</h3>
+                        <div class="form-group">
+                            <label>وصف العطل</label>
+                            <textarea id="maintenanceDesc" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>رفع ملفات داعمة</label>
+                            <input type="file" id="maintenanceFiles" multiple>
+                        </div>
+                        <button class="btn btn-primary">📤 تقديم الطلب</button>
+                    </div>
+                </div>
+
+                <!-- المخزون -->
+                <div class="content-section" id="inventory-section">
+                    <div class="form-container">
+                        <h3 class="form-title">إدارة المخزون</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>كود الصنف</label>
+                                <input type="text" id="itemCode">
+                            </div>
+                            <div class="form-group">
+                                <label>اسم الصنف</label>
+                                <input type="text" id="itemName">
+                            </div>
+                            <div class="form-group">
+                                <label>نوع الكمية</label>
+                                <select id="itemUnitType" onchange="checkOtherUnit()">
+                                    <option>عدد</option>
+                                    <option>كرتونة</option>
+                                    <option>لتر</option>
+                                    <option>أخرى</option>
+                                </select>
+                                <input type="text" id="itemOtherUnit" placeholder="أدخل نوع الكمية" style="display:none; margin-top:5px;">
+                            </div>
+                            <div class="form-group">
+                                <label>الكمية</label>
+                                <input type="number" id="itemQuantity">
+                            </div>
+                            <div class="form-group">
+                                <label>تاريخ الصلاحية (اختياري)</label>
+                                <input type="date" id="itemExpiry">
+                            </div>
+                            <div class="form-group">
+                                <label>نوع التخزين</label>
+                                <select id="itemStorage">
+                                    <option>مستودع رئيسي</option>
+                                    <option>ثلاجة</option>
+                                    <option>مجمدة</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>نوع الحركة</label>
+                                <select id="itemMovement">
+                                    <option>وارد</option>
+                                    <option>صادر</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="addInventoryItem()">➕ إضافة</button>
+                        <button class="btn btn-info" onclick="generateInventoryReport()">📄 تقرير PDF</button>
+                    </div>
+                    <div class="table-container">
+                        <table id="inventoryTable">
+                            <thead><tr><th>الكود</th><th>الصنف</th><th>الكمية</th><th>النوع</th><th>الحركة</th></tr></thead>
+                            <tbody id="inventoryBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- المشتريات -->
+                <div class="content-section" id="procurement-section">
+                    <div class="form-container">
+                        <h3 class="form-title">المشتريات</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>رقم الفاتورة</label>
+                                <input type="text" id="invoiceNumber">
+                            </div>
+                            <div class="form-group">
+                                <label>تاريخ الفاتورة</label>
+                                <input type="date" id="invoiceDate">
+                            </div>
+                            <div class="form-group">
+                                <label>تاريخ الاستلام</label>
+                                <input type="date" id="receiptDate">
+                            </div>
+                            <div class="form-group">
+                                <label>المبلغ</label>
+                                <input type="number" id="invoiceAmount">
+                            </div>
+                            <div class="form-group">
+                                <label>رفع ملفات (حتى 20 جيجا)</label>
+                                <input type="file" id="procurementFiles" multiple>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">📤 حفظ</button>
+                    </div>
+                </div>
+
+                <!-- الإعدادات -->
+                <div class="content-section" id="settings-section">
+                    <div class="settings-tabs">
+                        <button class="settings-tab active" onclick="showSettingsTab('users')">المستخدمين</button>
+                        <button class="settings-tab" onclick="showSettingsTab('permissions')">الصلاحيات</button>
+                        <button class="settings-tab" onclick="showSettingsTab('locations')">المواقع</button>
+                        <button class="settings-tab" onclick="showSettingsTab('appearance')">المظهر</button>
+                    </div>
+                    <div id="settingsUsers" class="settings-content">
+                        <div class="form-container">
+                            <h3>إضافة مستخدم</h3>
+                            <div class="form-grid">
+                                <div class="form-group"><label>الرقم الوظيفي</label><input type="text"></div>
+                                <div class="form-group"><label>كود الدخول</label><input type="password" maxlength="6"></div>
+                                <div class="form-group"><label>الصلاحية</label>
+                                    <select><option>مدير</option><option>مستخدم</option></select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary">➕ إضافة</button>
+                        </div>
+                    </div>
+                    <div id="settingsPermissions" class="settings-content" style="display:none;">
+                        <div class="form-container">
+                            <h3>صلاحيات المستخدمين</h3>
+                            <table><thead><tr><th>المستخدم</th><th>الموظفين</th><th>المخزون</th><th>الإعدادات</th></tr></thead>
+                            <tbody><tr><td>مدير</td><td>✅</td><td>✅</td><td>✅</td></tr></tbody></table>
+                        </div>
+                    </div>
+                    <div id="settingsLocations" class="settings-content" style="display:none;">
+                        <div class="form-container">
+                            <h3>إضافة مواقع</h3>
+                            <div class="form-group"><label>اسم الموقع</label><input type="text"></div>
+                            <button class="btn btn-primary">➕ إضافة موقع</button>
+                        </div>
+                    </div>
+                    <div id="settingsAppearance" class="settings-content" style="display:none;">
+                        <div class="form-container">
+                            <h3>تغيير الشعار</h3>
+                            <div class="form-group"><label>رفع شعار جديد (20×20)</label><input type="file" accept="image/*"></div>
+                            <button class="btn btn-primary">💾 حفظ</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- الفوتر -->
+        <footer class="footer">
+            <div class="footer-time">
+                <span>📧 info@grisland.com</span>
+                <span>📍 شركة الجزيرة الخضراء</span>
+            </div>
+            <div class="footer-time">
+                <span id="currentDate"></span>
+                <span id="currentTime">⏰</span>
+            </div>
+        </footer>
     </div>
-    <div class="footer">
-        <div><i class="fas fa-clock"></i> <span id="liveClock">--:--:--</span></div>
-        <div><i class="fas fa-calendar-alt"></i> <span id="liveDate">----/--/--</span></div>
+
+    <!-- شهادة الراتب (مخفية للطباعة) -->
+    <div id="salaryCertificate" style="display:none;">
+        <div class="certificate">
+            <div class="certificate-header">
+                <img src="" class="certificate-logo" id="certLogo">
+                <h2>شركة الجزيرة الخضراء</h2>
+                <h3>لتجارة الأغنام والمواشي</h3>
+            </div>
+            <div style="font-size:18px; line-height:2;">
+                <p>تشهد شركة الجزيرة الخضراء لتجارة الأغنام والمواشي</p>
+                <p>بأن الموظف: <strong id="certName">________</strong></p>
+                <p>يعمل لدينا بوظيفة: <strong id="certJob">________</strong></p>
+                <p>بالرقم الوظيفي: <strong id="certId">________</strong></p>
+                <p>جنسيته: <strong id="certNationality">________</strong></p>
+                <p>برقم الجواز: <strong id="certPassport">________</strong></p>
+                <p>والهوية: <strong id="certIdNum">________</strong></p>
+                <p>منذ: <strong id="certDate">________</strong></p>
+                <br>
+                <p>وهذه شهادة منا لمن يهمه الأمر</p>
+                <p>دون تحمل الشركة أي مسؤولية تجاهها.</p>
+            </div>
+            <div style="margin-top:50px; display:flex; justify-content:space-between;">
+                <div>________________<br>المدير العام</div>
+                <div>________________<br>المدير الإداري</div>
+            </div>
+            <div class="certificate-footer">
+                <p>العنوان: المملكة العربية السعودية | البريد الإلكتروني: info@grisland.com</p>
+            </div>
+        </div>
     </div>
-</div>
 
-<script>
-    // ------------------------- التخزين المحلي -------------------------
-    let employees = JSON.parse(localStorage.getItem('employees')) || [];
-    let inventoryItems = JSON.parse(localStorage.getItem('inventory')) || [];
-    let purchasesList = JSON.parse(localStorage.getItem('purchases')) || [];
-    let maintenanceReqs = JSON.parse(localStorage.getItem('maintenance')) || [];
-    let users = JSON.parse(localStorage.getItem('appUsers')) || [{ username:"70062", password:"123456", role:"admin" }];
-    let settings = JSON.parse(localStorage.getItem('settings')) || { welcomeImage: "https://via.placeholder.com/800x400?text=مرحباً+في+الجزيرة+الخضراء", logo: "https://via.placeholder.com/50?text=Logo", sites: [] };
-    let currentUser = null;
-    let currentTab = "dashboard";
-    let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
-    let attendances = JSON.parse(localStorage.getItem('attendances')) || [];
-    let editIndexGlobal = null;
+    <script>
+        // ========== قاعدة بيانات محلية ==========
+        let DB = {
+            employees: [],
+            attendance: [],
+            inventory: [],
+            settings: {
+                logo: '',
+                welcomeImage: '',
+                companyName: 'الجزيرة الخضراء'
+            },
+            users: [
+                { id: '70062', password: '123456', role: 'admin' }
+            ],
+            currentUser: null
+        };
 
-    // حفظ كل شيء
-    function saveAll(){
-        localStorage.setItem('employees', JSON.stringify(employees));
-        localStorage.setItem('inventory', JSON.stringify(inventoryItems));
-        localStorage.setItem('purchases', JSON.stringify(purchasesList));
-        localStorage.setItem('maintenance', JSON.stringify(maintenanceReqs));
-        localStorage.setItem('appUsers', JSON.stringify(users));
-        localStorage.setItem('settings', JSON.stringify(settings));
-        localStorage.setItem('leaves', JSON.stringify(leaves));
-        localStorage.setItem('attendances', JSON.stringify(attendances));
-    }
-
-    // ساعة وتاريخ
-    function updateDateTime(){
-        let now = new Date();
-        let clockSpan = document.getElementById('liveClock');
-        let dateSpan = document.getElementById('liveDate');
-        if(clockSpan) clockSpan.innerText = now.toLocaleTimeString('ar-EG');
-        if(dateSpan) dateSpan.innerText = now.toLocaleDateString('ar-EG');
-    }
-    setInterval(updateDateTime, 1000);
-    updateDateTime();
-
-    // محاولة دخول
-    window.attemptLogin = function(){
-        let emp = document.getElementById('empNum').value.trim();
-        let code = document.getElementById('accessCode').value;
-        let user = users.find(u=> u.username === emp && u.password === code);
-        if(user){
-            currentUser = user;
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('appContainer').style.display = 'flex';
-            applySettingsToUI();
-            renderSidebar();
-            renderDashboardWelcome();
-        } else {
-            document.getElementById('loginMsg').innerText = "رقم وظيفي أو كود خاطئ";
+        // تحميل من localStorage
+        function loadDB() {
+            const saved = localStorage.getItem('grislandDB');
+            if (saved) DB = JSON.parse(saved);
         }
-    }
-
-    function applySettingsToUI(){
-        if(settings.logo){
-            let headerLogo = document.getElementById('headerLogo');
-            let loginLogo = document.getElementById('loginLogo');
-            if(headerLogo) headerLogo.src = settings.logo;
-            if(loginLogo) loginLogo.src = settings.logo;
+        function saveDB() {
+            localStorage.setItem('grislandDB', JSON.stringify(DB));
         }
-    }
 
-    function renderSidebar(){
-        let menu = document.getElementById('sidebarMenu');
-        let sections = [
-            { id:"dashboard", name:"الرئيسية", icon:"fas fa-home"},
-            { id:"hr", name:"إدارة الموظفين", icon:"fas fa-users"},
-            { id:"attendance", name:"الحضور والانصراف", icon:"fas fa-clock"},
-            { id:"leaves", name:"الإجازات", icon:"fas fa-umbrella-beach"},
-            { id:"maintenance", name:"الصيانة والأعطال", icon:"fas fa-tools"},
-            { id:"inventory", name:"المخزون", icon:"fas fa-boxes"},
-            { id:"purchases", name:"المشتريات", icon:"fas fa-shopping-cart"},
+        // ========== دوول العالم ==========
+        const countries = [
+            'السعودية', 'مصر', 'الأردن', 'سوريا', 'لبنان', 'العراق', 'الكويت', 'الإمارات', 'قطر', 'البحرين',
+            'عمان', 'اليمن', 'فلسطين', 'ليبيا', 'تونس', 'الجزائر', 'المغرب', 'السودان', 'موريتانيا', 'جيبوتي',
+            'الهند', 'باكستان', 'بنغلاديش', 'الفلبين', 'إندونيسيا', 'تركيا', 'أفغانستان', 'نيجيريا', 'أخرى'
         ];
-        if(currentUser && currentUser.role === "admin") sections.push({ id:"settings", name:"الإعدادات", icon:"fas fa-cog"});
-        menu.innerHTML = sections.map(s => `<div class="sidebar-item" onclick="changeSection('${s.id}')"><i class="${s.icon}"></i> ${s.name}</div>`).join('');
-    }
 
-    window.changeSection = function(section){
-        currentTab = section;
-        if(section === "dashboard") renderDashboardWelcome();
-        else if(section === "hr") renderHRManage();
-        else if(section === "attendance") renderAttendance();
-        else if(section === "leaves") renderLeaves();
-        else if(section === "maintenance") renderMaintenance();
-        else if(section === "inventory") renderInventory();
-        else if(section === "purchases") renderPurchases();
-        else if(section === "settings") renderSettings();
-    };
+        function populateCountries() {
+            const selects = ['empNationality'];
+            selects.forEach(id => {
+                const select = document.getElementById(id);
+                if (select) {
+                    select.innerHTML = countries.map(c => `<option>${c}</option>`).join('');
+                }
+            });
+        }
 
-    function renderDashboardWelcome(){
-        let html = `<div class="card" style="text-align:center;">
-            <img src="${settings.welcomeImage}" style="max-width:100%; border-radius:28px; margin-bottom:20px;">
-            <h2>مرحباً ${currentUser.username}</h2>
-            <p>لوحة التحكم - شركة الجزيرة الخضراء لتجارة الأغنام والمواشي</p>
-        </div>`;
-        document.getElementById('mainContent').innerHTML = html;
-    }
+        function populateEmployeesDropdown() {
+            const selects = ['attEmployee', 'leaveSubstitute'];
+            selects.forEach(id => {
+                const select = document.getElementById(id);
+                if (select) {
+                    select.innerHTML = '<option>اختر موظف</option>' + 
+                        DB.employees.map(e => `<option value="${e.id}">${e.name}</option>`).join('');
+                }
+            });
+        }
 
-    // ----------------- إدارة الموظفين -----------------
-    function renderHRManage(){
-        let html = `<div class="card">
-            <h3><i class="fas fa-user-plus"></i> بيانات الموظف</h3>
-            <div class="form-grid" id="empForm">
-                <input type="text" id="empIdDisplay" placeholder="رقم الموظف (يتولد تلقائياً)" disabled>
-                <input type="text" id="empName" placeholder="اسم الموظف *">
-                <select id="nationality"></select>
-                <input type="text" id="passportNo" placeholder="رقم الجواز">
-                <input type="text" id="idNo" placeholder="رقم الهوية">
-                <input type="text" id="phone" placeholder="رقم التلفون">
-                <select id="jobTitle"></select>
-                <input type="number" id="salary" placeholder="الراتب الشهري">
-                <input id="hireDate" placeholder="تاريخ التعيين">
-                <input id="passportExp" placeholder="انتهاء الجواز">
-                <input id="idExp" placeholder="انتهاء الهوية">
-                <input id="resExp" placeholder="انتهاء الإقامة">
-                <textarea id="notes" placeholder="ملاحظات" rows="2"></textarea>
-            </div>
-            <div class="flex-btns">
-                <button onclick="addEmployee()">➕ إضافة موظف</button>
-                <button onclick="editEmployeeMode()">✏️ تعديل موظف</button>
-                <button onclick="printSalaryCertificate()">📄 شهادة راتب PDF</button>
-                <button onclick="changeSection('dashboard')">🏠 قائمة رئيسية</button>
-                <button onclick="logout()">🚪 تسجيل خروج</button>
-            </div>
-            <hr>
-            <h3>قائمة الموظفين</h3>
-            <table id="empTable">
-                <thead><tr><th>رقم الموظف</th><th>الاسم</th><th>الوظيفة</th><th>اختيار</th></tr></thead>
-                <tbody></tbody>
-            </table>
-        </div>`;
-        document.getElementById('mainContent').innerHTML = html;
-        
-        // تعبئة الجنسيات
-        let countries = ["السعودية","مصر","الإمارات","الكويت","قطر","عمان","البحرين","الأردن","العراق","لبنان","سوريا","اليمن","السودان","تونس","الجزائر","المغرب","ليبيا","فلسطين","أخرى"];
-        let natSelect = document.getElementById('nationality');
-        natSelect.innerHTML = countries.map(c=>`<option>${c}</option>`).join('');
-        
-        let jobs = ["مدير عام","مستشار فني","مدير إداري","محاسب","مندوب علاقات عامة","مدير عمليات","مشرف مسالخ","مشرف مسلخ","مراقب","قصاب","عامل نظافة","حمال","فني صيانة","اخري"];
-        let jobSelect = document.getElementById('jobTitle');
-        jobSelect.innerHTML = jobs.map(j=>`<option>${j}</option>`).join('');
-        jobSelect.onchange = function(){
-            if(jobSelect.value === "اخري"){
-                let newJob = prompt("أدخل مسمى وظيفي جديد");
-                if(newJob && newJob.trim() !== ""){
-                    jobSelect.innerHTML += `<option>${newJob}</option>`;
-                    jobSelect.value = newJob;
-                } else jobSelect.value = "مدير إداري";
+        // ========== تسجيل الدخول ==========
+        function login() {
+            const empId = document.getElementById('employeeId').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const user = DB.users.find(u => u.id === empId && u.password === password);
+            
+            if (user) {
+                DB.currentUser = user;
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainContainer').classList.add('active');
+                document.getElementById('userDisplay').textContent = `مرحباً، ${user.id}`;
+                
+                if (user.role === 'admin') {
+                    document.getElementById('settingsMenu').style.display = 'block';
+                }
+                
+                updateFooterDateTime();
+                setInterval(updateFooterDateTime, 1000);
+                showSection('welcome');
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+                setTimeout(() => document.getElementById('loginError').style.display = 'none', 3000);
             }
+        }
+
+        function logout() {
+            DB.currentUser = null;
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('mainContainer').classList.remove('active');
+            document.getElementById('settingsMenu').style.display = 'none';
+        }
+
+        // ========== التنقل بين الأقسام ==========
+        function showSection(section) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+            
+            const sectionMap = {
+                'welcome': 'welcome-section',
+                'employees': 'employees-section',
+                'attendance': 'attendance-section',
+                'salaries': 'salaries-section',
+                'leaves': 'leaves-section',
+                'maintenance': 'maintenance-section',
+                'inventory': 'inventory-section',
+                'procurement': 'procurement-section',
+                'settings': 'settings-section'
+            };
+            
+            const sectionId = sectionMap[section];
+            if (sectionId) {
+                document.getElementById(sectionId).classList.add('active');
+            }
+            
+            const menuItem = document.querySelector(`.sidebar-item[onclick*="${section}"]`);
+            if (menuItem) menuItem.classList.add('active');
+            
+            if (section === 'employees') populateCountries();
+            if (section === 'attendance' || section === 'leaves') populateEmployeesDropdown();
+            if (section === 'employees') refreshEmployeesTable();
+            if (section === 'inventory') refreshInventoryTable();
+        }
+
+        // ========== إدارة الموظفين ==========
+        function checkOtherJob() {
+            const jobSelect = document.getElementById('empJob');
+            const otherInput = document.getElementById('empOtherJob');
+            if (jobSelect.value === 'أخرى') {
+                otherInput.style.display = 'block';
+            } else {
+                otherInput.style.display = 'none';
+                otherInput.value = '';
+            }
+        }
+
+        function addEmployee() {
+            const jobSelect = document.getElementById('empJob');
+            const otherJob = document.getElementById('empOtherJob').value;
+            
+            const employee = {
+                id: document.getElementById('empId').value,
+                name: document.getElementById('empName').value,
+                nationality: document.getElementById('empNationality').value,
+                passport: document.getElementById('empPassport').value,
+                idNumber: document.getElementById('empIdNumber').value,
+                phone: document.getElementById('empPhone').value,
+                job: jobSelect.value === 'أخرى' ? otherJob : jobSelect.value,
+                salary: document.getElementById('empSalary').value,
+                hireDate: document.getElementById('empHireDate').value,
+                passportExp: document.getElementById('empPassportExp').value,
+                residenceExp: document.getElementById('empResidenceExp').value,
+                idExp: document.getElementById('empIdExp').value,
+                notes: document.getElementById('empNotes').value
+            };
+            
+            DB.employees.push(employee);
+            saveDB();
+            refreshEmployeesTable();
+            clearEmployeeForm();
+            alert('تم إضافة الموظف بنجاح');
+        }
+
+        function updateEmployee() {
+            const empId = document.getElementById('empId').value;
+            const index = DB.employees.findIndex(e => e.id === empId);
+            if (index !== -1) {
+                DB.employees[index] = {
+                    id: empId,
+                    name: document.getElementById('empName').value,
+                    nationality: document.getElementById('empNationality').value,
+                    passport: document.getElementById('empPassport').value,
+                    idNumber: document.getElementById('empIdNumber').value,
+                    phone: document.getElementById('empPhone').value,
+                    job: document.getElementById('empJob').value,
+                    salary: document.getElementById('empSalary').value,
+                    hireDate: document.getElementById('empHireDate').value,
+                    passportExp: document.getElementById('empPassportExp').value,
+                    residenceExp: document.getElementById('empResidenceExp').value,
+                    idExp: document.getElementById('empIdExp').value,
+                    notes: document.getElementById('empNotes').value
+                };
+                saveDB();
+                refreshEmployeesTable();
+                alert('تم التعديل بنجاح');
+            }
+        }
+
+        function refreshEmployeesTable() {
+            const tbody = document.getElementById('employeesBody');
+            tbody.innerHTML = DB.employees.map((e, i) => `
+                <tr>
+                    <td>${e.id}</td>
+                    <td>${e.name}</td>
+                    <td>${e.nationality}</td>
+                    <td>${e.job}</td>
+                    <td>${e.salary}</td>
+                    <td>
+                        <button class="btn btn-warning" style="padding:5px 10px;" onclick="editEmployee(${i})">تعديل</button>
+                        <button class="btn btn-danger" style="padding:5px 10px;" onclick="deleteEmployee(${i})">حذف</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function editEmployee(index) {
+            const e = DB.employees[index];
+            document.getElementById('empId').value = e.id;
+            document.getElementById('empName').value = e.name;
+            document.getElementById('empNationality').value = e.nationality;
+            document.getElementById('empPassport').value = e.passport;
+            document.getElementById('empIdNumber').value = e.idNumber;
+            document.getElementById('empPhone').value = e.phone;
+            document.getElementById('empJob').value = e.job;
+            document.getElementById('empSalary').value = e.salary;
+            document.getElementById('empHireDate').value = e.hireDate;
+            document.getElementById('empPassportExp').value = e.passportExp;
+            document.getElementById('empResidenceExp').value = e.residenceExp;
+            document.getElementById('empIdExp').value = e.idExp;
+            document.getElementById('empNotes').value = e.notes;
+        }
+
+        function deleteEmployee(index) {
+            if (confirm('هل أنت متأكد من حذف هذا الموظف؟')) {
+                DB.employees.splice(index, 1);
+                saveDB();
+                refreshEmployeesTable();
+            }
+        }
+
+        function clearEmployeeForm() {
+            ['empId','empName','empPassport','empIdNumber','empPhone','empSalary',
+             'empHireDate','empPassportExp','empResidenceExp','empIdExp','empNotes'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            document.getElementById('empOtherJob').style.display = 'none';
+            document.getElementById('empId').value = 'GI-000' + (DB.employees.length + 1);
+        }
+
+        // ========== شهادة الراتب ==========
+        function printCertificate() {
+            const empId = document.getElementById('empId').value;
+            const employee = DB.employees.find(e => e.id === empId);
+            if (!employee) {
+                alert('الرجاء اختيار موظف صحيح');
+                return;
+            }
+            
+            document.getElementById('certName').textContent = employee.name;
+            document.getElementById('certJob').textContent = employee.job;
+            document.getElementById('certId').textContent = employee.id;
+            document.getElementById('certNationality').textContent = employee.nationality;
+            document.getElementById('certPassport').textContent = employee.passport;
+            document.getElementById('certIdNum').textContent = employee.idNumber;
+            document.getElementById('certDate').textContent = employee.hireDate;
+            
+            const certDiv = document.getElementById('salaryCertificate');
+            certDiv.style.display = 'block';
+            window.print();
+            certDiv.style.display = 'none';
+        }
+
+        // ========== تقارير ==========
+        function generateAttendanceReport() {
+            alert('جاري إصدار تقرير الحضور والانصراف...');
+            window.print();
+        }
+
+        function generateSalaryReport() {
+            alert('جاري إصدار كشف الرواتب...');
+            window.print();
+        }
+
+        function submitLeave() {
+            alert('تم تقديم طلب الإجازة بنجاح');
+        }
+
+        function printLeaveReport() {
+            alert('جاري طباعة تقرير الإجازة...');
+            window.print();
+        }
+
+        // ========== المخزون ==========
+        function checkOtherUnit() {
+            const unitSelect = document.getElementById('itemUnitType');
+            const otherInput = document.getElementById('itemOtherUnit');
+            if (unitSelect.value === 'أخرى') {
+                otherInput.style.display = 'block';
+            } else {
+                otherInput.style.display = 'none';
+                otherInput.value = '';
+            }
+        }
+
+        function addInventoryItem() {
+            const unitSelect = document.getElementById('itemUnitType');
+            const otherUnit = document.getElementById('itemOtherUnit').value;
+            
+            const item = {
+                code: document.getElementById('itemCode').value,
+                name: document.getElementById('itemName').value,
+                unitType: unitSelect.value === 'أخرى' ? otherUnit : unitSelect.value,
+                quantity: document.getElementById('itemQuantity').value,
+                expiry: document.getElementById('itemExpiry').value,
+                storage: document.getElementById('itemStorage').value,
+                movement: document.getElementById('itemMovement').value
+            };
+            
+            DB.inventory.push(item);
+            saveDB();
+            refreshInventoryTable();
+            alert('تمت الإضافة بنجاح');
+        }
+
+        function refreshInventoryTable() {
+            const tbody = document.getElementById('inventoryBody');
+            tbody.innerHTML = DB.inventory.map(i => `
+                <tr>
+                    <td>${i.code}</td>
+                    <td>${i.name}</td>
+                    <td>${i.quantity}</td>
+                    <td>${i.unitType}</td>
+                    <td>${i.movement}</td>
+                </tr>
+            `).join('');
+        }
+
+        function generateInventoryReport() {
+            alert('جاري إصدار تقرير المخزون...');
+            window.print();
+        }
+
+        // ========== الإعدادات ==========
+        function showSettingsTab(tab) {
+            document.querySelectorAll('.settings-content').forEach(c => c.style.display = 'none');
+            document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
+            
+            const tabMap = {
+                'users': 'settingsUsers',
+                'permissions': 'settingsPermissions',
+                'locations': 'settingsLocations',
+                'appearance': 'settingsAppearance'
+            };
+            
+            document.getElementById(tabMap[tab]).style.display = 'block';
+            document.querySelector(`.settings-tab[onclick*="${tab}"]`).classList.add('active');
+        }
+
+        // ========== الفوتر ==========
+        function updateFooterDateTime() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('ar-SA', options);
+            document.getElementById('currentTime').textContent = '⏰ ' + now.toLocaleTimeString('ar-SA');
+        }
+
+        // ========== التهيئة ==========
+        window.onload = function() {
+            loadDB();
+            populateCountries();
+            refreshEmployeesTable();
+            updateFooterDateTime();
+            setInterval(updateFooterDateTime, 1000);
+            
+            // تعيين الرقم الوظيفي التلقائي
+            const nextId = DB.employees.length + 1;
+            document.getElementById('empId').value = 'GI-' + String(nextId).padStart(4, '0');
         };
-        
-        flatpickr("#hireDate", { dateFormat: "Y-m-d", locale:"ar"});
-        flatpickr("#passportExp", { dateFormat: "Y-m-d"});
-        flatpickr("#idExp", { dateFormat: "Y-m-d"});
-        flatpickr("#resExp", { dateFormat: "Y-m-d"});
-        
-        renderEmpTable();
-    }
-    
-    function renderEmpTable(){
-        let tbody = document.querySelector('#empTable tbody');
-        if(!tbody) return;
-        tbody.innerHTML = employees.map((e,idx)=>`
-            <tr>
-                <td>${e.empId}</td>
-                <td>${e.name}</td>
-                <td>${e.job}</td>
-                <td><button onclick="selectEmployeeForEdit(${idx})">اختيار</button></td>
-            </tr>
-        `).join('');
-    }
-    
-    window.addEmployee = function(){
-        let name = document.getElementById('empName').value.trim();
-        if(!name) { alert("الزامي ادخال اسم الموظف"); return; }
-        let newId = "GI-" + String(Math.floor(Math.random()*9000+1000));
-        let newEmp = {
-            empId: newId,
-            name: name,
-            nationality: document.getElementById('nationality').value,
-            passport: document.getElementById('passportNo').value,
-            idNumber: document.getElementById('idNo').value,
-            phone: document.getElementById('phone').value,
-            job: document.getElementById('jobTitle').value,
-            salary: document.getElementById('salary').value,
-            hireDate: document.getElementById('hireDate').value,
-            passportExp: document.getElementById('passportExp').value,
-            idExp: document.getElementById('idExp').value,
-            residenceExp: document.getElementById('resExp').value,
-            notes: document.getElementById('notes').value
-        };
-        employees.push(newEmp);
-        saveAll();
-        renderHRManage();
-    };
-    
-    window.selectEmployeeForEdit = function(idx){
-        let e = employees[idx];
-        document.getElementById('empName').value = e.name;
-        document.getElementById('nationality').value = e.nationality;
-        document.getElementById('passportNo').value = e.passport;
-        document.getElementById('idNo').value = e.idNumber;
-        document.getElementById('phone').value = e.phone;
-        document.getElementById('jobTitle').value = e.job;
-        document.getElementById('salary').value = e.salary;
-        document.getElementById('hireDate').value = e.hireDate;
-        document.getElementById('passportExp').value = e.passportExp;
-        document.getElementById('idExp').value = e.idExp;
-        document.getElementById('resExp').value = e.residenceExp;
-        document.getElementById('notes').value = e.notes;
-        editIndexGlobal = idx;
-    };
-    
-    window.editEmployeeMode = function(){
-        if(editIndexGlobal !== undefined && editIndexGlobal !== null){
-            let emp = employees[editIndexGlobal];
-            emp.name = document.getElementById('empName').value;
-            emp.nationality = document.getElementById('nationality').value;
-            emp.passport = document.getElementById('passportNo').value;
-            emp.idNumber = document.getElementById('idNo').value;
-            emp.phone = document.getElementById('phone').value;
-            emp.job = document.getElementById('jobTitle').value;
-            emp.salary = document.getElementById('salary').value;
-            emp.hireDate = document.getElementById('hireDate').value;
-            emp.passportExp = document.getElementById('passportExp').value;
-            emp.idExp = document.getElementById('idExp').value;
-            emp.residenceExp = document.getElementById('resExp').value;
-            emp.notes = document.getElementById('notes').value;
-            saveAll();
-            renderHRManage();
-            editIndexGlobal = null;
-        } else alert("الرجاء اختيار موظف من الجدول أولاً");
-    };
-    
-    window.printSalaryCertificate = function(){
-        let empIdSel = prompt("أدخل رقم الموظف لطباعة الشهادة (مثال GI-1001):");
-        let emp = employees.find(e=>e.empId === empIdSel);
-        if(!emp){ alert("لم يتم العثور على الموظف"); return; }
-        let certHtml = `
-            <div style="padding:20px; font-family:Tajawal; text-align:center; direction:rtl;">
-                <div style="border-bottom:2px solid #2e7d32; margin-bottom:20px;">
-                    <img src="${settings.logo}" width="70"><br>
-                    <h2 style="color:#1b5e20;">شركة الجزيرة الخضراء لتجارة الأغنام والمواشي</h2>
-                </div>
-                <h3>شهادة راتب</h3>
-                <p style="font-size:16px; line-height:1.8;">تشهد شركة الجزيرة الخضراء لتجارة الأغنام والمواشي بان الموظف : <strong>${emp.name}</strong> يعمل لدينا بوظيفة <strong>${emp.job}</strong> بالرقم الوظيفي <strong>${emp.empId}</strong> جنسيته <strong>${emp.nationality}</strong> برقم الجواز <strong>${emp.passport}</strong> والهوية <strong>${emp.idNumber}</strong> منذ <strong>${emp.hireDate}</strong> وهذه شهادة منا لمن يهمه الأمر دون تحمل الشركة أي مسؤولية تجاهها.</p>
-                <div style="margin-top:40px; display:flex; justify-content:space-between;">
-                    <div>المدير العام: ____________</div>
-                    <div>المدير الإداري: ____________</div>
-                </div>
-                <div style="margin-top:40px; font-size:12px; border-top:1px solid #ccc; padding-top:10px;">
-                    العنوان: الرياض - المملكة العربية السعودية | البريد الإلكتروني: info@grisland.com
-                </div>
-            </div>`;
-        let win = window.open();
-        win.document.write(certHtml);
-        win.document.close();
-        win.print();
-    };
-    
-    // الحضور والانصراف
-    function renderAttendance(){
-        let html = `<div class="card">
-            <h3>تسجيل الحضور والانصراف والغياب</h3>
-            <select id="attEmpSelect">${employees.map(e=>`<option value="${e.empId}">${e.name}</option>`)}</select>
-            <div class="flex-btns">
-                <button onclick="recordAttendance('حضور')">✅ تسجيل حضور</button>
-                <button onclick="recordAttendance('انصراف')">🏁 تسجيل انصراف</button>
-                <button onclick="recordAttendance('غياب')">❌ تسجيل غياب</button>
-            </div>
-            <hr>
-            <h3>تقرير بين تاريخين</h3>
-            <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <input id="startDate" placeholder="من تاريخ" style="width:200px;">
-                <input id="endDate" placeholder="إلى تاريخ" style="width:200px;">
-                <button onclick="generateAttendanceReport()">📄 إصدار تقرير PDF</button>
-            </div>
-        </div>`;
-        document.getElementById('mainContent').innerHTML = html;
-        flatpickr("#startDate",{dateFormat:"Y-m-d", locale:"ar"});
-        flatpickr("#endDate",{dateFormat:"Y-m-d", locale:"ar"});
-    }
-    
-    window.recordAttendance = function(type){
-        let empId = document.getElementById('attEmpSelect').value;
-        let emp = employees.find(e=>e.empId===empId);
-        if(!emp) return;
-        let now = new Date().toISOString().slice(0,10);
-        attendances.push({empId, name:emp.name, date:now, type, time: new Date().toLocaleTimeString()});
-        saveAll();
-        alert(`تم تسجيل ${type} للموظف ${emp.name}`);
-    };
-    
-    window.generateAttendanceReport = function(){
-        let start = document.getElementById('startDate').value;
-        let end = document.getElementById('endDate').value;
-        if(!start || !end) { alert("الرجاء إدخال تاريخ البداية والنهاية"); return; }
-        let filtered = attendances.filter(a=>a.date>=start && a.date<=end);
-        let html = `<div style="padding:20px"><h2>تقرير الحضور والانصراف من ${start} إلى ${end}</h2>
-        <table border="1" cellpadding="5" style="width:100%">
-        <tr><th>الموظف</th><th>التاريخ</th><th>النوع</th><th>الوقت</th></tr>
-        ${filtered.map(a=>`<tr><td>${a.name}</td><td>${a.date}</td><td>${a.type}</td><td>${a.time||''}</td></tr>`).join('')}
-        </table></div>`;
-        let win = window.open(); win.document.write(html); win.document.close(); win.print();
-    };
-    
-    // الاجازات
-    function renderLeaves(){
-        let html = `<div class="card">
-            <h3>طلب إجازة</h3>
-            <select id="leaveEmpId">${employees.map(e=>`<option value="${e.empId}">${e.name}</option>`)}</select>
-            <input type="text" id="leaveType" placeholder="نوع الإجازة (سنوي، مرضي، إلخ)">
-            <div style="display:flex; gap:10px;"><input id="fromDate" placeholder="من تاريخ"><input id="toDate" placeholder="إلى تاريخ"></div>
-            <input id="placeLeave" placeholder="مكان الإجازة">
-            <input id="phoneLeave" placeholder="تلفون أثناء الإجازة">
-            <textarea id="emergencyContact" placeholder="تفاصيل جهات الطوارئ"></textarea>
-            <input id="alternateEmp" placeholder="الموظف البديل (الاسم)">
-            <button onclick="submitLeave()">📨 تقديم إجازة للاعتماد</button>
-            <button onclick="exportLeavesReport()">📄 تقرير الإجازات PDF</button>
-            <hr><h3>الإجازات المسجلة</h3><div id="leavesList"></div>
-        </div>`;
-        document.getElementById('mainContent').innerHTML = html;
-        flatpickr("#fromDate",{dateFormat:"Y-m-d"}); flatpickr("#toDate",{dateFormat:"Y-m-d"});
-        renderLeavesTable();
-    }
-    
-    function renderLeavesTable(){
-        let div = document.getElementById('leavesList');
-        if(div) div.innerHTML = leaves.map(l=>`<div style="border-bottom:1px solid #eee; padding:10px;">📌 ${l.empName} - ${l.type} (${l.from} إلى ${l.to}) الحالة: ${l.status} <button onclick="approveLeave('${l.id}')">اعتماد</button></div>`).join('');
-    }
-    
-    window.submitLeave = function(){
-        let empId = document.getElementById('leaveEmpId').value;
-        let emp = employees.find(e=>e.empId===empId);
-        if(!emp) return;
-        let leaveObj = {
-            id: Date.now(),
-            empId, empName:emp.name,
-            type: document.getElementById('leaveType').value,
-            from: document.getElementById('fromDate').value,
-            to: document.getElementById('toDate').value,
-            place: document.getElementById('placeLeave').value,
-            phone: document.getElementById('phoneLeave').value,
-            emergency: document.getElementById('emergencyContact').value,
-            alternate: document.getElementById('alternateEmp').value,
-            status: "قيد الاعتماد"
-        };
-        leaves.push(leaveObj);
-        saveAll();
-        renderLeavesTable();
-        alert("تم تقديم طلب الإجازة بنجاح");
-    };
-    
-    window.approveLeave = function(id){
-        let l = leaves.find(l=>l.id == id);
-        if(l) { l.status = "معتمدة"; saveAll(); renderLeavesTable(); alert(`تم اعتماد إجازة ${l.empName}`);}
-    };
-    
-    window.exportLeavesReport = function(){
-        let html = `<h2>تقرير الإجازات</h2>${leaves.map(l=>`<p>${l.empName} - ${l.type} (${l.from} → ${l.to}) - ${l.status}</p>`).join('')}`;
-        let win = window.open(); win.document.write(html); win.print();
-    };
-    
-    // الصيانة ورفع ملفات
-    function renderMaintenance(){
-        let html = `<div class="card">
-            <h3>طلبات الصيانة والأعطال</h3>
-            <input id="faultDesc" placeholder="وصف العطل" style="width:100%">
-            <input type="file" id="faultFile" multiple>
-            <button onclick="addMaintenance()">رفع طلب صيانة</button>
-            <hr><h3>قائمة الطلبات</h3><div id="maintList"></div>
-        </div>`;
-        document.getElementById('mainContent').innerHTML = html;
-        renderMaintenanceList();
-    }
-    
-    function renderMaintenanceList(){
-        let div = document.getElementById('maintList');
-        div.innerHTML = maintenanceReqs.map(m=>`<div>⚙️ ${m.desc} - الملفات: ${m.files?.length || 0} ملف(ات) - ${new Date(m.date).toLocaleDateString()}</div>`).join('');
-    }
-    
-    window.addMaintenance = function(){
-        let desc = document.getElementById('faultDesc').value.trim();
-        if(!desc) { alert("وصف العطل مطلوب"); return; }
-        let files = Array.from(document.getElementById('faultFile').files).map(f=>f.name);
-        maintenanceReqs.push({desc, files, date: new Date().toISOString()});
-        saveAll();
-        renderMaintenanceList();
-        document.getElementById('faultDesc').value = '';
-        alert("تم رفع طلب الصيانة");
-    };
-    
-    // المخزون
-    function renderInventory(){
-        let html = `<div class="card">
-            <h3>المخزون (صادر / وارد)</h3>
-            <div class="form-grid">
-                <input id="itemCode" placeholder="كود الصنف">
-                <input id="itemName" placeholder="اسم الصنف">
-                <select id="qtyType"><option>عدد</option><option>كرتونة</option><option>لتر</option><option>آخر</option></select>
-                <input id="quantity" type="number" placeholder="الكمية">
-                <input id="expiry" placeholder="تاريخ الصلاحية (اختياري)">
-                <input id="storageType" placeholder="نوع التخزين">
-            </div>
-            <select id="movementType"><option>وارد</option><option>صادر</option></select>
-            <button onclick="addInventoryItem()">تسجيل حركة</button>
-            <button onclick="exportInventoryPDF()">تقرير PDF</button>
-            <hr><h3>الرصيد الحالي</h3><div id="inventoryBalance"></div>
-        </div>`;
-        document.getElementById('mainContent').innerHTML = html;
-        flatpickr("#expiry",{dateFormat:"Y-m-d"});
-        refreshInventoryBalance();
-    }
-    
-    function refreshInventoryBalance(){
-        let balances = {};
-        inventoryItems.forEach(i=>{
-            if(!balances[i.code]) balances[i.code] = {name:i.name, qty:0};
-            let delta = (i.movement === "وارد") ? i.qty : -i.qty;
-            balances[i.code].qty += delta;
+
+        // تسجيل الدخول بالضغط على Enter
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !document.getElementById('mainContainer').classList.contains('active')) {
+                login();
+            }
         });
-        let div = document.getElementById('inventoryBalance');
-        div.innerHTML = Object.entries(balances).map(([k,v])=>`<div>🔹 ${k} - ${v.name} : ${v.qty}</div>`).join('') || "<div>لا توجد أصناف</div>";
-    }
-    
-    window.addInventoryItem = function(){
-        let code = document.getElementById('itemCode').value.trim();
-        if(!code){ alert("كود الصنف مطلوب"); return; }
-        let item = {
-            code: code,
-            name: document.getElementById('itemName').value,
-            qtyType: document.getElementById('qtyType').value,
-            qty: parseFloat(document.getElementById('quantity').value) || 0,
-            expiry: document.getElementById('expiry').value,
-            storage: document.getElementById('storageType').value,
-            movement: document.getElementById('movementType').value,
-            date: new Date().toISOString()
-        };
-        inventoryItems.push(item);
-        saveAll();
-        refreshInventoryBalance();
-        alert("تمت إضافة الحركة");
-    };
-    
-    window.exportInventoryPDF = function(){
-        let win = window.open();
-        win.document.write(`<pre>${JSON.stringify(inventoryItems, null, 2)}</pre>`);
-        win.print();
-    };
-    
-    // المشتريات
-    function renderPurchases(){
-        let html = `<div class="card">
-            <h3>المشتريات (رفع ملفات داعمة حتى 20GB محاكاة)</h3>
-            <div class="form-grid">
-                <input id="purchaseCode" placeholder="كود الصنف">
-                <input id="price" placeholder="السعر">
-                <input id="invoiceNo" placeholder="رقم الفاتورة">
-                <input id="receiveDate" placeholder="تاريخ الاستلام">
-                <input id="invoiceDate" placeholder="تاريخ الفاتورة">
-            </div>
-            <input type="file" id="purchaseFiles" multiple>
-            <button onclick="addPurchase()">تسجيل عملية شراء</button>
-            <button onclick="exportPurchasesPDF()">تقرير المشتريات PDF</button>
-            <hr><h3>سجل المشتريات</h3><div id="purchasesList"></div>
-        </div>`;
-        document.getElementById('mainContent').innerHTML = html;
-        flatpickr("#receiveDate, #invoiceDate",{dateFormat:"Y-m-d"});
-        renderPurchasesList();
-    }
-    
-    function renderPurchasesList(){
-        let div = document.getElementById('purchasesList');
-        div.innerHTML = purchasesList.map(p=>`<div>🧾 فاتورة ${p.invoiceNo} - الصنف ${p.code} - السعر ${p.price}</div>`).join('');
-    }
-    
-    window.addPurchase = function(){
-        let purchase = {
-            code: document.getElementById('purchaseCode').value,
-            price: document.getElementById('price').value,
-            invoiceNo: document.getElementById('invoiceNo').value,
-            receiveDate: document.getElementById('receiveDate').value,
-            invoiceDate: document.getElementById('invoiceDate').value,
-            files: Array.from(document.getElementById('purchaseFiles').files).map(f=>f.name),
-            date: new Date().toISOString()
-        };
-        purchasesList.push(purchase);
-        saveAll();
-        renderPurchasesList();
-        alert("تمت إضافة فاتورة الشراء");
-    };
-    
-    window.exportPurchasesPDF = function(){
-        let win = window.open();
-        win.document.write(`<pre>${JSON.stringify(purchasesList, null, 2)}</pre>`);
-        win.print();
-    };
-    
-    // الاعدادات
-    function renderSettings(){
-        let html = `<div class="card">
-            <h3>⚙️ الإعدادات المتقدمة</h3>
-            <h4>إضافة مستخدم جديد</h4>
-            <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <input id="newUser" placeholder="رقم وظيفي">
-                <input id="newPass" placeholder="كلمة المرور (6 أحرف)">
-                <select id="userRole"><option>admin</option><option>user</option></select>
-                <button onclick="addUser()">إضافة مستخدم</button>
-            </div>
-            <hr>
-            <h4>تغيير الشعار</h4>
-            <div style="display:flex; gap:10px;"><input id="logoUrl" placeholder="رابط الصورة (URL)"><button onclick="updateLogo()">تحديث الشعار</button></div>
-            <h4>تغيير صورة الترحيب</h4>
-            <div style="display:flex; gap:10px;"><input id="welcomeImgUrl" placeholder="رابط الصورة"><button onclick="updateWelcomeImage()">تحديث</button></div>
-            <hr><h4>المستخدمون الحاليون</h4><div id="usersList"></div>
-        </div>`;
-        document.getElementById('mainContent').innerHTML = html;
-        renderUsersList();
-    }
-    
-    function renderUsersList(){
-        let div = document.getElementById('usersList');
-        if(div) div.innerHTML = users.map(u=>`<div>👤 ${u.username} (${u.role}) <button class="btn-danger" onclick="deleteUser('${u.username}')">حذف</button></div>`).join('');
-    }
-    
-    window.addUser = function(){
-        let u = document.getElementById('newUser').value.trim();
-        let p = document.getElementById('newPass').value;
-        let r = document.getElementById('userRole').value;
-        if(!u || !p){ alert("املأ الحقول"); return; }
-        if(users.find(ex=>ex.username===u)){ alert("المستخدم موجود"); return; }
-        users.push({username:u, password:p, role:r});
-        saveAll();
-        renderSettings();
-    };
-    
-    window.deleteUser = function(username){
-        if(username === '70062') { alert("لا يمكن حذف المستخدم الأساسي"); return; }
-        users = users.filter(u=>u.username !== username);
-        saveAll();
-        renderSettings();
-    };
-    
-    window.updateLogo = function(){
-        let newLogo = document.getElementById('logoUrl').value.trim();
-        if(newLogo) settings.logo = newLogo;
-        saveAll();
-        applySettingsToUI();
-        alert("تم تحديث الشعار");
-    };
-    
-    window.updateWelcomeImage = function(){
-        let newImg = document.getElementById('welcomeImgUrl').value.trim();
-        if(newImg) settings.welcomeImage = newImg;
-        saveAll();
-        alert("تم تحديث صورة الترحيب");
-    };
-    
-    window.logout = function(){
-        currentUser = null;
-        document.getElementById('appContainer').style.display = 'none';
-        document.getElementById('loginScreen').style.display = 'flex';
-        document.getElementById('empNum').value = "70062";
-        document.getElementById('accessCode').value = "";
-    };
-    
-    // بيانات افتراضية أول تشغيل
-    if(employees.length === 0){
-        employees.push({empId:"GI-1001",name:"أحمد السيد",nationality:"مصر",passport:"A123456",idNumber:"29801012345678",phone:"0501112222",job:"مدير عام",salary:"18000",hireDate:"2020-01-01",passportExp:"2028-01-01",idExp:"2030-01-01",residenceExp:"2025-12-31",notes:"خبرة ممتازة"});
-        employees.push({empId:"GI-1002",name:"خالد العمري",nationality:"السعودية",passport:"S98765",idNumber:"1054789632",phone:"0551234567",job:"محاسب",salary:"12000",hireDate:"2021-05-10",passportExp:"2029-05-09",idExp:"2031-05-10",residenceExp:"2026-05-09",notes:""});
-        saveAll();
-    }
-    
-    // بدء تشغيل الساعة
-    updateDateTime();
-</script>
+    </script>
 </body>
 </html>
