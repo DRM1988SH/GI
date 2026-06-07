@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>الجزيرة الخضراء - نظام الإدارة المتكامل</title>
+    <!-- Font Awesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- Flatpickr (تقويم) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ar.js"></script>
+    <!-- jsPDF & html2pdf (لطباعة PDF) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+        body {
+            background: #f0f4f8;
+            height: 100vh;
+            overflow: hidden;
+        }
+        /* تسجيل الدخول */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e5a3a, #2e8b57);
+        }
+        .login-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 32px;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.2);
+            width: 360px;
+            text-align: center;
+        }
+        .login-card img {
+            width: 80px;
+            margin-bottom: 1rem;
+        }
+        .login-card input {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            border: 1px solid #ccc;
+            border-radius: 28px;
+            font-size: 1rem;
+        }
+        .login-card button {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        /* التطبيق الرئيسي */
+        .app {
+            display: none;
+            height: 100vh;
+            flex-direction: column;
+        }
+        /* الهيدر */
+        .header {
+            background: #c8e6c9; /* اخضر فاتح */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 24px;
+            height: 70px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            background: white;
+            border-radius: 12px;
+            padding: 5px;
+        }
+        .company-name {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: #1b5e20;
+        }
+        /* sidebar */
+        .main-layout {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 280px;
+            background: #1b3b2b;
+            color: white;
+            padding: 20px 0;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar-item {
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+        .sidebar-item i { width: 24px; }
+        .sidebar-item:hover, .sidebar-item.active {
+            background: #2e7d32;
+            border-right: 5px solid #ffd966;
+        }
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f9fafc;
+        }
+        .footer {
+            background: #2e7d32;
+            color: white;
+            padding: 10px 24px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        /* بطاقات العناوين */
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
+            gap: 15px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 16px;
+            font-size: 0.9rem;
+        }
+        button {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-left: 8px;
+            margin-top: 8px;
+        }
+        .btn-outline {
+            background: #f5f5f5;
+            color: #2e7d32;
+            border:1px solid #2e7d32;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+            text-align: right;
+        }
+        .hidden { display: none; }
+        .message {
+            background: #e8f5e9;
+            padding: 8px;
+            border-radius: 12px;
+            margin: 10px 0;
+        }
+        hr {
+            margin: 15px 0;
+        }
+        .badge {
+            background: #c8e6c9;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+    </style>
+</head>
+<body>
+<div id="loginScreen" class="login-container">
+    <div class="login-card">
+        <img id="loginLogo" src="https://via.placeholder.com/80?text=Logo" alt="شعار">
+        <h3>نظام الجزيرة الخضراء</h3>
+        <input type="text" id="empNum" placeholder="الرقم الوظيفي" value="70062">
+        <input type="password" id="accessCode" placeholder="كود الدخول (6)" maxlength="6">
+        <button onclick="attemptLogin()">دخول <i class="fas fa-sign-in-alt"></i></button>
+        <p class="message" style="color:red; font-size:12px" id="loginMsg"></p>
+    </div>
+</div>
+
+<div id="appContainer" class="app">
+    <div class="header" id="mainHeader">
+        <div class="logo-area">
+            <img id="headerLogo" class="logo-img" src="https://via.placeholder.com/50?text=Logo">
+            <span class="company-name">شركة الجزيرة الخضراء</span>
+        </div>
+        <div><i class="fas fa-user-cog"></i> الإدارة المتكاملة</div>
+    </div>
+    <div class="main-layout">
+        <div class="sidebar" id="sidebarMenu"></div>
+        <div class="content-area" id="mainContent"></div>
+    </div>
+    <div class="footer">
+        <div><i class="fas fa-clock"></i> <span id="liveClock"></span></div>
+        <div><i class="fas fa-calendar-alt"></i> <span id="liveDate"></span></div>
+    </div>
+</div>
+
+<script>
+    // ------------------------- المحاكاة التخزين المحلي -------------------------
+    let employees = JSON.parse(localStorage.getItem('employees')) || [];
+    let inventoryItems = JSON.parse(localStorage.getItem('inventory')) || [];
+    let purchasesList = JSON.parse(localStorage.getItem('purchases')) || [];
+    let maintenanceReqs = JSON.parse(localStorage.getItem('maintenance')) || [];
+    let users = JSON.parse(localStorage.getItem('appUsers')) || [{ username:"70062", password:"123456", role:"admin" }];
+    let settings = JSON.parse(localStorage.getItem('settings')) || { welcomeImage: "https://via.placeholder.com/800x400?text=Welcome", logo: "https://via.placeholder.com/50?text=Logo", sites: [] };
+    let currentUser = null;
+    let currentTab = "dashboard";
+    // اجازات
+    let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
+    let attendances = JSON.parse(localStorage.getItem('attendances')) || [];
+
+    // دوال مساعدة
+    function saveAll(){
+        localStorage.setItem('employees', JSON.stringify(employees));
+        localStorage.setItem('inventory', JSON.stringify(inventoryItems));
+        localStorage.setItem('purchases', JSON.stringify(purchasesList));
+        localStorage.setItem('maintenance', JSON.stringify(maintenanceReqs));
+        localStorage.setItem('appUsers', JSON.stringify(users));
+        localStorage.setItem('settings', JSON.stringify(settings));
+        localStorage.setItem('leaves', JSON.stringify(leaves));
+        localStorage.setItem('attendances', JSON.stringify(attendances));
+    }
+
+    // ساعة وتاريخ
+    function updateDateTime(){
+        let now = new Date();
+        document.getElementById('liveClock') && (document.getElementById('liveClock').innerText = now.toLocaleTimeString('ar-EG'));
+        document.getElementById('liveDate') && (document.getElementById('liveDate').innerText = now.toLocaleDateString('ar-EG'));
+    }
+    setInterval(updateDateTime,1000);
+    
+    // محاولة دخول
+    window.attemptLogin = function(){
+        let emp = document.getElementById('empNum').value.trim();
+        let code = document.getElementById('accessCode').value;
+        let user = users.find(u=> u.username === emp && u.password === code);
+        if(user){
+            currentUser = user;
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'flex';
+            applySettingsToUI();
+            renderSidebar();
+            renderDashboardWelcome();
+        } else {
+            document.getElementById('loginMsg').innerText = "رقم وظيفي أو كود خاطئ";
+        }
+    }
+    function applySettingsToUI(){
+        if(settings.logo){
+            document.getElementById('headerLogo') && (document.getElementById('headerLogo').src = settings.logo);
+            document.getElementById('loginLogo') && (document.getElementById('loginLogo').src = settings.logo);
+        }
+    }
+    function renderSidebar(){
+        let menu = document.getElementById('sidebarMenu');
+        let sections = [
+            { id:"dashboard", name:"الرئيسية", icon:"fas fa-home"},
+            { id:"hr", name:"إدارة الموظفين", icon:"fas fa-users"},
+            { id:"attendance", name:"الحضور والانصراف", icon:"fas fa-clock"},
+            { id:"leaves", name:"الإجازات", icon:"fas fa-umbrella-beach"},
+            { id:"maintenance", name:"الصيانة والأعطال", icon:"fas fa-tools"},
+            { id:"inventory", name:"المخزون", icon:"fas fa-boxes"},
+            { id:"purchases", name:"المشتريات", icon:"fas fa-shopping-cart"},
+        ];
+        if(currentUser.role === "admin") sections.push({ id:"settings", name:"الإعدادات", icon:"fas fa-cog"});
+        menu.innerHTML = sections.map(s => `<div class="sidebar-item" onclick="changeSection('${s.id}')"><i class="${s.icon}"></i> ${s.name}</div>`).join('');
+    }
+    window.changeSection = function(section){
+        currentTab = section;
+        if(section === "dashboard") renderDashboardWelcome();
+        else if(section === "hr") renderHRManage();
+        else if(section === "attendance") renderAttendance();
+        else if(section === "leaves") renderLeaves();
+        else if(section === "maintenance") renderMaintenance();
+        else if(section === "inventory") renderInventory();
+        else if(section === "purchases") renderPurchases();
+        else if(section === "settings") renderSettings();
+    };
+    function renderDashboardWelcome(){
+        let html = `<div class="card" style="text-align:center;"><img src="${settings.welcomeImage}" style="max-width:100%; border-radius:28px;"><h2>مرحباً ${currentUser.username}</h2><p>لوحة التحكم - شركة الجزيرة الخضراء لتجارة الأغنام والمواشي</p></div>`;
+        document.getElementById('mainContent').innerHTML = html;
+    }
+    // ----------------- موظفين -----------------
+    function renderHRManage(){
+        let html = `<div class="card"><h3><i class="fas fa-user-plus"></i> بيانات الموظف</h3>
+        <div class="form-grid" id="empForm">
+            <input type="text" id="empIdDisplay" placeholder="رقم الموظف (GI-0000)" disabled><input type="text" id="empName" placeholder="اسم الموظف"><select id="nationality"></select><input type="text" id="passportNo" placeholder="رقم الجواز"><input type="text" id="idNo" placeholder="رقم الهوية"><input type="text" id="phone" placeholder="رقم التلفون"><select id="jobTitle"></select><input type="number" id="salary" placeholder="الراتب الشهري"><input id="hireDate" placeholder="تاريخ التعيين"><input id="passportExp" placeholder="انتهاء الجواز"><input id="idExp" placeholder="انتهاء الهوية"><input id="resExp" placeholder="انتهاء الإقامة"><textarea id="notes" placeholder="ملاحظات"></textarea>
+        </div><div><button onclick="addEmployee()">➕ إضافة موظف</button><button onclick="editEmployeeMode()">✏️ تعديل موظف</button><button onclick="printSalaryCertificate()">📄 طباعة شهادة راتب PDF</button><button onclick="window.location.reload()">🔄 رجوع</button><button onclick="changeSection('dashboard')">🏠 قائمة رئيسية</button><button onclick="logout()">🚪 تسجيل خروج</button></div><hr><h3>قائمة الموظفين</h3><table id="empTable"><tr><th>رقم الموظف</th><th>الاسم</th><th>الوظيفة</th><th>الإجراء</th></tr></table></div>`;
+        document.getElementById('mainContent').innerHTML = html;
+        // قائمة الجنسيات (جميع دول العالم مختصرة)
+        let countries = ["السعودية","مصر","الإمارات","الكويت","قطر","عمان","البحرين","الأردن","العراق","لبنان","سوريا","اليمن","السودان","تونس","الجزائر","المغرب","ليبيا","فلسطين","أخرى"];
+        let natSelect = document.getElementById('nationality');
+        natSelect.innerHTML = countries.map(c=>`<option>${c}</option>`).join('');
+        let jobSelect = document.getElementById('jobTitle');
+        let jobs = ["مدير عام","مستشار فني","مدير إداري","محاسب","مندوب علاقات عامة","مدير عمليات","مشرف مسالخ","مشرف مسلخ","مراقب","قصاب","عامل نظافة","حمال","فني صيانة","اخري"];
+        jobSelect.innerHTML = jobs.map(j=>`<option>${j}</option>`).join('');
+        jobSelect.onchange = ()=>{
+            if(jobSelect.value === "اخري"){ let newJob = prompt("أدخل مسمى وظيفي جديد"); if(newJob) { jobSelect.innerHTML += `<option>${newJob}</option>`; jobSelect.value=newJob;}}
+        };
+        flatpickr("#hireDate", { dateFormat: "Y-m-d", locale:"ar"}); flatpickr("#passportExp",{dateFormat:"Y-m-d"}); flatpickr("#idExp",{dateFormat:"Y-m-d"}); flatpickr("#resExp",{dateFormat:"Y-m-d"});
+        renderEmpTable();
+    }
+    function renderEmpTable(){
+        let tbody = document.getElementById('empTable');
+        if(tbody) tbody.innerHTML = `<tr><th>رقم الموظف</th><th>الاسم</th><th>الوظيفة</th><th>اختيار</th></tr>`+employees.map((e,idx)=>`<tr><td>${e.empId}</td><td>${e.name}</td><td>${e.job}</td><td><button onclick="selectEmployeeForEdit(${idx})">اختيار</button></td></tr>`).join('');
+    }
+    window.addEmployee = function(){
+        let baseId = "GI-" + String(Math.floor(Math.random()*9000+1000));
+        let newEmp = {
+            empId: baseId, name:document.getElementById('empName').value, nationality:document.getElementById('nationality').value, passport:document.getElementById('passportNo').value, idNumber:document.getElementById('idNo').value, phone:document.getElementById('phone').value, job:document.getElementById('jobTitle').value, salary:document.getElementById('salary').value, hireDate:document.getElementById('hireDate').value, passportExp:document.getElementById('passportExp').value, idExp:document.getElementById('idExp').value, residenceExp:document.getElementById('resExp').value, notes:document.getElementById('notes').value
+        };
+        employees.push(newEmp); saveAll(); renderHRManage();
+    };
+    window.selectEmployeeForEdit = function(idx){
+        let e = employees[idx];
+        document.getElementById('empName').value = e.name; document.getElementById('nationality').value = e.nationality; document.getElementById('passportNo').value = e.passport; document.getElementById('idNo').value = e.idNumber; document.getElementById('phone').value = e.phone; document.getElementById('jobTitle').value = e.job; document.getElementById('salary').value = e.salary; document.getElementById('hireDate').value = e.hireDate; document.getElementById('passportExp').value = e.passportExp; document.getElementById('idExp').value = e.idExp; document.getElementById('resExp').value = e.residenceExp; document.getElementById('notes').value = e.notes;
+        window.editIndex = idx;
+    };
+    window.editEmployeeMode = function(){
+        if(window.editIndex!==undefined){ let emp = employees[window.editIndex];
+            emp.name = document.getElementById('empName').value; emp.nationality = document.getElementById('nationality').value; emp.passport = document.getElementById('passportNo').value; emp.idNumber = document.getElementById('idNo').value; emp.phone = document.getElementById('phone').value; emp.job = document.getElementById('jobTitle').value; emp.salary = document.getElementById('salary').value; emp.hireDate = document.getElementById('hireDate').value; emp.passportExp = document.getElementById('passportExp').value; emp.idExp = document.getElementById('idExp').value; emp.residenceExp = document.getElementById('resExp').value; emp.notes = document.getElementById('notes').value;
+            saveAll(); renderHRManage(); delete window.editIndex;
+        } else alert("اختر موظف أولاً من الجدول");
+    };
+    window.printSalaryCertificate = function(){
+        let empIdSel = prompt("أدخل رقم الموظف لطباعة الشهادة (مثال GI-xxxx)");
+        let emp = employees.find(e=>e.empId === empIdSel);
+        if(!emp) {alert("غير موجود"); return;}
+        let certHtml = `<div style="padding:20px; font-family:Tajawal; text-align:center;"><div style="border-bottom:2px solid #2e7d32;"><img src="${settings.logo}" width="60"><h2>شركة الجزيرة الخضراء لتجارة الأغنام والمواشي</h2></div><h3>شهادة راتب</h3><p>تشهد شركة الجزيرة الخضراء لتجارة الأغنام والمواشي بان الموظف : <strong>${emp.name}</strong> يعمل لدينا بوظيفة <strong>${emp.job}</strong> بالرقم الوظيفي <strong>${emp.empId}</strong> جنسيته <strong>${emp.nationality}</strong> برقم الجواز <strong>${emp.passport}</strong> والهوية <strong>${emp.idNumber}</strong> منذ <strong>${emp.hireDate}</strong> وهذه شهادة منا لمن يهمه الأمر دون تحمل الشركة أي مسؤولية تجاهها.</p><div style="margin-top:30px; display:flex; justify-content:space-between;"><div>المدير العام: ____________</div><div>المدير الإداري: ____________</div></div><div style="margin-top:30px; font-size:12px; border-top:1px solid #ccc;">info@grisland.com - العنوان: الرياض - المملكة العربية السعودية</div></div>`;
+        let win = window.open(); win.document.write(certHtml); win.document.close(); win.print();
+    };
+    // الحضور والانصراف
+    function renderAttendance(){
+        let html = `<div class="card"><h3>تسجيل حضور وانصراف</h3><select id="attEmpSelect">${employees.map(e=>`<option value="${e.empId}">${e.name}</option>`)}</select><button onclick="recordAttendance('in')">تسجيل حضور</button><button onclick="recordAttendance('out')">تسجيل انصراف</button><button onclick="recordAttendance('absent')">تسجيل غياب</button><hr><h3>تقرير بين تاريخين</h3><input id="startDate" placeholder="من تاريخ"><input id="endDate" placeholder="إلى تاريخ"><button onclick="generateAttendanceReport()">عرض تقرير PDF</button><div id="attReportPreview"></div></div>`;
+        document.getElementById('mainContent').innerHTML = html;
+        flatpickr("#startDate",{dateFormat:"Y-m-d"}); flatpickr("#endDate",{dateFormat:"Y-m-d"});
+    }
+    window.recordAttendance = function(type){
+        let empId = document.getElementById('attEmpSelect').value;
+        let emp = employees.find(e=>e.empId===empId);
+        let now = new Date().toISOString().slice(0,10);
+        attendances.push({empId, name:emp.name, date:now, type});
+        saveAll(); alert(`تم تسجيل ${type}`);
+    };
+    window.generateAttendanceReport = function(){
+        let start = document.getElementById('startDate').value, end = document.getElementById('endDate').value;
+        let filtered = attendances.filter(a=>a.date>=start && a.date<=end);
+        let html = `<h3>تقرير الحضور والانصراف</h3><table border="1">${filtered.map(a=>`<tr><td>${a.name}</td><td>${a.date}</td><td>${a.type}</td></tr>`).join('')}</table>`;
+        let win = window.open(); win.document.write(html); win.print();
+    };
+    // الاجازات الكاملة
+    function renderLeaves(){
+        let html = `<div class="card"><h3>طلب إجازة</h3><select id="leaveEmpId">${employees.map(e=>`<option value="${e.empId}">${e.name}</option>`)}</select><input type="text" id="leaveType" placeholder="نوع الإجازة (سنوي،مرضي)"><input id="fromDate" placeholder="من تاريخ"><input id="toDate" placeholder="إلى تاريخ"><input placeholder="مكان الإجازة" id="place"><input placeholder="تلفون الإجازة" id="phoneLeave"><textarea placeholder="تفاصيل وطوارئ"></textarea><input placeholder="البديل (اسم الموظف)" id="alternate"><button onclick="submitLeave()">تقديم إجازة للاعتماد</button><button onclick="exportLeavesReport()">تقرير الإجازات PDF</button><hr><h3>الإجازات المعلقة</h3><div id="leavesList"></div></div>`;
+        document.getElementById('mainContent').innerHTML = html;
+        flatpickr("#fromDate",{}); flatpickr("#toDate",{});
+        renderLeavesTable();
+    }
+    function renderLeavesTable(){ let div = document.getElementById('leavesList'); if(div) div.innerHTML = leaves.map(l=>`<div>${l.empName} - ${l.type} من ${l.from} إلى ${l.to} <button onclick="approveLeave('${l.id}')">اعتماد</button></div>`).join(''); }
+    window.submitLeave = function(){ let empId=document.getElementById('leaveEmpId').value, emp=employees.find(e=>e.empId===empId); let leaveObj={id:Date.now(),empId,empName:emp.name,type:document.getElementById('leaveType').value,from:document.getElementById('fromDate').value,to:document.getElementById('toDate').value,place:document.getElementById('place').value,phone:document.getElementById('phoneLeave').value,alternate:document.getElementById('alternate').value,status:"pending"}; leaves.push(leaveObj); saveAll(); renderLeavesTable(); alert("تم الإرسال للموافقة");};
+    window.approveLeave = function(id){ let l = leaves.find(l=>l.id==id); if(l) l.status="approved"; saveAll(); renderLeavesTable(); alert(`إجازة ${l.empName} معتمدة`);};
+    window.exportLeavesReport = function(){ let html="<h2>تقرير الإجازات</h2>"+leaves.map(l=>`<p>${l.empName} - ${l.type} - ${l.from} إلى ${l.to} - الحالة: ${l.status}</p>`).join(''); let win=window.open(); win.document.write(html); win.print();};
+    // صيانة
+    function renderMaintenance(){
+        let html = `<div class="card"><h3>طلب صيانة</h3><input placeholder="وصف العطل" id="faultDesc"><input type="file" id="faultFile" multiple><button onclick="addMaintenance()">رفع طلب</button><div id="maintList"></div></div>`;
+        document.getElementById('mainContent').innerHTML = html;
+        renderMaintenanceList();
+    }
+    function renderMaintenanceList(){ let div=document.getElementById('maintList'); div.innerHTML=maintenanceReqs.map(m=>`<div>${m.desc} - ملفات: ${m.files?.length||0}</div>`).join('');}
+    window.addMaintenance=function(){ let files=Array.from(document.getElementById('faultFile').files).map(f=>f.name); maintenanceReqs.push({desc:document.getElementById('faultDesc').value,files,date:new Date()}); saveAll(); renderMaintenanceList(); };
+    // مخزون كامل
+    function renderInventory(){
+        let html=`<div class="card"><h3>إدارة المخزون (صادر/وارد)</h3><div class="form-grid"><input id="itemCode" placeholder="كود الصنف"><input id="itemName" placeholder="اسم الصنف"><select id="qtyType"><option>عدد</option><option>كرتونة</option><option>لتر</option><option>آخر</option></select><input id="quantity" placeholder="الكمية"><input id="expiry" placeholder="تاريخ الصلاحية (اختياري)"><input id="storageType" placeholder="نوع التخزين"></div><select id="movementType"><option>وارد</option><option>صادر</option></select><button onclick="addInventoryItem()">تسجيل حركة</button><button onclick="exportInventoryPDF()">تقرير PDF</button><hr><h3>الرصيد الحالي</h3><div id="inventoryBalance"></div></div>`;
+        document.getElementById('mainContent').innerHTML = html; flatpickr("#expiry",{dateFormat:"Y-m-d"}); refreshInventoryBalance();
+    }
+    function refreshInventoryBalance(){ let balances={}; inventoryItems.forEach(i=>{ if(!balances[i.code]) balances[i.code]={name:i.name,qty:0}; balances[i.code].qty += (i.type==="وارد"?i.qty:-i.qty); }); let div=document.getElementById('inventoryBalance'); div.innerHTML=Object.entries(balances).map(([k,v])=>`<div>${k} - ${v.name} : ${v.qty}</div>`).join('');}
+    window.addInventoryItem=function(){ let item={code:document.getElementById('itemCode').value,name:document.getElementById('itemName').value,qtyType:document.getElementById('qtyType').value,qty:parseFloat(document.getElementById('quantity').value),expiry:document.getElementById('expiry').value,storage:document.getElementById('storageType').value,type:document.getElementById('movementType').value}; inventoryItems.push(item); saveAll(); refreshInventoryBalance();};
+    window.exportInventoryPDF=function(){ let txt=JSON.stringify(inventoryItems); let win=window.open(); win.document.write(`<pre>${txt}</pre>`); win.print();};
+    // المشتريات
+    function renderPurchases(){
+        let html=`<div class="card"><h3>المشتريات مع رفع ملفات حتى 20GB(محاكاة)</h3><input id="invCode" placeholder="كود الصنف"><input id="price" placeholder="السعر"><input id="invoiceNo" placeholder="رقم الفاتورة"><input id="receiveDate" placeholder="تاريخ الاستلام"><input id="invoiceDate" placeholder="تاريخ الفاتورة"><input type="file" id="purchaseFiles" multiple><button onclick="addPurchase()">تسجيل شراء</button><button onclick="exportPurchasesPDF()">تقرير PDF</button><div id="purchasesList"></div></div>`;
+        document.getElementById('mainContent').innerHTML = html; flatpickr("#receiveDate, #invoiceDate",{dateFormat:"Y-m-d"}); renderPurchasesList();
+    }
+    function renderPurchasesList(){ let div=document.getElementById('purchasesList'); div.innerHTML=purchasesList.map(p=>`<div>فاتورة ${p.invoiceNo} - الصنف ${p.code} - السعر ${p.price}</div>`).join('');}
+    window.addPurchase=function(){ let p={code:document.getElementById('invCode').value,price:document.getElementById('price').value,invoiceNo:document.getElementById('invoiceNo').value,receiveDate:document.getElementById('receiveDate').value,invoiceDate:document.getElementById('invoiceDate').value,files:Array.from(document.getElementById('purchaseFiles').files).map(f=>f.name)}; purchasesList.push(p); saveAll(); renderPurchasesList();};
+    window.exportPurchasesPDF=function(){ let win=window.open(); win.document.write(`<pre>${JSON.stringify(purchasesList)}</pre>`); win.print();};
+    // الاعدادات
+    function renderSettings(){
+        let html=`<div class="card"><h3>الإعدادات المتقدمة</h3><label>إضافة مستخدم</label><input id="newUser" placeholder="رقم وظيفي"><input id="newPass" placeholder="كلمة سر"><select id="userRole"><option>admin</option><option>user</option></select><button onclick="addUser()">إضافة</button><hr><label>تغيير شعار الشركة (رابط صورة)</label><input id="logoUrl" placeholder="رابط الصورة"><button onclick="updateLogo()">تحديث الشعار</button><hr><label>صورة شاشة الترحيب</label><input id="welcomeImgUrl" placeholder="رابط الصورة"><button onclick="updateWelcomeImage()">تحديث</button><hr><h4>المستخدمون الحاليون</h4><div id="usersList"></div></div>`;
+        document.getElementById('mainContent').innerHTML = html;
+        renderUsersList();
+    }
+    function renderUsersList(){ let div=document.getElementById('usersList'); if(div) div.innerHTML=users.map(u=>`<div>${u.username} (${u.role}) <button onclick="deleteUser('${u.username}')">حذف</button></div>`).join('');}
+    window.addUser=function(){ let u=document.getElementById('newUser').value, p=document.getElementById('newPass').value, r=document.getElementById('userRole').value; users.push({username:u,password:p,role:r}); saveAll(); renderSettings();};
+    window.deleteUser=function(username){ if(username!=='70062') users=users.filter(u=>u.username!==username); saveAll(); renderSettings();};
+    window.updateLogo=function(){ settings.logo=document.getElementById('logoUrl').value; saveAll(); applySettingsToUI();};
+    window.updateWelcomeImage=function(){ settings.welcomeImage=document.getElementById('welcomeImgUrl').value; saveAll();};
+    window.logout=function(){ currentUser=null; document.getElementById('appContainer').style.display='none'; document.getElementById('loginScreen').style.display='flex'; };
+    // نسخة أولية ملء بيانات وهمية
+    if(employees.length===0) employees.push({empId:"GI-1001",name:"أحمد محمود",nationality:"مصر",passport:"A123",idNumber:"1234567890",phone":"0501111111",job:"مدير عام",salary:"15000",hireDate:"2020-01-01"});
+    saveAll();
+</script>
+</body>
+</html>
