@@ -3,196 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الجزيرة الخضراء الإداري</title>
+    <title>نظام الجزيرة الخضراء الإداري - نسخة احترافية</title>
     <style>
         :root {
-            --primary-green: #4CAF50;
-            --light-green: #81C784;
-            --dark-green: #2E7D32;
+            --primary: #4CAF50;
+            --primary-light: #81C784;
+            --primary-dark: #2E7D32;
             --white: #FFFFFF;
-            --light-bg: #F5F5F5;
-            --sidebar-width: 250px;
-            --header-height: 60px;
-            --footer-height: 50px;
-            --shadow: 0 2px 10px rgba(0,0,0,0.1);
-            --border-radius: 8px;
-            --transition: all 0.3s ease;
+            --bg: #F5F7FA;
+            --sidebar-bg: #1E293B;
+            --sidebar-hover: #334155;
+            --text: #334155;
+            --text-light: #64748B;
+            --border: #E2E8F0;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background: var(--light-bg);
+            font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+            background: var(--bg);
+            color: var(--text);
             height: 100vh;
             overflow: hidden;
+            line-height: 1.6;
         }
 
-        /* شاشة تسجيل الدخول */
+        /* ========== شاشة تسجيل الدخول ========== */
         .login-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 9999;
             transition: var(--transition);
         }
-
         .login-screen.hidden {
             opacity: 0;
             pointer-events: none;
-            transform: scale(0.9);
+            transform: scale(0.95);
         }
-
-        .login-container {
+        .login-card {
             background: var(--white);
-            padding: 40px;
+            padding: 50px 40px;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            width: 400px;
+            box-shadow: var(--shadow-lg);
+            width: 420px;
             text-align: center;
-            animation: slideUp 0.5s ease;
+            animation: slideUp 0.6s ease;
         }
-
         @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
+            from { transform: translateY(40px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
-
         .login-logo {
             width: 80px;
             height: 80px;
-            border-radius: 50%;
+            border-radius: 16px;
             margin-bottom: 20px;
             object-fit: cover;
-            border: 3px solid var(--primary-green);
+            border: 3px solid var(--primary);
+            padding: 3px;
         }
-
         .login-title {
-            font-size: 24px;
-            color: var(--dark-green);
-            margin-bottom: 30px;
-            font-weight: bold;
+            font-size: 22px;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            font-weight: 700;
         }
-
-        .login-input {
+        .login-subtitle {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 18px;
+        }
+        .input-group .icon {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: var(--text-light);
+            z-index: 1;
+        }
+        .input-group input {
             width: 100%;
-            padding: 12px 15px;
-            margin: 10px 0;
-            border: 2px solid #e0e0e0;
-            border-radius: var(--border-radius);
-            font-size: 16px;
+            padding: 14px 45px 14px 15px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 15px;
             transition: var(--transition);
+            background: #F8FAFC;
             direction: ltr;
             text-align: center;
         }
-
-        .login-input:focus {
-            border-color: var(--primary-green);
+        .input-group input:focus {
+            border-color: var(--primary);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(76,175,80,0.08);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(76,175,80,0.1);
         }
-
-        .login-btn {
+        .btn-login {
             width: 100%;
-            padding: 12px;
-            background: var(--primary-green);
+            padding: 14px;
+            background: var(--primary);
             color: var(--white);
             border: none;
-            border-radius: var(--border-radius);
-            font-size: 18px;
+            border-radius: var(--radius-sm);
+            font-size: 17px;
+            font-weight: 700;
             cursor: pointer;
-            margin-top: 20px;
             transition: var(--transition);
-            font-weight: bold;
-        }
-
-        .login-btn:hover {
-            background: var(--dark-green);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .login-error {
-            color: #f44336;
             margin-top: 10px;
-            font-size: 14px;
+        }
+        .btn-login:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(46,125,50,0.3);
+        }
+        .login-error {
+            color: #EF4444;
+            font-size: 13px;
+            margin-top: 10px;
             display: none;
+            animation: shake 0.5s;
+        }
+        @keyframes shake {
+            0%,100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
 
-        /* الشاشة الرئيسية */
+        /* ========== الشاشة الرئيسية ========== */
         .main-container {
             display: none;
             height: 100vh;
             flex-direction: column;
         }
-
         .main-container.active {
             display: flex;
         }
 
         /* الهيدر */
         .header {
-            height: var(--header-height);
-            background: var(--light-green);
+            height: 64px;
+            background: var(--primary-light);
             display: flex;
             align-items: center;
-            padding: 0 20px;
+            justify-content: space-between;
+            padding: 0 24px;
             box-shadow: var(--shadow);
             z-index: 100;
-            justify-content: space-between;
+            position: relative;
         }
-
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
         .header-logo {
-            height: 40px;
-            width: 40px;
-            border-radius: 8px;
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
             object-fit: cover;
+            border: 2px solid var(--white);
         }
-
         .header-title {
             color: var(--white);
-            font-size: 20px;
-            font-weight: bold;
-            margin-right: 10px;
+            font-size: 18px;
+            font-weight: 700;
         }
-
-        .header-left {
+        .header-actions {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-
-        .user-info {
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 25px;
             color: var(--white);
             font-size: 14px;
         }
-
-        .logout-btn {
+        .btn-logout {
             background: var(--white);
-            color: var(--dark-green);
+            color: var(--primary-dark);
             border: none;
-            padding: 8px 15px;
-            border-radius: var(--border-radius);
+            padding: 8px 18px;
+            border-radius: 25px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 600;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-
-        .logout-btn:hover {
+        .btn-logout:hover {
             background: #f0f0f0;
+            transform: translateY(-1px);
         }
 
-        /* المحتوى الرئيسي */
+        /* المحتوى */
         .content-wrapper {
             display: flex;
             flex: 1;
@@ -201,438 +229,801 @@
 
         /* الشريط الجانبي */
         .sidebar {
-            width: var(--sidebar-width);
-            background: var(--white);
-            box-shadow: var(--shadow);
-            padding: 20px 0;
+            width: 260px;
+            background: var(--sidebar-bg);
             overflow-y: auto;
-            transition: var(--transition);
+            padding: 16px 0;
+            flex-shrink: 0;
         }
-
-        .sidebar-menu {
-            list-style: none;
+        .sidebar-section {
+            padding: 8px 20px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #94A3B8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
         }
-
         .sidebar-item {
-            padding: 12px 20px;
+            padding: 13px 20px;
             cursor: pointer;
             transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 10px;
-            color: #555;
-            font-size: 15px;
+            gap: 12px;
+            color: #CBD5E1;
+            font-size: 14px;
             border-right: 3px solid transparent;
+            margin: 2px 0;
         }
-
-        .sidebar-item:hover, .sidebar-item.active {
-            background: #e8f5e9;
-            color: var(--dark-green);
-            border-right-color: var(--primary-green);
+        .sidebar-item:hover {
+            background: var(--sidebar-hover);
+            color: var(--white);
         }
-
+        .sidebar-item.active {
+            background: var(--sidebar-hover);
+            color: var(--white);
+            border-right-color: var(--primary);
+            font-weight: 600;
+        }
         .sidebar-icon {
-            font-size: 18px;
-            width: 25px;
+            font-size: 20px;
+            width: 28px;
             text-align: center;
         }
-
-        .sidebar-section {
-            padding: 8px 20px;
-            color: #999;
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-top: 10px;
+        .sidebar-badge {
+            background: var(--primary);
+            color: var(--white);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            margin-right: auto;
         }
 
-        /* منطقة المحتوى */
+        /* المحتوى الرئيسي */
         .main-content {
             flex: 1;
-            padding: 20px;
+            padding: 24px;
             overflow-y: auto;
-            background: var(--light-bg);
+            background: var(--bg);
         }
 
         /* شاشة الترحيب */
         .welcome-screen {
             text-align: center;
+            padding: 60px 20px;
+        }
+        .welcome-card {
+            background: var(--white);
+            border-radius: var(--radius);
             padding: 50px;
-        }
-
-        .welcome-image {
-            max-width: 400px;
-            border-radius: 20px;
             box-shadow: var(--shadow);
-            margin-bottom: 30px;
+            display: inline-block;
+            max-width: 600px;
+            width: 100%;
         }
-
+        .welcome-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 5px solid var(--primary-light);
+        }
         .welcome-text {
             font-size: 28px;
-            color: var(--dark-green);
+            color: var(--primary-dark);
+            font-weight: 700;
             margin-bottom: 10px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .stat-card {
+            background: #F0FDF4;
+            padding: 20px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 5px;
         }
 
         /* الفورم */
         .form-container {
             background: var(--white);
-            padding: 25px;
-            border-radius: var(--border-radius);
+            padding: 28px;
+            border-radius: var(--radius);
             box-shadow: var(--shadow);
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
-
+        .form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #F1F5F9;
+        }
         .form-title {
             font-size: 20px;
-            color: var(--dark-green);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--light-green);
+            color: var(--primary-dark);
+            font-weight: 700;
         }
-
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
         }
-
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 5px;
         }
-
         .form-group label {
             display: block;
-            margin-bottom: 5px;
-            color: #555;
-            font-weight: 500;
-            font-size: 14px;
+            margin-bottom: 6px;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 13px;
         }
-
-        .form-group input, .form-group select, .form-group textarea {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
-            padding: 10px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: var(--border-radius);
+            padding: 11px 14px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
             font-size: 14px;
             transition: var(--transition);
+            background: #F8FAFC;
+            font-family: inherit;
         }
-
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            border-color: var(--primary-green);
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            background: var(--white);
             outline: none;
+            box-shadow: 0 0 0 3px rgba(76,175,80,0.06);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
         }
 
+        /* الأزرار */
         .btn {
             padding: 10px 20px;
             border: none;
-            border-radius: var(--border-radius);
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            font-weight: bold;
-            transition: var(--transition);
-            margin: 5px;
+            font-weight: 600;
             font-size: 14px;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
         }
-
-        .btn-primary { background: var(--primary-green); color: var(--white); }
-        .btn-warning { background: #FF9800; color: var(--white); }
-        .btn-danger { background: #f44336; color: var(--white); }
-        .btn-info { background: #2196F3; color: var(--white); }
-        .btn-secondary { background: #9E9E9E; color: var(--white); }
-        .btn-success { background: var(--dark-green); color: var(--white); }
-
         .btn:hover {
-            opacity: 0.9;
             transform: translateY(-1px);
+            box-shadow: var(--shadow);
         }
+        .btn:active {
+            transform: translateY(0);
+        }
+        .btn-primary { background: var(--primary); color: var(--white); }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-success { background: #10B981; color: var(--white); }
+        .btn-warning { background: #F59E0B; color: var(--white); }
+        .btn-danger { background: #EF4444; color: var(--white); }
+        .btn-info { background: #3B82F6; color: var(--white); }
+        .btn-secondary { background: #94A3B8; color: var(--white); }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: var(--white); }
 
         /* الجداول */
         .table-container {
             background: var(--white);
-            border-radius: var(--border-radius);
+            border-radius: var(--radius);
             box-shadow: var(--shadow);
-            overflow-x: auto;
-            padding: 20px;
+            overflow: hidden;
         }
-
+        .table-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
         }
-
-        th, td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid #e0e0e0;
-            font-size: 14px;
-        }
-
         th {
-            background: var(--light-green);
-            color: var(--white);
-            font-weight: bold;
+            background: #F8FAFC;
+            padding: 14px 16px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--text-light);
+            border-bottom: 2px solid var(--border);
+            white-space: nowrap;
         }
-
-        tr:hover {
-            background: #f5f5f5;
+        td {
+            padding: 12px 16px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+        tr:hover td {
+            background: #F8FAFC;
+        }
+        .actions-cell {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+        }
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 6px;
         }
 
         /* الفوتر */
         .footer {
-            height: var(--footer-height);
-            background: var(--dark-green);
+            height: 48px;
+            background: var(--primary-dark);
             color: var(--white);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 20px;
-            font-size: 14px;
+            padding: 0 24px;
+            font-size: 13px;
+            flex-shrink: 0;
         }
-
-        .footer-time {
+        .footer-info {
             display: flex;
             gap: 20px;
+        }
+        .footer-time {
+            display: flex;
+            gap: 15px;
             align-items: center;
         }
+        .live-clock {
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
 
-        /* المحتوى المخفي */
-        .content-section {
+        /* الإعدادات */
+        .settings-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .settings-tab {
+            padding: 10px 22px;
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: var(--transition);
+        }
+        .settings-tab.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        /* شهادة الطباعة */
+        @media print {
+            body * { visibility: hidden; }
+            .print-area, .print-area * { visibility: visible; }
+            .print-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                padding: 40px;
+            }
+        }
+        .print-area {
             display: none;
         }
 
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--radius);
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.3s ease;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+        .empty-state .icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .content-section {
+            display: none;
+        }
         .content-section.active {
             display: block;
         }
 
-        /* شهادة الراتب */
-        .certificate {
-            background: var(--white);
-            padding: 40px;
-            border: 3px solid var(--primary-green);
-            border-radius: 10px;
-            max-width: 700px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .certificate-header {
-            border-bottom: 2px solid var(--light-green);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-        }
-
-        .certificate-logo {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            margin-bottom: 10px;
-        }
-
-        .certificate-footer {
-            border-top: 2px solid var(--light-green);
-            padding-top: 20px;
-            margin-top: 30px;
-            font-size: 13px;
-            color: #777;
-        }
-
-        @media print {
-            body * { visibility: hidden; }
-            .certificate, .certificate * { visibility: visible; }
-            .certificate { position: absolute; left: 0; top: 0; }
-        }
-
-        /* إعدادات */
-        .settings-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .settings-tab {
-            padding: 8px 20px;
-            background: #e0e0e0;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .settings-tab.active {
-            background: var(--primary-green);
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
             color: var(--white);
+            padding: 12px 24px;
+            border-radius: 25px;
+            z-index: 2000;
+            font-weight: 600;
+            animation: slideUp 0.3s ease;
+            display: none;
         }
+        .toast.success { background: var(--primary-dark); }
+        .toast.error { background: #EF4444; }
     </style>
 </head>
 <body>
 
-    <!-- شاشة تسجيل الدخول -->
+    <!-- ==================== تنبيه ==================== -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ==================== شاشة تسجيل الدخول ==================== -->
     <div class="login-screen" id="loginScreen">
-        <div class="login-container">
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Ccircle cx='40' cy='40' r='38' fill='%234CAF50'/%3E%3Ctext x='40' y='45' text-anchor='middle' fill='white' font-size='20'%3ELOGO%3C/text%3E%3C/svg%3E" 
-                 alt="Logo" class="login-logo" id="loginLogo">
-            <h2 class="login-title">نظام الجزيرة الخضراء الإداري</h2>
-            <input type="text" class="login-input" id="employeeId" placeholder="الرقم الوظيفي" value="70062">
-            <input type="password" class="login-input" id="password" placeholder="كود الدخول (6 خانات)" maxlength="6" value="123456">
-            <button class="login-btn" onclick="login()">تسجيل الدخول</button>
-            <p class="login-error" id="loginError">الرقم الوظيفي أو كود الدخول غير صحيح</p>
+        <div class="login-card">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Ccircle cx='40' cy='40' r='38' fill='%234CAF50'/%3E%3Ctext x='40' y='48' text-anchor='middle' fill='white' font-size='24' font-weight='bold'%3EJG%3C/text%3E%3C/svg%3E" 
+                 alt="Logo" class="login-logo">
+            <div class="login-title">نظام الجزيرة الخضراء</div>
+            <div class="login-subtitle">النظام الإداري المتكامل</div>
+            
+            <div class="input-group">
+                <span class="icon">👤</span>
+                <input type="text" id="loginEmpId" placeholder="الرقم الوظيفي" value="70062">
+            </div>
+            <div class="input-group">
+                <span class="icon">🔒</span>
+                <input type="password" id="loginPassword" placeholder="كود الدخول (6 خانات)" maxlength="6" value="123456">
+            </div>
+            <button class="btn-login" onclick="handleLogin()">
+                🚀 تسجيل الدخول
+            </button>
+            <p class="login-error" id="loginError">❌ بيانات الدخول غير صحيحة</p>
         </div>
     </div>
 
-    <!-- الشاشة الرئيسية -->
+    <!-- ==================== الشاشة الرئيسية ==================== -->
     <div class="main-container" id="mainContainer">
         <!-- الهيدر -->
         <header class="header">
-            <div class="header-left">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='18' fill='white'/%3E%3Ctext x='20' y='25' text-anchor='middle' fill='%234CAF50' font-size='12'%3ELogo%3C/text%3E%3C/svg%3E" 
+            <div class="header-brand">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='42' height='42'%3E%3Ccircle cx='21' cy='21' r='19' fill='white'/%3E%3Ctext x='21' y='26' text-anchor='middle' fill='%234CAF50' font-size='14' font-weight='bold'%3EJG%3C/text%3E%3C/svg%3E" 
                      alt="Logo" class="header-logo" id="headerLogo">
                 <span class="header-title">الجزيرة الخضراء</span>
             </div>
-            <div class="header-left">
-                <span class="user-info" id="userDisplay">مرحباً، المستخدم</span>
-                <button class="logout-btn" onclick="logout()">تسجيل خروج</button>
+            <div class="header-actions">
+                <div class="user-badge">
+                    👤 <span id="headerUser">مستخدم</span>
+                </div>
+                <button class="btn-logout" onclick="handleLogout()">
+                    🚪 تسجيل خروج
+                </button>
             </div>
         </header>
 
-        <!-- المحتوى -->
         <div class="content-wrapper">
             <!-- الشريط الجانبي -->
-            <nav class="sidebar">
-                <ul class="sidebar-menu">
-                    <li class="sidebar-section">الرئيسية</li>
-                    <li class="sidebar-item active" onclick="showSection('welcome')">
-                        <span class="sidebar-icon">🏠</span> لوحة التحكم
-                    </li>
-                    
-                    <li class="sidebar-section">إدارة الموظفين</li>
-                    <li class="sidebar-item" onclick="showSection('employees')">
-                        <span class="sidebar-icon">👥</span> بيانات الموظفين
-                    </li>
-                    <li class="sidebar-item" onclick="showSection('attendance')">
-                        <span class="sidebar-icon">📅</span> الحضور والانصراف
-                    </li>
-                    <li class="sidebar-item" onclick="showSection('salaries')">
-                        <span class="sidebar-icon">💰</span> كشف الرواتب
-                    </li>
-                    <li class="sidebar-item" onclick="showSection('leaves')">
-                        <span class="sidebar-icon">🏖️</span> الإجازات
-                    </li>
-
-                    <li class="sidebar-section">الإدارات الأخرى</li>
-                    <li class="sidebar-item" onclick="showSection('maintenance')">
-                        <span class="sidebar-icon">🔧</span> الصيانة
-                    </li>
-                    <li class="sidebar-item" onclick="showSection('inventory')">
-                        <span class="sidebar-icon">📦</span> المخزون
-                    </li>
-                    <li class="sidebar-item" onclick="showSection('procurement')">
-                        <span class="sidebar-icon">🛒</span> المشتريات
-                    </li>
-
-                    <li class="sidebar-section">النظام</li>
-                    <li class="sidebar-item settings-menu" onclick="showSection('settings')" id="settingsMenu" style="display:none;">
-                        <span class="sidebar-icon">⚙️</span> الإعدادات
-                    </li>
-                </ul>
-            </nav>
-
-            <!-- المحتوى الرئيسي -->
-            <main class="main-content" id="mainContent">
-                <!-- شاشة الترحيب -->
-                <div class="content-section active" id="welcome-section">
-                    <div class="welcome-screen">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23e8f5e9' width='400' height='300'/%3E%3Ctext x='200' y='150' text-anchor='middle' fill='%234CAF50' font-size='24'%3Eمرحباً بك في نظام%3C/text%3E%3Ctext x='200' y='180' text-anchor='middle' fill='%232E7D32' font-size='20'%3Eالجزيرة الخضراء%3C/text%3E%3C/svg%3E" 
-                             alt="Welcome" class="welcome-image" id="welcomeImage">
-                        <h2 class="welcome-text">نظام الإدارة المتكامل</h2>
-                        <p>شركة الجزيرة الخضراء لتجارة الأغنام والمواشي</p>
-                    </div>
+            <nav class="sidebar" id="sidebar">
+                <div class="sidebar-section">🏠 الرئيسية</div>
+                <div class="sidebar-item active" data-section="welcome">
+                    <span class="sidebar-icon">📊</span> لوحة التحكم
                 </div>
 
-                <!-- الموظفين -->
-                <div class="content-section" id="employees-section">
-                    <div class="form-container">
-                        <h3 class="form-title">بيانات الموظفين</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>رقم الموظف</label>
-                                <input type="text" id="empId" placeholder="GI-0001" value="GI-0001">
+                <div class="sidebar-section">👥 إدارة الموظفين</div>
+                <div class="sidebar-item" data-section="employees">
+                    <span class="sidebar-icon">👨‍💼</span> بيانات الموظفين
+                    <span class="sidebar-badge" id="empCount">0</span>
+                </div>
+                <div class="sidebar-item" data-section="attendance">
+                    <span class="sidebar-icon">📅</span> الحضور والانصراف
+                </div>
+                <div class="sidebar-item" data-section="salaries">
+                    <span class="sidebar-icon">💰</span> كشف الرواتب
+                </div>
+                <div class="sidebar-item" data-section="leaves">
+                    <span class="sidebar-icon">🏖️</span> الإجازات
+                </div>
+
+                <div class="sidebar-section">🔧 الإدارات</div>
+                <div class="sidebar-item" data-section="maintenance">
+                    <span class="sidebar-icon">🔨</span> الصيانة والحركة
+                </div>
+                <div class="sidebar-item" data-section="inventory">
+                    <span class="sidebar-icon">📦</span> المخزون
+                    <span class="sidebar-badge" id="invCount">0</span>
+                </div>
+                <div class="sidebar-item" data-section="procurement">
+                    <span class="sidebar-icon">🛒</span> المشتريات
+                </div>
+
+                <div class="sidebar-section">⚙️ النظام</div>
+                <div class="sidebar-item" data-section="settings" id="settingsMenu" style="display:none;">
+                    <span class="sidebar-icon">🔐</span> الإعدادات
+                </div>
+            </nav>
+
+            <!-- المحتوى -->
+            <main class="main-content" id="mainContent"></main>
+        </div>
+
+        <!-- الفوتر -->
+        <footer class="footer">
+            <div class="footer-info">
+                <span>📧 info@grisland.com</span>
+                <span>📍 شركة الجزيرة الخضراء لتجارة الأغنام والمواشي</span>
+            </div>
+            <div class="footer-time">
+                <span id="footerDate"></span>
+                <span class="live-clock" id="footerClock">⏰ --:--:--</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ==================== منطقة الطباعة ==================== -->
+    <div class="print-area" id="printArea"></div>
+
+    <!-- ==================== مودال ==================== -->
+    <div class="modal" id="modal">
+        <div class="modal-content" id="modalContent"></div>
+    </div>
+
+    <script>
+        // ========== نظام التخزين ==========
+        const STORAGE_KEY = 'grisland_pro_db';
+        
+        function getDB() {
+            const data = localStorage.getItem(STORAGE_KEY);
+            if (data) return JSON.parse(data);
+            return getDefaultDB();
+        }
+
+        function getDefaultDB() {
+            return {
+                employees: [],
+                attendance: [],
+                leaves: [],
+                inventory: [],
+                procurement: [],
+                maintenance: [],
+                users: [
+                    { id: '70062', password: '123456', role: 'admin', name: 'المدير العام' },
+                    { id: '70063', password: '111111', role: 'user', name: 'موظف' }
+                ],
+                settings: {
+                    logo: '',
+                    welcomeImage: '',
+                    companyName: 'الجزيرة الخضراء',
+                    companyEmail: 'info@grisland.com',
+                    companyAddress: 'المملكة العربية السعودية'
+                },
+                currentUser: null
+            };
+        }
+
+        function saveDB(db) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+        }
+
+        let DB = getDB();
+        let currentSection = 'welcome';
+
+        // ========== دوال المساعدة ==========
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', 3000);
+        }
+
+        function showModal(title, content, onConfirm) {
+            const modal = document.getElementById('modal');
+            document.getElementById('modalContent').innerHTML = `
+                <h3 style="margin-bottom:16px;">${title}</h3>
+                <div>${content}</div>
+                <div style="margin-top:20px;display:flex;gap:10px;justify-content:flex-end;">
+                    <button class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
+                    <button class="btn btn-primary" id="modalConfirmBtn">تأكيد</button>
+                </div>
+            `;
+            modal.classList.add('active');
+            if (onConfirm) {
+                document.getElementById('modalConfirmBtn').onclick = () => {
+                    onConfirm();
+                    closeModal();
+                };
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            const d = new Date(dateString);
+            return d.toLocaleDateString('ar-SA');
+        }
+
+        // ========== تسجيل الدخول ==========
+        function handleLogin() {
+            const empId = document.getElementById('loginEmpId').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            
+            const user = DB.users.find(u => u.id === empId && u.password === password);
+            
+            if (user) {
+                DB.currentUser = user;
+                saveDB(DB);
+                
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainContainer').classList.add('active');
+                document.getElementById('headerUser').textContent = user.name || user.id;
+                
+                if (user.role === 'admin') {
+                    document.getElementById('settingsMenu').style.display = 'block';
+                }
+                
+                updateSidebarCounts();
+                navigateTo('welcome');
+                startClock();
+                showToast('✅ تم تسجيل الدخول بنجاح', 'success');
+            } else {
+                const errorEl = document.getElementById('loginError');
+                errorEl.style.display = 'block';
+                setTimeout(() => errorEl.style.display = 'none', 3000);
+            }
+        }
+
+        function handleLogout() {
+            DB.currentUser = null;
+            saveDB(DB);
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('mainContainer').classList.remove('active');
+            document.getElementById('settingsMenu').style.display = 'none';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        // ========== التنقل ==========
+        function navigateTo(section) {
+            currentSection = section;
+            
+            // تحديث الشريط الجانبي
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.section === section) item.classList.add('active');
+            });
+            
+            // عرض المحتوى
+            const mainContent = document.getElementById('mainContent');
+            mainContent.innerHTML = renderSection(section);
+            
+            // إعادة تهيئة الأحداث
+            initSectionEvents(section);
+            updateSidebarCounts();
+        }
+
+        function renderSection(section) {
+            switch(section) {
+                case 'welcome': return renderWelcome();
+                case 'employees': return renderEmployees();
+                case 'attendance': return renderAttendance();
+                case 'salaries': return renderSalaries();
+                case 'leaves': return renderLeaves();
+                case 'maintenance': return renderMaintenance();
+                case 'inventory': return renderInventory();
+                case 'procurement': return renderProcurement();
+                case 'settings': return renderSettings();
+                default: return renderWelcome();
+            }
+        }
+
+        function initSectionEvents(section) {
+            switch(section) {
+                case 'employees':
+                    populateNationalities();
+                    setupEmployeeEvents();
+                    break;
+                case 'inventory':
+                    setupInventoryEvents();
+                    break;
+                case 'leaves':
+                    populateEmployeesDropdown('leaveEmployee');
+                    populateEmployeesDropdown('leaveSubstitute');
+                    break;
+                case 'attendance':
+                    populateEmployeesDropdown('attEmployee');
+                    break;
+                case 'settings':
+                    initSettingsTabs();
+                    break;
+            }
+        }
+
+        // ========== شاشة الترحيب ==========
+        function renderWelcome() {
+            const empCount = DB.employees.length;
+            const invCount = DB.inventory.length;
+            const leavesCount = DB.leaves.length;
+            
+            return `
+                <div class="welcome-screen">
+                    <div class="welcome-card">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='100' cy='100' r='95' fill='%23e8f5e9'/%3E%3Ctext x='100' y='110' text-anchor='middle' fill='%234CAF50' font-size='40'%3E🏢%3C/text%3E%3C/svg%3E" 
+                             alt="Welcome" class="welcome-image">
+                        <h2 class="welcome-text">مرحباً بك في نظام الجزيرة الخضراء</h2>
+                        <p style="color:#64748B;">النظام الإداري المتكامل لإدارة الموظفين والمخزون والمشتريات</p>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number">${empCount}</div>
+                                <div class="stat-label">👥 إجمالي الموظفين</div>
                             </div>
-                            <div class="form-group">
-                                <label>اسم الموظف</label>
-                                <input type="text" id="empName" placeholder="الاسم الكامل">
+                            <div class="stat-card">
+                                <div class="stat-number">${invCount}</div>
+                                <div class="stat-label">📦 أصناف المخزون</div>
                             </div>
-                            <div class="form-group">
-                                <label>الجنسية</label>
-                                <select id="empNationality"></select>
+                            <div class="stat-card">
+                                <div class="stat-number">${leavesCount}</div>
+                                <div class="stat-label">🏖️ طلبات الإجازات</div>
                             </div>
-                            <div class="form-group">
-                                <label>رقم الجواز</label>
-                                <input type="text" id="empPassport" placeholder="رقم الجواز">
-                            </div>
-                            <div class="form-group">
-                                <label>رقم الهوية</label>
-                                <input type="text" id="empIdNumber" placeholder="رقم الهوية">
-                            </div>
-                            <div class="form-group">
-                                <label>رقم التلفون</label>
-                                <input type="tel" id="empPhone" placeholder="رقم التلفون">
-                            </div>
-                            <div class="form-group">
-                                <label>الوظيفة</label>
-                                <select id="empJob" onchange="checkOtherJob()">
-                                    <option>مدير عام</option>
-                                    <option>مستشار فني</option>
-                                    <option>مدير إداري</option>
-                                    <option>محاسب</option>
-                                    <option>مندوب علاقات عامة</option>
-                                    <option>مدير عمليات</option>
-                                    <option>مشرف مسالخ</option>
-                                    <option>مشرف مسلخ</option>
-                                    <option>مراقب</option>
-                                    <option>قصاب</option>
-                                    <option>عامل نظافة</option>
-                                    <option>حمال</option>
-                                    <option>فني صيانة</option>
-                                    <option>أخرى</option>
-                                </select>
-                                <input type="text" id="empOtherJob" placeholder="أدخل الوظيفة الأخرى" style="display:none; margin-top:5px;">
-                            </div>
-                            <div class="form-group">
-                                <label>الراتب الشهري</label>
-                                <input type="number" id="empSalary" placeholder="الراتب">
-                            </div>
-                            <div class="form-group">
-                                <label>تاريخ التعيين</label>
-                                <input type="date" id="empHireDate">
-                            </div>
-                            <div class="form-group">
-                                <label>تاريخ انتهاء الجواز</label>
-                                <input type="date" id="empPassportExp">
-                            </div>
-                            <div class="form-group">
-                                <label>تاريخ انتهاء الإقامة</label>
-                                <input type="date" id="empResidenceExp">
-                            </div>
-                            <div class="form-group">
-                                <label>تاريخ انتهاء الهوية</label>
-                                <input type="date" id="empIdExp">
-                            </div>
-                            <div class="form-group" style="grid-column: span 2;">
-                                <label>ملاحظات</label>
-                                <textarea id="empNotes" rows="3" placeholder="ملاحظات إضافية"></textarea>
-                            </div>
-                        </div>
-                        <div style="margin-top: 20px;">
-                            <button class="btn btn-primary" onclick="addEmployee()">➕ إضافة موظف</button>
-                            <button class="btn btn-warning" onclick="updateEmployee()">✏️ تعديل</button>
-                            <button class="btn btn-info" onclick="printCertificate()">🖨️ طباعة شهادة راتب</button>
-                            <button class="btn btn-secondary" onclick="showSection('welcome')">🔙 رجوع</button>
                         </div>
                     </div>
+                </div>
+            `;
+        }
 
-                    <div class="table-container">
-                        <h3>قائمة الموظفين</h3>
-                        <table id="employeesTable">
+        // ========== إدارة الموظفين ==========
+        function renderEmployees() {
+            return `
+                <div class="form-container">
+                    <div class="form-header">
+                        <h3 class="form-title">👨‍💼 بيانات الموظفين</h3>
+                        <span style="color:#64748B;">إجمالي الموظفين: ${DB.employees.length}</span>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>رقم الموظف</label>
+                            <input type="text" id="empId" placeholder="GI-0001" value="GI-${String(DB.employees.length + 1).padStart(4, '0')}">
+                        </div>
+                        <div class="form-group">
+                            <label>اسم الموظف *</label>
+                            <input type="text" id="empName" placeholder="الاسم الكامل">
+                        </div>
+                        <div class="form-group">
+                            <label>الجنسية</label>
+                            <select id="empNationality"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>رقم الجواز</label>
+                            <input type="text" id="empPassport" placeholder="رقم الجواز">
+                        </div>
+                        <div class="form-group">
+                            <label>رقم الهوية</label>
+                            <input type="text" id="empIdNumber" placeholder="رقم الهوية">
+                        </div>
+                        <div class="form-group">
+                            <label>رقم التلفون</label>
+                            <input type="tel" id="empPhone" placeholder="05xxxxxxxx">
+                        </div>
+                        <div class="form-group">
+                            <label>الوظيفة</label>
+                            <select id="empJob" onchange="handleJobChange()">
+                                <option value="">اختر الوظيفة</option>
+                                <option>مدير عام</option>
+                                <option>مستشار فني</option>
+                                <option>مدير إداري</option>
+                                <option>محاسب</option>
+                                <option>مندوب علاقات عامة</option>
+                                <option>مدير عمليات</option>
+                                <option>مشرف مسالخ</option>
+                                <option>مشرف مسلخ</option>
+                                <option>مراقب</option>
+                                <option>قصاب</option>
+                                <option>عامل نظافة</option>
+                                <option>حمال</option>
+                                <option>فني صيانة</option>
+                                <option value="__other__">أخرى...</option>
+                            </select>
+                            <input type="text" id="empOtherJob" placeholder="أدخل المسمى الوظيفي" style="display:none;margin-top:6px;">
+                        </div>
+                        <div class="form-group">
+                            <label>الراتب الشهري</label>
+                            <input type="number" id="empSalary" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>تاريخ التعيين</label>
+                            <input type="date" id="empHireDate">
+                        </div>
+                        <div class="form-group">
+                            <label>انتهاء الجواز</label>
+                            <input type="date" id="empPassportExp">
+                        </div>
+                        <div class="form-group">
+                            <label>انتهاء الإقامة</label>
+                            <input type="date" id="empResidenceExp">
+                        </div>
+                        <div class="form-group">
+                            <label>انتهاء الهوية</label>
+                            <input type="date" id="empIdExp">
+                        </div>
+                        <div class="form-group" style="grid-column: 1/-1;">
+                            <label>ملاحظات</label>
+                            <textarea id="empNotes" placeholder="ملاحظات إضافية..."></textarea>
+                        </div>
+                    </div>
+                    <div class="btn-row">
+                        <button class="btn btn-primary" onclick="addEmployee()">➕ إضافة موظف</button>
+                        <button class="btn btn-warning" onclick="updateEmployee()">✏️ تعديل</button>
+                        <button class="btn btn-info" onclick="printSalaryCertificate()">🖨️ شهادة راتب</button>
+                        <button class="btn btn-success" onclick="exportEmployeesPDF()">📄 تصدير PDF</button>
+                        <button class="btn btn-secondary" onclick="clearEmployeeForm()">🔄 مسح الحقول</button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-header">📋 سجل الموظفين</div>
+                    <div class="table-responsive">
+                        <table>
                             <thead>
                                 <tr>
                                     <th>الرقم الوظيفي</th>
@@ -640,438 +1031,85 @@
                                     <th>الجنسية</th>
                                     <th>الوظيفة</th>
                                     <th>الراتب</th>
-                                    <th>إجراءات</th>
+                                    <th>تاريخ التعيين</th>
+                                    <th>الإجراءات</th>
                                 </tr>
                             </thead>
-                            <tbody id="employeesBody"></tbody>
+                            <tbody id="employeesTableBody">
+                                ${DB.employees.length === 0 ? 
+                                    `<tr><td colspan="7"><div class="empty-state"><div class="icon">👥</div>لا يوجد موظفين مسجلين</div></td></tr>` :
+                                    DB.employees.map((e, i) => `
+                                        <tr>
+                                            <td><strong>${e.id}</strong></td>
+                                            <td>${e.name}</td>
+                                            <td>${e.nationality}</td>
+                                            <td>${e.job}</td>
+                                            <td>${Number(e.salary).toLocaleString()} ريال</td>
+                                            <td>${formatDate(e.hireDate)}</td>
+                                            <td>
+                                                <div class="actions-cell">
+                                                    <button class="btn btn-warning btn-sm" onclick="editEmployee(${i})">✏️</button>
+                                                    <button class="btn btn-danger btn-sm" onclick="deleteEmployee(${i})">🗑️</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    `).join('')
+                                }
+                            </tbody>
                         </table>
                     </div>
                 </div>
-
-                <!-- الحضور والانصراف -->
-                <div class="content-section" id="attendance-section">
-                    <div class="form-container">
-                        <h3 class="form-title">تقرير الحضور والانصراف</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>من تاريخ</label>
-                                <input type="date" id="attFrom">
-                            </div>
-                            <div class="form-group">
-                                <label>إلى تاريخ</label>
-                                <input type="date" id="attTo">
-                            </div>
-                            <div class="form-group">
-                                <label>الموظف</label>
-                                <select id="attEmployee"></select>
-                            </div>
-                        </div>
-                        <button class="btn btn-info" onclick="generateAttendanceReport()">📄 إصدار تقرير PDF</button>
-                    </div>
-                </div>
-
-                <!-- الرواتب -->
-                <div class="content-section" id="salaries-section">
-                    <div class="form-container">
-                        <h3 class="form-title">كشف الرواتب</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>الشهر</label>
-                                <select id="salaryMonth">
-                                    <option>يناير</option><option>فبراير</option><option>مارس</option>
-                                    <option>أبريل</option><option>مايو</option><option>يونيو</option>
-                                    <option>يوليو</option><option>أغسطس</option><option>سبتمبر</option>
-                                    <option>أكتوبر</option><option>نوفمبر</option><option>ديسمبر</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>السنة</label>
-                                <input type="number" id="salaryYear" value="2024">
-                            </div>
-                        </div>
-                        <button class="btn btn-info" onclick="generateSalaryReport()">📄 إصدار كشف الرواتب</button>
-                    </div>
-                </div>
-
-                <!-- الإجازات -->
-                <div class="content-section" id="leaves-section">
-                    <div class="form-container">
-                        <h3 class="form-title">طلب إجازة</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>نوع الإجازة</label>
-                                <select id="leaveType">
-                                    <option>سنوية</option>
-                                    <option>مرضية</option>
-                                    <option>طارئة</option>
-                                    <option>بدون راتب</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>من تاريخ</label>
-                                <input type="date" id="leaveFrom">
-                            </div>
-                            <div class="form-group">
-                                <label>إلى تاريخ</label>
-                                <input type="date" id="leaveTo">
-                            </div>
-                            <div class="form-group">
-                                <label>مكان الإجازة</label>
-                                <input type="text" id="leavePlace">
-                            </div>
-                            <div class="form-group">
-                                <label>تلفون أثناء الإجازة</label>
-                                <input type="tel" id="leavePhone">
-                            </div>
-                            <div class="form-group">
-                                <label>الموظف البديل</label>
-                                <select id="leaveSubstitute"></select>
-                            </div>
-                            <div class="form-group">
-                                <label>تلفون البديل</label>
-                                <input type="tel" id="leaveSubPhone">
-                            </div>
-                        </div>
-                        <button class="btn btn-primary" onclick="submitLeave()">📝 تقديم الطلب</button>
-                        <button class="btn btn-info" onclick="printLeaveReport()">🖨️ طباعة تقرير الإجازة</button>
-                    </div>
-                </div>
-
-                <!-- الصيانة -->
-                <div class="content-section" id="maintenance-section">
-                    <div class="form-container">
-                        <h3 class="form-title">طلب صيانة</h3>
-                        <div class="form-group">
-                            <label>وصف العطل</label>
-                            <textarea id="maintenanceDesc" rows="4"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>رفع ملفات داعمة</label>
-                            <input type="file" id="maintenanceFiles" multiple>
-                        </div>
-                        <button class="btn btn-primary">📤 تقديم الطلب</button>
-                    </div>
-                </div>
-
-                <!-- المخزون -->
-                <div class="content-section" id="inventory-section">
-                    <div class="form-container">
-                        <h3 class="form-title">إدارة المخزون</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>كود الصنف</label>
-                                <input type="text" id="itemCode">
-                            </div>
-                            <div class="form-group">
-                                <label>اسم الصنف</label>
-                                <input type="text" id="itemName">
-                            </div>
-                            <div class="form-group">
-                                <label>نوع الكمية</label>
-                                <select id="itemUnitType" onchange="checkOtherUnit()">
-                                    <option>عدد</option>
-                                    <option>كرتونة</option>
-                                    <option>لتر</option>
-                                    <option>أخرى</option>
-                                </select>
-                                <input type="text" id="itemOtherUnit" placeholder="أدخل نوع الكمية" style="display:none; margin-top:5px;">
-                            </div>
-                            <div class="form-group">
-                                <label>الكمية</label>
-                                <input type="number" id="itemQuantity">
-                            </div>
-                            <div class="form-group">
-                                <label>تاريخ الصلاحية (اختياري)</label>
-                                <input type="date" id="itemExpiry">
-                            </div>
-                            <div class="form-group">
-                                <label>نوع التخزين</label>
-                                <select id="itemStorage">
-                                    <option>مستودع رئيسي</option>
-                                    <option>ثلاجة</option>
-                                    <option>مجمدة</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>نوع الحركة</label>
-                                <select id="itemMovement">
-                                    <option>وارد</option>
-                                    <option>صادر</option>
-                                </select>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary" onclick="addInventoryItem()">➕ إضافة</button>
-                        <button class="btn btn-info" onclick="generateInventoryReport()">📄 تقرير PDF</button>
-                    </div>
-                    <div class="table-container">
-                        <table id="inventoryTable">
-                            <thead><tr><th>الكود</th><th>الصنف</th><th>الكمية</th><th>النوع</th><th>الحركة</th></tr></thead>
-                            <tbody id="inventoryBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- المشتريات -->
-                <div class="content-section" id="procurement-section">
-                    <div class="form-container">
-                        <h3 class="form-title">المشتريات</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>رقم الفاتورة</label>
-                                <input type="text" id="invoiceNumber">
-                            </div>
-                            <div class="form-group">
-                                <label>تاريخ الفاتورة</label>
-                                <input type="date" id="invoiceDate">
-                            </div>
-                            <div class="form-group">
-                                <label>تاريخ الاستلام</label>
-                                <input type="date" id="receiptDate">
-                            </div>
-                            <div class="form-group">
-                                <label>المبلغ</label>
-                                <input type="number" id="invoiceAmount">
-                            </div>
-                            <div class="form-group">
-                                <label>رفع ملفات (حتى 20 جيجا)</label>
-                                <input type="file" id="procurementFiles" multiple>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary">📤 حفظ</button>
-                    </div>
-                </div>
-
-                <!-- الإعدادات -->
-                <div class="content-section" id="settings-section">
-                    <div class="settings-tabs">
-                        <button class="settings-tab active" onclick="showSettingsTab('users')">المستخدمين</button>
-                        <button class="settings-tab" onclick="showSettingsTab('permissions')">الصلاحيات</button>
-                        <button class="settings-tab" onclick="showSettingsTab('locations')">المواقع</button>
-                        <button class="settings-tab" onclick="showSettingsTab('appearance')">المظهر</button>
-                    </div>
-                    <div id="settingsUsers" class="settings-content">
-                        <div class="form-container">
-                            <h3>إضافة مستخدم</h3>
-                            <div class="form-grid">
-                                <div class="form-group"><label>الرقم الوظيفي</label><input type="text"></div>
-                                <div class="form-group"><label>كود الدخول</label><input type="password" maxlength="6"></div>
-                                <div class="form-group"><label>الصلاحية</label>
-                                    <select><option>مدير</option><option>مستخدم</option></select>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary">➕ إضافة</button>
-                        </div>
-                    </div>
-                    <div id="settingsPermissions" class="settings-content" style="display:none;">
-                        <div class="form-container">
-                            <h3>صلاحيات المستخدمين</h3>
-                            <table><thead><tr><th>المستخدم</th><th>الموظفين</th><th>المخزون</th><th>الإعدادات</th></tr></thead>
-                            <tbody><tr><td>مدير</td><td>✅</td><td>✅</td><td>✅</td></tr></tbody></table>
-                        </div>
-                    </div>
-                    <div id="settingsLocations" class="settings-content" style="display:none;">
-                        <div class="form-container">
-                            <h3>إضافة مواقع</h3>
-                            <div class="form-group"><label>اسم الموقع</label><input type="text"></div>
-                            <button class="btn btn-primary">➕ إضافة موقع</button>
-                        </div>
-                    </div>
-                    <div id="settingsAppearance" class="settings-content" style="display:none;">
-                        <div class="form-container">
-                            <h3>تغيير الشعار</h3>
-                            <div class="form-group"><label>رفع شعار جديد (20×20)</label><input type="file" accept="image/*"></div>
-                            <button class="btn btn-primary">💾 حفظ</button>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
-
-        <!-- الفوتر -->
-        <footer class="footer">
-            <div class="footer-time">
-                <span>📧 info@grisland.com</span>
-                <span>📍 شركة الجزيرة الخضراء</span>
-            </div>
-            <div class="footer-time">
-                <span id="currentDate"></span>
-                <span id="currentTime">⏰</span>
-            </div>
-        </footer>
-    </div>
-
-    <!-- شهادة الراتب (مخفية للطباعة) -->
-    <div id="salaryCertificate" style="display:none;">
-        <div class="certificate">
-            <div class="certificate-header">
-                <img src="" class="certificate-logo" id="certLogo">
-                <h2>شركة الجزيرة الخضراء</h2>
-                <h3>لتجارة الأغنام والمواشي</h3>
-            </div>
-            <div style="font-size:18px; line-height:2;">
-                <p>تشهد شركة الجزيرة الخضراء لتجارة الأغنام والمواشي</p>
-                <p>بأن الموظف: <strong id="certName">________</strong></p>
-                <p>يعمل لدينا بوظيفة: <strong id="certJob">________</strong></p>
-                <p>بالرقم الوظيفي: <strong id="certId">________</strong></p>
-                <p>جنسيته: <strong id="certNationality">________</strong></p>
-                <p>برقم الجواز: <strong id="certPassport">________</strong></p>
-                <p>والهوية: <strong id="certIdNum">________</strong></p>
-                <p>منذ: <strong id="certDate">________</strong></p>
-                <br>
-                <p>وهذه شهادة منا لمن يهمه الأمر</p>
-                <p>دون تحمل الشركة أي مسؤولية تجاهها.</p>
-            </div>
-            <div style="margin-top:50px; display:flex; justify-content:space-between;">
-                <div>________________<br>المدير العام</div>
-                <div>________________<br>المدير الإداري</div>
-            </div>
-            <div class="certificate-footer">
-                <p>العنوان: المملكة العربية السعودية | البريد الإلكتروني: info@grisland.com</p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // ========== قاعدة بيانات محلية ==========
-        let DB = {
-            employees: [],
-            attendance: [],
-            inventory: [],
-            settings: {
-                logo: '',
-                welcomeImage: '',
-                companyName: 'الجزيرة الخضراء'
-            },
-            users: [
-                { id: '70062', password: '123456', role: 'admin' }
-            ],
-            currentUser: null
-        };
-
-        // تحميل من localStorage
-        function loadDB() {
-            const saved = localStorage.getItem('grislandDB');
-            if (saved) DB = JSON.parse(saved);
-        }
-        function saveDB() {
-            localStorage.setItem('grislandDB', JSON.stringify(DB));
+            `;
         }
 
-        // ========== دوول العالم ==========
-        const countries = [
-            'السعودية', 'مصر', 'الأردن', 'سوريا', 'لبنان', 'العراق', 'الكويت', 'الإمارات', 'قطر', 'البحرين',
-            'عمان', 'اليمن', 'فلسطين', 'ليبيا', 'تونس', 'الجزائر', 'المغرب', 'السودان', 'موريتانيا', 'جيبوتي',
-            'الهند', 'باكستان', 'بنغلاديش', 'الفلبين', 'إندونيسيا', 'تركيا', 'أفغانستان', 'نيجيريا', 'أخرى'
+        const countriesList = [
+            'السعودية', 'الإمارات', 'الكويت', 'قطر', 'البحرين', 'عمان', 'مصر', 'الأردن', 
+            'سوريا', 'لبنان', 'العراق', 'اليمن', 'فلسطين', 'ليبيا', 'تونس', 'الجزائر',
+            'المغرب', 'السودان', 'موريتانيا', 'جيبوتي', 'الصومال', 'الهند', 'باكستان',
+            'بنغلاديش', 'الفلبين', 'إندونيسيا', 'تركيا', 'أفغانستان', 'نيجيريا', 'أخرى'
         ];
 
-        function populateCountries() {
-            const selects = ['empNationality'];
-            selects.forEach(id => {
-                const select = document.getElementById(id);
-                if (select) {
-                    select.innerHTML = countries.map(c => `<option>${c}</option>`).join('');
-                }
-            });
-        }
-
-        function populateEmployeesDropdown() {
-            const selects = ['attEmployee', 'leaveSubstitute'];
-            selects.forEach(id => {
-                const select = document.getElementById(id);
-                if (select) {
-                    select.innerHTML = '<option>اختر موظف</option>' + 
-                        DB.employees.map(e => `<option value="${e.id}">${e.name}</option>`).join('');
-                }
-            });
-        }
-
-        // ========== تسجيل الدخول ==========
-        function login() {
-            const empId = document.getElementById('employeeId').value.trim();
-            const password = document.getElementById('password').value.trim();
-            const user = DB.users.find(u => u.id === empId && u.password === password);
-            
-            if (user) {
-                DB.currentUser = user;
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('mainContainer').classList.add('active');
-                document.getElementById('userDisplay').textContent = `مرحباً، ${user.id}`;
-                
-                if (user.role === 'admin') {
-                    document.getElementById('settingsMenu').style.display = 'block';
-                }
-                
-                updateFooterDateTime();
-                setInterval(updateFooterDateTime, 1000);
-                showSection('welcome');
-            } else {
-                document.getElementById('loginError').style.display = 'block';
-                setTimeout(() => document.getElementById('loginError').style.display = 'none', 3000);
+        function populateNationalities() {
+            const select = document.getElementById('empNationality');
+            if (select) {
+                select.innerHTML = '<option value="">اختر الجنسية</option>' + 
+                    countriesList.map(c => `<option>${c}</option>`).join('');
             }
         }
 
-        function logout() {
-            DB.currentUser = null;
-            document.getElementById('loginScreen').classList.remove('hidden');
-            document.getElementById('mainContainer').classList.remove('active');
-            document.getElementById('settingsMenu').style.display = 'none';
-        }
-
-        // ========== التنقل بين الأقسام ==========
-        function showSection(section) {
-            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-            
-            const sectionMap = {
-                'welcome': 'welcome-section',
-                'employees': 'employees-section',
-                'attendance': 'attendance-section',
-                'salaries': 'salaries-section',
-                'leaves': 'leaves-section',
-                'maintenance': 'maintenance-section',
-                'inventory': 'inventory-section',
-                'procurement': 'procurement-section',
-                'settings': 'settings-section'
-            };
-            
-            const sectionId = sectionMap[section];
-            if (sectionId) {
-                document.getElementById(sectionId).classList.add('active');
+        function populateEmployeesDropdown(elementId) {
+            const select = document.getElementById(elementId);
+            if (select) {
+                select.innerHTML = '<option value="">اختر الموظف</option>' + 
+                    DB.employees.map(e => `<option value="${e.id}">${e.name} - ${e.id}</option>`).join('');
             }
-            
-            const menuItem = document.querySelector(`.sidebar-item[onclick*="${section}"]`);
-            if (menuItem) menuItem.classList.add('active');
-            
-            if (section === 'employees') populateCountries();
-            if (section === 'attendance' || section === 'leaves') populateEmployeesDropdown();
-            if (section === 'employees') refreshEmployeesTable();
-            if (section === 'inventory') refreshInventoryTable();
         }
 
-        // ========== إدارة الموظفين ==========
-        function checkOtherJob() {
+        function handleJobChange() {
             const jobSelect = document.getElementById('empJob');
             const otherInput = document.getElementById('empOtherJob');
-            if (jobSelect.value === 'أخرى') {
-                otherInput.style.display = 'block';
-            } else {
-                otherInput.style.display = 'none';
-                otherInput.value = '';
+            if (jobSelect && otherInput) {
+                otherInput.style.display = jobSelect.value === '__other__' ? 'block' : 'none';
             }
         }
 
-        function addEmployee() {
+        function setupEmployeeEvents() {
+            populateNationalities();
+        }
+
+        function getEmployeeFormData() {
             const jobSelect = document.getElementById('empJob');
-            const otherJob = document.getElementById('empOtherJob').value;
+            const jobValue = jobSelect.value === '__other__' ? 
+                document.getElementById('empOtherJob').value : jobSelect.value;
             
-            const employee = {
-                id: document.getElementById('empId').value,
-                name: document.getElementById('empName').value,
+            return {
+                id: document.getElementById('empId').value.trim(),
+                name: document.getElementById('empName').value.trim(),
                 nationality: document.getElementById('empNationality').value,
-                passport: document.getElementById('empPassport').value,
-                idNumber: document.getElementById('empIdNumber').value,
-                phone: document.getElementById('empPhone').value,
-                job: jobSelect.value === 'أخرى' ? otherJob : jobSelect.value,
+                passport: document.getElementById('empPassport').value.trim(),
+                idNumber: document.getElementById('empIdNumber').value.trim(),
+                phone: document.getElementById('empPhone').value.trim(),
+                job: jobValue,
                 salary: document.getElementById('empSalary').value,
                 hireDate: document.getElementById('empHireDate').value,
                 passportExp: document.getElementById('empPassportExp').value,
@@ -1079,226 +1117,1129 @@
                 idExp: document.getElementById('empIdExp').value,
                 notes: document.getElementById('empNotes').value
             };
+        }
+
+        function setEmployeeFormData(emp) {
+            document.getElementById('empId').value = emp.id;
+            document.getElementById('empName').value = emp.name;
+            document.getElementById('empNationality').value = emp.nationality;
+            document.getElementById('empPassport').value = emp.passport;
+            document.getElementById('empIdNumber').value = emp.idNumber;
+            document.getElementById('empPhone').value = emp.phone;
             
-            DB.employees.push(employee);
-            saveDB();
-            refreshEmployeesTable();
-            clearEmployeeForm();
-            alert('تم إضافة الموظف بنجاح');
-        }
-
-        function updateEmployee() {
-            const empId = document.getElementById('empId').value;
-            const index = DB.employees.findIndex(e => e.id === empId);
-            if (index !== -1) {
-                DB.employees[index] = {
-                    id: empId,
-                    name: document.getElementById('empName').value,
-                    nationality: document.getElementById('empNationality').value,
-                    passport: document.getElementById('empPassport').value,
-                    idNumber: document.getElementById('empIdNumber').value,
-                    phone: document.getElementById('empPhone').value,
-                    job: document.getElementById('empJob').value,
-                    salary: document.getElementById('empSalary').value,
-                    hireDate: document.getElementById('empHireDate').value,
-                    passportExp: document.getElementById('empPassportExp').value,
-                    residenceExp: document.getElementById('empResidenceExp').value,
-                    idExp: document.getElementById('empIdExp').value,
-                    notes: document.getElementById('empNotes').value
-                };
-                saveDB();
-                refreshEmployeesTable();
-                alert('تم التعديل بنجاح');
+            const jobSelect = document.getElementById('empJob');
+            const standardJobs = Array.from(jobSelect.options).map(o => o.value);
+            if (standardJobs.includes(emp.job) && emp.job !== '__other__') {
+                jobSelect.value = emp.job;
+                document.getElementById('empOtherJob').style.display = 'none';
+            } else {
+                jobSelect.value = '__other__';
+                document.getElementById('empOtherJob').style.display = 'block';
+                document.getElementById('empOtherJob').value = emp.job;
             }
+            
+            document.getElementById('empSalary').value = emp.salary;
+            document.getElementById('empHireDate').value = emp.hireDate;
+            document.getElementById('empPassportExp').value = emp.passportExp;
+            document.getElementById('empResidenceExp').value = emp.residenceExp;
+            document.getElementById('empIdExp').value = emp.idExp;
+            document.getElementById('empNotes').value = emp.notes;
         }
 
-        function refreshEmployeesTable() {
-            const tbody = document.getElementById('employeesBody');
-            tbody.innerHTML = DB.employees.map((e, i) => `
-                <tr>
-                    <td>${e.id}</td>
-                    <td>${e.name}</td>
-                    <td>${e.nationality}</td>
-                    <td>${e.job}</td>
-                    <td>${e.salary}</td>
-                    <td>
-                        <button class="btn btn-warning" style="padding:5px 10px;" onclick="editEmployee(${i})">تعديل</button>
-                        <button class="btn btn-danger" style="padding:5px 10px;" onclick="deleteEmployee(${i})">حذف</button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function editEmployee(index) {
-            const e = DB.employees[index];
-            document.getElementById('empId').value = e.id;
-            document.getElementById('empName').value = e.name;
-            document.getElementById('empNationality').value = e.nationality;
-            document.getElementById('empPassport').value = e.passport;
-            document.getElementById('empIdNumber').value = e.idNumber;
-            document.getElementById('empPhone').value = e.phone;
-            document.getElementById('empJob').value = e.job;
-            document.getElementById('empSalary').value = e.salary;
-            document.getElementById('empHireDate').value = e.hireDate;
-            document.getElementById('empPassportExp').value = e.passportExp;
-            document.getElementById('empResidenceExp').value = e.residenceExp;
-            document.getElementById('empIdExp').value = e.idExp;
-            document.getElementById('empNotes').value = e.notes;
-        }
-
-        function deleteEmployee(index) {
-            if (confirm('هل أنت متأكد من حذف هذا الموظف؟')) {
-                DB.employees.splice(index, 1);
-                saveDB();
-                refreshEmployeesTable();
+        function addEmployee() {
+            const data = getEmployeeFormData();
+            if (!data.name) {
+                showToast('⚠️ الرجاء إدخال اسم الموظف', 'error');
+                return;
             }
-        }
-
-        function clearEmployeeForm() {
-            ['empId','empName','empPassport','empIdNumber','empPhone','empSalary',
-             'empHireDate','empPassportExp','empResidenceExp','empIdExp','empNotes'].forEach(id => {
-                document.getElementById(id).value = '';
-            });
-            document.getElementById('empOtherJob').style.display = 'none';
-            document.getElementById('empId').value = 'GI-000' + (DB.employees.length + 1);
-        }
-
-        // ========== شهادة الراتب ==========
-        function printCertificate() {
-            const empId = document.getElementById('empId').value;
-            const employee = DB.employees.find(e => e.id === empId);
-            if (!employee) {
-                alert('الرجاء اختيار موظف صحيح');
+            if (!data.id) {
+                showToast('⚠️ الرجاء إدخال الرقم الوظيفي', 'error');
                 return;
             }
             
-            document.getElementById('certName').textContent = employee.name;
-            document.getElementById('certJob').textContent = employee.job;
-            document.getElementById('certId').textContent = employee.id;
-            document.getElementById('certNationality').textContent = employee.nationality;
-            document.getElementById('certPassport').textContent = employee.passport;
-            document.getElementById('certIdNum').textContent = employee.idNumber;
-            document.getElementById('certDate').textContent = employee.hireDate;
+            const exists = DB.employees.find(e => e.id === data.id);
+            if (exists) {
+                showToast('⚠️ الرقم الوظيفي موجود مسبقاً', 'error');
+                return;
+            }
             
-            const certDiv = document.getElementById('salaryCertificate');
-            certDiv.style.display = 'block';
-            window.print();
-            certDiv.style.display = 'none';
+            DB.employees.push(data);
+            saveDB(DB);
+            clearEmployeeForm();
+            navigateTo('employees');
+            showToast('✅ تم إضافة الموظف بنجاح');
         }
 
-        // ========== تقارير ==========
+        function updateEmployee() {
+            const data = getEmployeeFormData();
+            if (!data.name) {
+                showToast('⚠️ الرجاء إدخال اسم الموظف', 'error');
+                return;
+            }
+            
+            const index = DB.employees.findIndex(e => e.id === data.id);
+            if (index === -1) {
+                showToast('⚠️ الموظف غير موجود، استخدم زر الإضافة', 'error');
+                return;
+            }
+            
+            DB.employees[index] = data;
+            saveDB(DB);
+            navigateTo('employees');
+            showToast('✅ تم تحديث بيانات الموظف');
+        }
+
+        function editEmployee(index) {
+            setEmployeeFormData(DB.employees[index]);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function deleteEmployee(index) {
+            showModal('تأكيد الحذف', 
+                `<p>هل أنت متأكد من حذف الموظف: <strong>${DB.employees[index].name}</strong>؟</p>`,
+                () => {
+                    DB.employees.splice(index, 1);
+                    saveDB(DB);
+                    navigateTo('employees');
+                    showToast('🗑️ تم حذف الموظف');
+                }
+            );
+        }
+
+        function clearEmployeeForm() {
+            const nextId = 'GI-' + String(DB.employees.length + 1).padStart(4, '0');
+            document.getElementById('empId').value = nextId;
+            ['empName','empNationality','empPassport','empIdNumber','empPhone',
+             'empSalary','empHireDate','empPassportExp','empResidenceExp','empIdExp',
+             'empNotes','empOtherJob'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            document.getElementById('empJob').value = '';
+            document.getElementById('empOtherJob').style.display = 'none';
+        }
+
+        // ========== شهادة الراتب ==========
+        function printSalaryCertificate() {
+            const data = getEmployeeFormData();
+            if (!data.name || !data.id) {
+                showToast('⚠️ الرجاء اختيار موظف صحيح', 'error');
+                return;
+            }
+            
+            const printArea = document.getElementById('printArea');
+            printArea.innerHTML = `
+                <div style="text-align:center;padding:40px;border:3px solid #4CAF50;border-radius:15px;max-width:700px;margin:0 auto;font-family:'Cairo',sans-serif;">
+                    <div style="border-bottom:2px solid #81C784;padding-bottom:20px;margin-bottom:30px;">
+                        <div style="font-size:24px;color:#2E7D32;font-weight:bold;">شركة الجزيرة الخضراء</div>
+                        <div style="font-size:16px;color:#666;">لتجارة الأغنام والمواشي</div>
+                    </div>
+                    
+                    <h2 style="color:#2E7D32;margin-bottom:30px;">شهادة راتب</h2>
+                    
+                    <div style="font-size:17px;line-height:2.2;text-align:justify;">
+                        <p>تشهد شركة الجزيرة الخضراء لتجارة الأغنام والمواشي</p>
+                        <p>بأن الموظف: <strong style="font-size:18px;">${data.name}</strong></p>
+                        <p>يعمل لدينا بوظيفة: <strong>${data.job}</strong></p>
+                        <p>بالرقم الوظيفي: <strong>${data.id}</strong></p>
+                        <p>جنسيته: <strong>${data.nationality}</strong></p>
+                        <p>برقم الجواز: <strong>${data.passport}</strong></p>
+                        <p>والهوية: <strong>${data.idNumber}</strong></p>
+                        <p>منذ: <strong>${formatDate(data.hireDate)}</strong></p>
+                        <br>
+                        <p>وهذه شهادة منا لمن يهمه الأمر</p>
+                        <p>دون تحمل الشركة أي مسؤولية تجاهها.</p>
+                    </div>
+                    
+                    <div style="margin-top:60px;display:flex;justify-content:space-between;">
+                        <div style="text-align:center;">
+                            <div style="border-top:1px solid #333;width:180px;margin-bottom:5px;"></div>
+                            <strong>المدير العام</strong>
+                        </div>
+                        <div style="text-align:center;">
+                            <div style="border-top:1px solid #333;width:180px;margin-bottom:5px;"></div>
+                            <strong>المدير الإداري</strong>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:40px;padding-top:20px;border-top:2px solid #81C784;font-size:13px;color:#888;">
+                        <p>📍 ${DB.settings.companyAddress} | 📧 ${DB.settings.companyEmail}</p>
+                    </div>
+                </div>
+            `;
+            
+            printArea.style.display = 'block';
+            window.print();
+            printArea.style.display = 'none';
+        }
+
+        function exportEmployeesPDF() {
+            showToast('📄 جاري إعداد تقرير PDF...');
+            setTimeout(() => {
+                window.print();
+                showToast('✅ تم فتح نافذة الطباعة');
+            }, 500);
+        }
+
+        // ========== الحضور والانصراف ==========
+        function renderAttendance() {
+            return `
+                <div class="form-container">
+                    <div class="form-header">
+                        <h3 class="form-title">📅 تقرير الحضور والانصراف</h3>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>الموظف</label>
+                            <select id="attEmployee"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>من تاريخ</label>
+                            <input type="date" id="attFromDate">
+                        </div>
+                        <div class="form-group">
+                            <label>إلى تاريخ</label>
+                            <input type="date" id="attToDate">
+                        </div>
+                    </div>
+                    <div class="btn-row">
+                        <button class="btn btn-primary" onclick="recordAttendance('present')">✅ تسجيل حضور</button>
+                        <button class="btn btn-danger" onclick="recordAttendance('absent')">❌ تسجيل غياب</button>
+                        <button class="btn btn-info" onclick="generateAttendanceReport()">📄 تقرير PDF</button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-header">📋 سجل الحضور</div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>التاريخ</th>
+                                    <th>الموظف</th>
+                                    <th>الحالة</th>
+                                    <th>وقت التسجيل</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${DB.attendance.length === 0 ? 
+                                    `<tr><td colspan="4"><div class="empty-state"><div class="icon">📅</div>لا توجد سجلات حضور</div></td></tr>` :
+                                    DB.attendance.slice(-20).reverse().map(a => `
+                                        <tr>
+                                            <td>${formatDate(a.date)}</td>
+                                            <td>${a.employeeName} (${a.employeeId})</td>
+                                            <td><span style="color:${a.status==='present'?'#10B981':'#EF4444'};font-weight:bold;">${a.status==='present'?'✅ حاضر':'❌ غائب'}</span></td>
+                                            <td>${a.time || '-'}</td>
+                                        </tr>
+                                    `).join('')
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function recordAttendance(status) {
+            const empSelect = document.getElementById('attEmployee');
+            const empId = empSelect?.value;
+            
+            if (!empId) {
+                showToast('⚠️ الرجاء اختيار موظف', 'error');
+                return;
+            }
+            
+            const employee = DB.employees.find(e => e.id === empId);
+            const now = new Date();
+            
+            DB.attendance.push({
+                id: Date.now(),
+                employeeId: empId,
+                employeeName: employee?.name || '',
+                date: now.toISOString().split('T')[0],
+                time: now.toLocaleTimeString('ar-SA'),
+                status: status
+            });
+            
+            saveDB(DB);
+            navigateTo('attendance');
+            populateEmployeesDropdown('attEmployee');
+            showToast(`✅ تم تسجيل ${status === 'present' ? 'الحضور' : 'الغياب'} بنجاح`);
+        }
+
         function generateAttendanceReport() {
-            alert('جاري إصدار تقرير الحضور والانصراف...');
+            const fromDate = document.getElementById('attFromDate')?.value;
+            const toDate = document.getElementById('attToDate')?.value;
+            const empId = document.getElementById('attEmployee')?.value;
+            
+            let filtered = DB.attendance;
+            if (fromDate) filtered = filtered.filter(a => a.date >= fromDate);
+            if (toDate) filtered = filtered.filter(a => a.date <= toDate);
+            if (empId) filtered = filtered.filter(a => a.employeeId === empId);
+            
+            const printArea = document.getElementById('printArea');
+            printArea.innerHTML = `
+                <div style="padding:30px;font-family:'Cairo',sans-serif;">
+                    <h2 style="text-align:center;color:#2E7D32;">تقرير الحضور والانصراف</h2>
+                    <p style="text-align:center;">${fromDate ? 'من: '+formatDate(fromDate) : ''} ${toDate ? 'إلى: '+formatDate(toDate) : ''}</p>
+                    <table style="width:100%;border-collapse:collapse;margin-top:20px;" border="1">
+                        <tr style="background:#81C784;color:white;"><th>التاريخ</th><th>الموظف</th><th>الحالة</th><th>الوقت</th></tr>
+                        ${filtered.map(a => `
+                            <tr>
+                                <td>${formatDate(a.date)}</td>
+                                <td>${a.employeeName}</td>
+                                <td>${a.status === 'present' ? 'حاضر' : 'غائب'}</td>
+                                <td>${a.time}</td>
+                            </tr>
+                        `).join('')}
+                    </table>
+                </div>
+            `;
+            printArea.style.display = 'block';
             window.print();
+            printArea.style.display = 'none';
         }
 
-        function generateSalaryReport() {
-            alert('جاري إصدار كشف الرواتب...');
+        // ========== الرواتب ==========
+        function renderSalaries() {
+            return `
+                <div class="form-container">
+                    <div class="form-header">
+                        <h3 class="form-title">💰 كشف الرواتب</h3>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>الشهر</label>
+                            <select id="salaryMonth">
+                                ${['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر']
+                                    .map(m => `<option>${m}</option>`).join('')}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>السنة</label>
+                            <input type="number" id="salaryYear" value="${new Date().getFullYear()}">
+                        </div>
+                    </div>
+                    <button class="btn btn-info" onclick="printSalaryReport()">📄 طباعة كشف الرواتب</button>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-header">📋 كشف الرواتب</div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>الرقم الوظيفي</th>
+                                    <th>الاسم</th>
+                                    <th>الوظيفة</th>
+                                    <th>الراتب الأساسي</th>
+                                    <th>صافي الراتب</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${DB.employees.map(e => `
+                                    <tr>
+                                        <td>${e.id}</td>
+                                        <td>${e.name}</td>
+                                        <td>${e.job}</td>
+                                        <td>${Number(e.salary).toLocaleString()} ريال</td>
+                                        <td><strong>${Number(e.salary).toLocaleString()} ريال</strong></td>
+                                    </tr>
+                                `).join('')}
+                                ${DB.employees.length === 0 ? '<tr><td colspan="5"><div class="empty-state">لا يوجد موظفين</div></td></tr>' : ''}
+                            </tbody>
+                            <tfoot>
+                                <tr style="background:#F0FDF4;font-weight:bold;">
+                                    <td colspan="4">الإجمالي</td>
+                                    <td>${DB.employees.reduce((sum, e) => sum + Number(e.salary || 0), 0).toLocaleString()} ريال</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function printSalaryReport() {
+            const printArea = document.getElementById('printArea');
+            const total = DB.employees.reduce((sum, e) => sum + Number(e.salary || 0), 0);
+            
+            printArea.innerHTML = `
+                <div style="padding:30px;font-family:'Cairo',sans-serif;">
+                    <h2 style="text-align:center;color:#2E7D32;">كشف الرواتب</h2>
+                    <p style="text-align:center;">${document.getElementById('salaryMonth')?.value || ''} ${document.getElementById('salaryYear')?.value || ''}</p>
+                    <table style="width:100%;border-collapse:collapse;margin-top:20px;" border="1">
+                        <tr style="background:#81C784;color:white;"><th>الرقم</th><th>الاسم</th><th>الوظيفة</th><th>الراتب</th></tr>
+                        ${DB.employees.map(e => `
+                            <tr><td>${e.id}</td><td>${e.name}</td><td>${e.job}</td><td>${Number(e.salary).toLocaleString()}</td></tr>
+                        `).join('')}
+                        <tr style="font-weight:bold;background:#F0FDF4;"><td colspan="3">الإجمالي</td><td>${total.toLocaleString()} ريال</td></tr>
+                    </table>
+                </div>
+            `;
+            printArea.style.display = 'block';
             window.print();
+            printArea.style.display = 'none';
+        }
+
+        // ========== الإجازات ==========
+        function renderLeaves() {
+            return `
+                <div class="form-container">
+                    <div class="form-header">
+                        <h3 class="form-title">🏖️ طلب إجازة</h3>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>الموظف</label>
+                            <select id="leaveEmployee"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>نوع الإجازة</label>
+                            <select id="leaveType">
+                                <option>سنوية</option>
+                                <option>مرضية</option>
+                                <option>طارئة</option>
+                                <option>بدون راتب</option>
+                                <option>أخرى</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>من تاريخ</label>
+                            <input type="date" id="leaveFrom">
+                        </div>
+                        <div class="form-group">
+                            <label>إلى تاريخ</label>
+                            <input type="date" id="leaveTo">
+                        </div>
+                        <div class="form-group">
+                            <label>مكان الإجازة</label>
+                            <input type="text" id="leavePlace" placeholder="المدينة / الدولة">
+                        </div>
+                        <div class="form-group">
+                            <label>تلفون أثناء الإجازة</label>
+                            <input type="tel" id="leavePhone" placeholder="05xxxxxxxx">
+                        </div>
+                        <div class="form-group">
+                            <label>الموظف البديل</label>
+                            <select id="leaveSubstitute"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>تلفون البديل</label>
+                            <input type="tel" id="leaveSubPhone" placeholder="05xxxxxxxx">
+                        </div>
+                        <div class="form-group" style="grid-column: 1/-1;">
+                            <label>تفاصيل الاتصال والطوارئ</label>
+                            <textarea id="leaveEmergency" placeholder="معلومات الاتصال في حالات الطوارئ..."></textarea>
+                        </div>
+                    </div>
+                    <div class="btn-row">
+                        <button class="btn btn-primary" onclick="submitLeave()">📝 تقديم طلب الإجازة</button>
+                        <button class="btn btn-info" onclick="printLeaveReport()">🖨️ طباعة التقرير</button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-header">📋 طلبات الإجازات</div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>الموظف</th>
+                                    <th>النوع</th>
+                                    <th>من</th>
+                                    <th>إلى</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${DB.leaves.length === 0 ? 
+                                    `<tr><td colspan="6"><div class="empty-state"><div class="icon">🏖️</div>لا توجد طلبات إجازات</div></td></tr>` :
+                                    DB.leaves.map((l, i) => `
+                                        <tr>
+                                            <td>${l.employeeName}</td>
+                                            <td>${l.type}</td>
+                                            <td>${formatDate(l.from)}</td>
+                                            <td>${formatDate(l.to)}</td>
+                                            <td><span style="color:${l.status==='approved'?'#10B981':l.status==='rejected'?'#EF4444':'#F59E0B'};font-weight:bold;">${l.status==='approved'?'✅ معتمد':l.status==='rejected'?'❌ مرفوض':'⏳ قيد الانتظار'}</span></td>
+                                            <td>
+                                                <div class="actions-cell">
+                                                    <button class="btn btn-success btn-sm" onclick="approveLeave(${i})">✅</button>
+                                                    <button class="btn btn-danger btn-sm" onclick="rejectLeave(${i})">❌</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    `).join('')
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
         }
 
         function submitLeave() {
-            alert('تم تقديم طلب الإجازة بنجاح');
+            const empSelect = document.getElementById('leaveEmployee');
+            const empId = empSelect?.value;
+            
+            if (!empId) {
+                showToast('⚠️ الرجاء اختيار الموظف', 'error');
+                return;
+            }
+            
+            const employee = DB.employees.find(e => e.id === empId);
+            
+            const leave = {
+                id: Date.now(),
+                employeeId: empId,
+                employeeName: employee?.name || '',
+                type: document.getElementById('leaveType').value,
+                from: document.getElementById('leaveFrom').value,
+                to: document.getElementById('leaveTo').value,
+                place: document.getElementById('leavePlace').value,
+                phone: document.getElementById('leavePhone').value,
+                substituteId: document.getElementById('leaveSubstitute').value,
+                substitutePhone: document.getElementById('leaveSubPhone').value,
+                emergency: document.getElementById('leaveEmergency').value,
+                status: 'pending',
+                submitDate: new Date().toISOString()
+            };
+            
+            DB.leaves.push(leave);
+            saveDB(DB);
+            navigateTo('leaves');
+            populateEmployeesDropdown('leaveEmployee');
+            populateEmployeesDropdown('leaveSubstitute');
+            showToast('✅ تم تقديم طلب الإجازة بنجاح');
+        }
+
+        function approveLeave(index) {
+            DB.leaves[index].status = 'approved';
+            saveDB(DB);
+            navigateTo('leaves');
+            populateEmployeesDropdown('leaveEmployee');
+            populateEmployeesDropdown('leaveSubstitute');
+            showToast('✅ تم اعتماد الإجازة');
+        }
+
+        function rejectLeave(index) {
+            DB.leaves[index].status = 'rejected';
+            saveDB(DB);
+            navigateTo('leaves');
+            populateEmployeesDropdown('leaveEmployee');
+            populateEmployeesDropdown('leaveSubstitute');
+            showToast('❌ تم رفض الإجازة');
         }
 
         function printLeaveReport() {
-            alert('جاري طباعة تقرير الإجازة...');
+            const printArea = document.getElementById('printArea');
+            const leaves = DB.leaves;
+            
+            printArea.innerHTML = `
+                <div style="padding:30px;font-family:'Cairo',sans-serif;">
+                    <h2 style="text-align:center;color:#2E7D32;">تقرير الإجازات</h2>
+                    <table style="width:100%;border-collapse:collapse;margin-top:20px;" border="1">
+                        <tr style="background:#81C784;color:white;"><th>الموظف</th><th>النوع</th><th>من</th><th>إلى</th><th>الحالة</th></tr>
+                        ${leaves.map(l => `
+                            <tr><td>${l.employeeName}</td><td>${l.type}</td><td>${formatDate(l.from)}</td><td>${formatDate(l.to)}</td><td>${l.status}</td></tr>
+                        `).join('')}
+                    </table>
+                </div>
+            `;
+            printArea.style.display = 'block';
             window.print();
+            printArea.style.display = 'none';
+        }
+
+        // ========== الصيانة ==========
+        function renderMaintenance() {
+            return `
+                <div class="form-container">
+                    <div class="form-header">
+                        <h3 class="form-title">🔨 طلب صيانة</h3>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>نوع العطل</label>
+                            <select id="maintenanceType">
+                                <option>كهربائي</option>
+                                <option>سباكة</option>
+                                <option>تكييف</option>
+                                <option>معدات</option>
+                                <option>سيارات</option>
+                                <option>أخرى</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>الأولوية</label>
+                            <select id="maintenancePriority">
+                                <option>عادية</option>
+                                <option>عاجلة</option>
+                                <option>طارئة جداً</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="grid-column: 1/-1;">
+                            <label>وصف العطل</label>
+                            <textarea id="maintenanceDesc" rows="4" placeholder="وصف مفصل للعطل..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>رفع ملفات داعمة</label>
+                            <input type="file" id="maintenanceFiles" multiple accept="image/*,.pdf,.doc,.docx">
+                            <small style="color:#64748B;">الصيغ المدعومة: صور، PDF، Word</small>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="submitMaintenance()">📤 تقديم طلب الصيانة</button>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-header">📋 طلبات الصيانة</div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>رقم الطلب</th>
+                                    <th>النوع</th>
+                                    <th>الأولوية</th>
+                                    <th>التاريخ</th>
+                                    <th>الحالة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${DB.maintenance.length === 0 ? 
+                                    `<tr><td colspan="5"><div class="empty-state"><div class="icon">🔨</div>لا توجد طلبات صيانة</div></td></tr>` :
+                                    DB.maintenance.slice(-10).reverse().map(m => `
+                                        <tr>
+                                            <td>#${m.id}</td>
+                                            <td>${m.type}</td>
+                                            <td><span style="color:${m.priority==='طارئة جداً'?'#EF4444':m.priority==='عاجلة'?'#F59E0B':'#10B981'}">${m.priority}</span></td>
+                                            <td>${formatDate(m.date)}</td>
+                                            <td>${m.status}</td>
+                                        </tr>
+                                    `).join('')
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function submitMaintenance() {
+            const maintenance = {
+                id: Date.now(),
+                type: document.getElementById('maintenanceType')?.value || '',
+                priority: document.getElementById('maintenancePriority')?.value || '',
+                description: document.getElementById('maintenanceDesc')?.value || '',
+                date: new Date().toISOString(),
+                status: 'قيد المعالجة'
+            };
+            
+            DB.maintenance.push(maintenance);
+            saveDB(DB);
+            navigateTo('maintenance');
+            showToast('✅ تم تقديم طلب الصيانة');
         }
 
         // ========== المخزون ==========
-        function checkOtherUnit() {
-            const unitSelect = document.getElementById('itemUnitType');
+        function renderInventory() {
+            return `
+                <div class="form-container">
+                    <div class="form-header">
+                        <h3 class="form-title">📦 إدارة المخزون</h3>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>كود الصنف</label>
+                            <input type="text" id="itemCode" placeholder="ITM-001">
+                        </div>
+                        <div class="form-group">
+                            <label>اسم الصنف</label>
+                            <input type="text" id="itemName" placeholder="اسم الصنف">
+                        </div>
+                        <div class="form-group">
+                            <label>نوع الكمية</label>
+                            <select id="itemUnitType" onchange="handleUnitChange()">
+                                <option>عدد</option>
+                                <option>كرتونة</option>
+                                <option>لتر</option>
+                                <option>كيلو</option>
+                                <option value="__other__">أخرى...</option>
+                            </select>
+                            <input type="text" id="itemOtherUnit" placeholder="أدخل نوع الكمية" style="display:none;margin-top:6px;">
+                        </div>
+                        <div class="form-group">
+                            <label>الكمية</label>
+                            <input type="number" id="itemQuantity" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label>السعر (للمشتريات)</label>
+                            <input type="number" id="itemPrice" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>تاريخ الصلاحية</label>
+                            <input type="date" id="itemExpiry">
+                        </div>
+                        <div class="form-group">
+                            <label>نوع التخزين</label>
+                            <select id="itemStorage">
+                                <option>مستودع رئيسي</option>
+                                <option>ثلاجة</option>
+                                <option>مجمدة</option>
+                                <option>مستودع خارجي</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>نوع الحركة</label>
+                            <select id="itemMovement">
+                                <option value="in">📥 وارد</option>
+                                <option value="out">📤 صادر</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>رقم الفاتورة</label>
+                            <input type="text" id="itemInvoice" placeholder="رقم الفاتورة">
+                        </div>
+                    </div>
+                    <div class="btn-row">
+                        <button class="btn btn-primary" onclick="addInventoryItem()">➕ إضافة</button>
+                        <button class="btn btn-danger" onclick="deleteInventoryItem()">🗑️ حذف</button>
+                        <button class="btn btn-info" onclick="printInventoryReport()">📄 تقرير PDF</button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-header">📋 المخزون الحالي</div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>الكود</th>
+                                    <th>الصنف</th>
+                                    <th>الكمية</th>
+                                    <th>النوع</th>
+                                    <th>الحركة</th>
+                                    <th>الرصيد</th>
+                                    <th>تاريخ الصلاحية</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryTableBody">
+                                ${DB.inventory.length === 0 ? 
+                                    `<tr><td colspan="7"><div class="empty-state"><div class="icon">📦</div>المخزون فارغ</div></td></tr>` :
+                                    DB.inventory.map((item, i) => `
+                                        <tr>
+                                            <td><strong>${item.code}</strong></td>
+                                            <td>${item.name}</td>
+                                            <td>${item.quantity}</td>
+                                            <td>${item.unitType}</td>
+                                            <td><span style="color:${item.movement==='in'?'#10B981':'#EF4444'}">${item.movement==='in'?'📥 وارد':'📤 صادر'}</span></td>
+                                            <td><strong>${calculateBalance(item.code)}</strong></td>
+                                            <td>${formatDate(item.expiry)}</td>
+                                        </tr>
+                                    `).join('')
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function calculateBalance(code) {
+            const items = DB.inventory.filter(i => i.code === code);
+            const totalIn = items.filter(i => i.movement === 'in').reduce((s, i) => s + Number(i.quantity || 0), 0);
+            const totalOut = items.filter(i => i.movement === 'out').reduce((s, i) => s + Number(i.quantity || 0), 0);
+            return totalIn - totalOut;
+        }
+
+        function handleUnitChange() {
+            const select = document.getElementById('itemUnitType');
             const otherInput = document.getElementById('itemOtherUnit');
-            if (unitSelect.value === 'أخرى') {
-                otherInput.style.display = 'block';
-            } else {
-                otherInput.style.display = 'none';
-                otherInput.value = '';
+            if (select && otherInput) {
+                otherInput.style.display = select.value === '__other__' ? 'block' : 'none';
             }
+        }
+
+        function setupInventoryEvents() {
+            // تهيئة أحداث المخزون
         }
 
         function addInventoryItem() {
             const unitSelect = document.getElementById('itemUnitType');
-            const otherUnit = document.getElementById('itemOtherUnit').value;
+            const unitValue = unitSelect.value === '__other__' ? 
+                document.getElementById('itemOtherUnit').value : unitSelect.value;
             
             const item = {
-                code: document.getElementById('itemCode').value,
-                name: document.getElementById('itemName').value,
-                unitType: unitSelect.value === 'أخرى' ? otherUnit : unitSelect.value,
+                id: Date.now(),
+                code: document.getElementById('itemCode').value.trim(),
+                name: document.getElementById('itemName').value.trim(),
+                unitType: unitValue,
                 quantity: document.getElementById('itemQuantity').value,
+                price: document.getElementById('itemPrice').value,
                 expiry: document.getElementById('itemExpiry').value,
                 storage: document.getElementById('itemStorage').value,
-                movement: document.getElementById('itemMovement').value
+                movement: document.getElementById('itemMovement').value,
+                invoice: document.getElementById('itemInvoice').value,
+                date: new Date().toISOString()
             };
             
+            if (!item.code || !item.name) {
+                showToast('⚠️ الرجاء إدخال كود واسم الصنف', 'error');
+                return;
+            }
+            
             DB.inventory.push(item);
-            saveDB();
-            refreshInventoryTable();
-            alert('تمت الإضافة بنجاح');
+            saveDB(DB);
+            navigateTo('inventory');
+            showToast('✅ تمت إضافة الصنف للمخزون');
         }
 
-        function refreshInventoryTable() {
-            const tbody = document.getElementById('inventoryBody');
-            tbody.innerHTML = DB.inventory.map(i => `
-                <tr>
-                    <td>${i.code}</td>
-                    <td>${i.name}</td>
-                    <td>${i.quantity}</td>
-                    <td>${i.unitType}</td>
-                    <td>${i.movement}</td>
-                </tr>
-            `).join('');
+        function deleteInventoryItem() {
+            const code = document.getElementById('itemCode')?.value;
+            if (!code) {
+                showToast('⚠️ الرجاء إدخال كود الصنف', 'error');
+                return;
+            }
+            
+            showModal('تأكيد الحذف', 
+                `<p>هل أنت متأكد من حذف جميع سجلات الصنف: <strong>${code}</strong>؟</p>`,
+                () => {
+                    DB.inventory = DB.inventory.filter(i => i.code !== code);
+                    saveDB(DB);
+                    navigateTo('inventory');
+                    showToast('🗑️ تم حذف الصنف');
+                }
+            );
         }
 
-        function generateInventoryReport() {
-            alert('جاري إصدار تقرير المخزون...');
+        function printInventoryReport() {
+            const printArea = document.getElementById('printArea');
+            printArea.innerHTML = `
+                <div style="padding:30px;font-family:'Cairo',sans-serif;">
+                    <h2 style="text-align:center;color:#2E7D32;">تقرير المخزون</h2>
+                    <table style="width:100%;border-collapse:collapse;margin-top:20px;" border="1">
+                        <tr style="background:#81C784;color:white;"><th>الكود</th><th>الصنف</th><th>الكمية</th><th>النوع</th><th>الرصيد</th></tr>
+                        ${DB.inventory.map(i => `
+                            <tr><td>${i.code}</td><td>${i.name}</td><td>${i.quantity}</td><td>${i.unitType}</td><td>${calculateBalance(i.code)}</td></tr>
+                        `).join('')}
+                    </table>
+                </div>
+            `;
+            printArea.style.display = 'block';
             window.print();
+            printArea.style.display = 'none';
+        }
+
+        // ========== المشتريات ==========
+        function renderProcurement() {
+            return `
+                <div class="form-container">
+                    <div class="form-header">
+                        <h3 class="form-title">🛒 المشتريات</h3>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>رقم الفاتورة</label>
+                            <input type="text" id="procInvoice" placeholder="INV-001">
+                        </div>
+                        <div class="form-group">
+                            <label>تاريخ الفاتورة</label>
+                            <input type="date" id="procInvoiceDate">
+                        </div>
+                        <div class="form-group">
+                            <label>تاريخ الاستلام</label>
+                            <input type="date" id="procReceiptDate">
+                        </div>
+                        <div class="form-group">
+                            <label>المورد</label>
+                            <input type="text" id="procSupplier" placeholder="اسم المورد">
+                        </div>
+                        <div class="form-group">
+                            <label>المبلغ الإجمالي</label>
+                            <input type="number" id="procAmount" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>رفع ملفات (حتى 20 جيجا)</label>
+                            <input type="file" id="procurementFiles" multiple>
+                        </div>
+                        <div class="form-group" style="grid-column: 1/-1;">
+                            <label>ملاحظات</label>
+                            <textarea id="procNotes" rows="3" placeholder="ملاحظات إضافية..."></textarea>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="submitProcurement()">📤 حفظ المشتريات</button>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-header">📋 سجل المشتريات</div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>رقم الفاتورة</th>
+                                    <th>المورد</th>
+                                    <th>المبلغ</th>
+                                    <th>تاريخ الفاتورة</th>
+                                    <th>تاريخ الاستلام</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${DB.procurement.length === 0 ? 
+                                    `<tr><td colspan="5"><div class="empty-state"><div class="icon">🛒</div>لا توجد مشتريات مسجلة</div></td></tr>` :
+                                    DB.procurement.slice(-10).reverse().map(p => `
+                                        <tr>
+                                            <td><strong>${p.invoice}</strong></td>
+                                            <td>${p.supplier}</td>
+                                            <td>${Number(p.amount).toLocaleString()} ريال</td>
+                                            <td>${formatDate(p.invoiceDate)}</td>
+                                            <td>${formatDate(p.receiptDate)}</td>
+                                        </tr>
+                                    `).join('')
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function submitProcurement() {
+            const procurement = {
+                id: Date.now(),
+                invoice: document.getElementById('procInvoice')?.value || '',
+                invoiceDate: document.getElementById('procInvoiceDate')?.value || '',
+                receiptDate: document.getElementById('procReceiptDate')?.value || '',
+                supplier: document.getElementById('procSupplier')?.value || '',
+                amount: document.getElementById('procAmount')?.value || '',
+                notes: document.getElementById('procNotes')?.value || '',
+                date: new Date().toISOString()
+            };
+            
+            if (!procurement.invoice) {
+                showToast('⚠️ الرجاء إدخال رقم الفاتورة', 'error');
+                return;
+            }
+            
+            DB.procurement.push(procurement);
+            saveDB(DB);
+            navigateTo('procurement');
+            showToast('✅ تم حفظ المشتريات');
         }
 
         // ========== الإعدادات ==========
+        function renderSettings() {
+            if (!DB.currentUser || DB.currentUser.role !== 'admin') {
+                return `<div class="empty-state"><div class="icon">🔒</div><h3>غير مصرح بالوصول</h3></div>`;
+            }
+            
+            return `
+                <div class="settings-tabs">
+                    <button class="settings-tab active" onclick="showSettingsTab('users')">👥 المستخدمين</button>
+                    <button class="settings-tab" onclick="showSettingsTab('permissions')">🔐 الصلاحيات</button>
+                    <button class="settings-tab" onclick="showSettingsTab('appearance')">🎨 المظهر</button>
+                </div>
+                
+                <div id="settingsUsers" class="settings-content">
+                    <div class="form-container">
+                        <h3>إضافة مستخدم جديد</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>الرقم الوظيفي</label>
+                                <input type="text" id="newUserId" placeholder="70064">
+                            </div>
+                            <div class="form-group">
+                                <label>كود الدخول (6 خانات)</label>
+                                <input type="password" id="newUserPassword" maxlength="6" placeholder="******">
+                            </div>
+                            <div class="form-group">
+                                <label>الاسم</label>
+                                <input type="text" id="newUserName" placeholder="اسم المستخدم">
+                            </div>
+                            <div class="form-group">
+                                <label>الصلاحية</label>
+                                <select id="newUserRole">
+                                    <option value="user">مستخدم عادي</option>
+                                    <option value="admin">مدير كامل</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="addUser()">➕ إضافة مستخدم</button>
+                    </div>
+                    
+                    <div class="table-container">
+                        <div class="table-header">المستخدمين الحاليين</div>
+                        <table>
+                            <thead><tr><th>الرقم</th><th>الاسم</th><th>الصلاحية</th><th>حذف</th></tr></thead>
+                            <tbody>
+                                ${DB.users.map((u, i) => `
+                                    <tr>
+                                        <td>${u.id}</td>
+                                        <td>${u.name}</td>
+                                        <td>${u.role === 'admin' ? '👑 مدير' : '👤 مستخدم'}</td>
+                                        <td>${u.id !== '70062' ? `<button class="btn btn-danger btn-sm" onclick="deleteUser(${i})">🗑️</button>` : '🔒'}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id="settingsPermissions" class="settings-content" style="display:none;">
+                    <div class="form-container">
+                        <h3>صلاحيات المستخدمين</h3>
+                        <table>
+                            <thead><tr><th>المستخدم</th><th>الموظفين</th><th>المخزون</th><th>المشتريات</th><th>الإعدادات</th></tr></thead>
+                            <tbody>
+                                ${DB.users.map(u => `
+                                    <tr>
+                                        <td>${u.name}</td>
+                                        <td>✅</td>
+                                        <td>✅</td>
+                                        <td>✅</td>
+                                        <td>${u.role === 'admin' ? '✅' : '❌'}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id="settingsAppearance" class="settings-content" style="display:none;">
+                    <div class="form-container">
+                        <h3>تخصيص المظهر</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>رفع شعار جديد (20×20)</label>
+                                <input type="file" accept="image/*" onchange="handleLogoUpload(event)">
+                            </div>
+                            <div class="form-group">
+                                <label>اسم الشركة</label>
+                                <input type="text" id="settingsCompanyName" value="${DB.settings.companyName}">
+                            </div>
+                            <div class="form-group">
+                                <label>البريد الإلكتروني</label>
+                                <input type="email" id="settingsEmail" value="${DB.settings.companyEmail}">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="saveAppearance()">💾 حفظ التغييرات</button>
+                    </div>
+                </div>
+            `;
+        }
+
         function showSettingsTab(tab) {
             document.querySelectorAll('.settings-content').forEach(c => c.style.display = 'none');
             document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
-            
-            const tabMap = {
-                'users': 'settingsUsers',
-                'permissions': 'settingsPermissions',
-                'locations': 'settingsLocations',
-                'appearance': 'settingsAppearance'
-            };
-            
-            document.getElementById(tabMap[tab]).style.display = 'block';
-            document.querySelector(`.settings-tab[onclick*="${tab}"]`).classList.add('active');
+            document.getElementById(`settings${tab.charAt(0).toUpperCase() + tab.slice(1)}`).style.display = 'block';
+            document.querySelector(`[onclick="showSettingsTab('${tab}')"]`).classList.add('active');
         }
 
-        // ========== الفوتر ==========
-        function updateFooterDateTime() {
-            const now = new Date();
-            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
-            document.getElementById('currentDate').textContent = now.toLocaleDateString('ar-SA', options);
-            document.getElementById('currentTime').textContent = '⏰ ' + now.toLocaleTimeString('ar-SA');
+        function initSettingsTabs() {
+            // الإعدادات جاهزة
         }
 
-        // ========== التهيئة ==========
-        window.onload = function() {
-            loadDB();
-            populateCountries();
-            refreshEmployeesTable();
-            updateFooterDateTime();
-            setInterval(updateFooterDateTime, 1000);
+        function addUser() {
+            const id = document.getElementById('newUserId')?.value.trim();
+            const password = document.getElementById('newUserPassword')?.value.trim();
+            const name = document.getElementById('newUserName')?.value.trim();
+            const role = document.getElementById('newUserRole')?.value;
             
-            // تعيين الرقم الوظيفي التلقائي
-            const nextId = DB.employees.length + 1;
-            document.getElementById('empId').value = 'GI-' + String(nextId).padStart(4, '0');
-        };
-
-        // تسجيل الدخول بالضغط على Enter
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !document.getElementById('mainContainer').classList.contains('active')) {
-                login();
+            if (!id || !password || password.length < 6) {
+                showToast('⚠️ الرجاء إدخال بيانات صحيحة (كود 6 خانات)', 'error');
+                return;
             }
+            
+            if (DB.users.find(u => u.id === id)) {
+                showToast('⚠️ الرقم الوظيفي موجود مسبقاً', 'error');
+                return;
+            }
+            
+            DB.users.push({ id, password, role, name: name || id });
+            saveDB(DB);
+            navigateTo('settings');
+            showToast('✅ تم إضافة المستخدم');
+        }
+
+        function deleteUser(index) {
+            if (DB.users[index].id === '70062') {
+                showToast('⚠️ لا يمكن حذف المدير الرئيسي', 'error');
+                return;
+            }
+            showModal('تأكيد', '<p>هل أنت متأكد من حذف هذا المستخدم؟</p>', () => {
+                DB.users.splice(index, 1);
+                saveDB(DB);
+                navigateTo('settings');
+                showToast('🗑️ تم حذف المستخدم');
+            });
+        }
+
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    DB.settings.logo = e.target.result;
+                    saveDB(DB);
+                    showToast('✅ تم رفع الشعار');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveAppearance() {
+            DB.settings.companyName = document.getElementById('settingsCompanyName')?.value || DB.settings.companyName;
+            DB.settings.companyEmail = document.getElementById('settingsEmail')?.value || DB.settings.companyEmail;
+            saveDB(DB);
+            showToast('✅ تم حفظ الإعدادات');
+        }
+
+        // ========== الساعة ==========
+        function startClock() {
+            function update() {
+                const now = new Date();
+                document.getElementById('footerDate').textContent = now.toLocaleDateString('ar-SA', {
+                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                });
+                document.getElementById('footerClock').textContent = '⏰ ' + now.toLocaleTimeString('ar-SA');
+            }
+            update();
+            setInterval(update, 1000);
+        }
+
+        // ========== تحديث العدادات ==========
+        function updateSidebarCounts() {
+            const empCountEl = document.getElementById('empCount');
+            const invCountEl = document.getElementById('invCount');
+            if (empCountEl) empCountEl.textContent = DB.employees.length;
+            if (invCountEl) invCountEl.textContent = DB.inventory.length;
+        }
+
+        // ========== أحداث النقر على الشريط الجانبي ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('sidebar').addEventListener('click', function(e) {
+                const item = e.target.closest('.sidebar-item');
+                if (item && item.dataset.section) {
+                    navigateTo(item.dataset.section);
+                }
+            });
+            
+            // Enter key for login
+            document.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !document.getElementById('mainContainer').classList.contains('active')) {
+                    handleLogin();
+                }
+            });
+            
+            // Close modal on click outside
+            document.getElementById('modal').addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
         });
+
+        // ========== بدء التشغيل ==========
+        console.log('🚀 نظام الجزيرة الخضراء الإداري جاهز');
+        console.log('👤 بيانات الدخول الافتراضية: 70062 / 123456');
+        console.log('📦 إصدار احترافي متكامل');
     </script>
 </body>
 </html>
