@@ -3,63 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الجزيرة الخضراء الإداري - نسخة احترافية</title>
+    <title>شركة الجزيرة الخضراء - النظام الإداري المتكامل</title>
     <style>
         :root {
             --primary: #4CAF50;
             --primary-light: #81C784;
-            --primary-dark: #2E7D32;
+            --primary-dark: #1B5E20;
             --white: #FFFFFF;
-            --bg: #F5F7FA;
-            --sidebar-bg: #1E293B;
-            --sidebar-hover: #334155;
-            --text: #334155;
-            --text-light: #64748B;
-            --border: #E2E8F0;
-            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
-            --radius: 12px;
-            --radius-sm: 8px;
-            --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            --bg: #F0F4F0;
+            --sidebar-bg: #1a1a2e;
+            --text: #2d3436;
+            --border: #dfe6e9;
+            --shadow: 0 2px 15px rgba(0,0,0,0.08);
+            --radius: 10px;
+            --sidebar-width: 250px;
+            --header-logo-size: 60px;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--bg);
             color: var(--text);
             height: 100vh;
             overflow: hidden;
-            line-height: 1.6;
+            direction: rtl;
         }
 
         /* ========== شاشة تسجيل الدخول ========== */
-        .login-screen {
+        .login-overlay {
             position: fixed;
             inset: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: var(--transition);
+            transition: all 0.5s ease;
         }
-        .login-screen.hidden {
+        .login-overlay.hidden {
             opacity: 0;
             pointer-events: none;
             transform: scale(0.95);
         }
-        .login-card {
-            background: var(--white);
-            padding: 50px 40px;
+        .login-box {
+            background: white;
+            padding: 40px;
             border-radius: 20px;
-            box-shadow: var(--shadow-lg);
-            width: 420px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 450px;
             text-align: center;
             animation: slideUp 0.6s ease;
         }
@@ -67,106 +60,134 @@
             from { transform: translateY(40px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
-        .login-logo {
+        .login-box .logo-circle {
             width: 80px;
             height: 80px;
-            border-radius: 16px;
-            margin-bottom: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: bold;
+            margin: 0 auto 15px;
+            border: 3px solid var(--primary-light);
+            box-shadow: 0 5px 20px rgba(76,175,80,0.3);
+        }
+        .login-box .logo-circle img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--primary);
-            padding: 3px;
         }
-        .login-title {
-            font-size: 22px;
+        .login-box .company-name {
             color: var(--primary-dark);
-            margin-bottom: 8px;
-            font-weight: 700;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 2px;
         }
-        .login-subtitle {
-            font-size: 14px;
-            color: var(--text-light);
-            margin-bottom: 30px;
+        .login-box .company-location {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
         }
-        .input-group {
+        .login-box .subtitle {
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 25px;
+        }
+        .login-box .input-icon {
             position: relative;
-            margin-bottom: 18px;
+            margin-bottom: 15px;
         }
-        .input-group .icon {
+        .login-box .input-icon .icon {
             position: absolute;
             right: 14px;
             top: 50%;
             transform: translateY(-50%);
             font-size: 18px;
-            color: var(--text-light);
             z-index: 1;
         }
-        .input-group input {
+        .login-box input {
             width: 100%;
             padding: 14px 45px 14px 15px;
             border: 2px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-size: 15px;
-            transition: var(--transition);
-            background: #F8FAFC;
-            direction: ltr;
+            border-radius: 8px;
+            font-size: 16px;
             text-align: center;
+            transition: 0.3s;
         }
-        .input-group input:focus {
+        .login-box input:focus {
             border-color: var(--primary);
-            background: var(--white);
-            box-shadow: 0 0 0 4px rgba(76,175,80,0.08);
             outline: none;
+            box-shadow: 0 0 0 4px rgba(76,175,80,0.08);
         }
-        .btn-login {
+        .login-box button {
             width: 100%;
             padding: 14px;
             background: var(--primary);
-            color: var(--white);
+            color: white;
             border: none;
-            border-radius: var(--radius-sm);
+            border-radius: 8px;
             font-size: 17px;
-            font-weight: 700;
             cursor: pointer;
-            transition: var(--transition);
             margin-top: 10px;
+            font-weight: bold;
+            transition: 0.3s;
+            letter-spacing: 0.5px;
         }
-        .btn-login:hover {
+        .login-box button:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(46,125,50,0.3);
+            box-shadow: 0 8px 25px rgba(27,94,32,0.3);
         }
         .login-error {
-            color: #EF4444;
-            font-size: 13px;
-            margin-top: 10px;
+            color: #d63031;
+            margin-top: 12px;
             display: none;
+            font-size: 14px;
             animation: shake 0.5s;
         }
         @keyframes shake {
             0%,100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #e8f5e9;
+            color: var(--primary-dark);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            margin-top: 15px;
         }
 
         /* ========== الشاشة الرئيسية ========== */
-        .main-container {
+        .app-container {
             display: none;
             height: 100vh;
             flex-direction: column;
         }
-        .main-container.active {
-            display: flex;
-        }
+        .app-container.active { display: flex; }
 
         /* الهيدر */
         .header {
-            height: 64px;
             background: var(--primary-light);
+            color: white;
+            padding: 0 20px;
+            height: 80px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 24px;
-            box-shadow: var(--shadow);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             z-index: 100;
             position: relative;
         }
@@ -176,16 +197,43 @@
             gap: 12px;
         }
         .header-logo {
-            width: 42px;
-            height: 42px;
-            border-radius: 10px;
+            width: var(--header-logo-size);
+            height: var(--header-logo-size);
+            border-radius: 8px;
             object-fit: cover;
-            border: 2px solid var(--white);
+            border: 2px solid white;
+            background: white;
+            padding: 3px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        .header-title {
-            color: var(--white);
+        .header-logo-placeholder {
+            width: var(--header-logo-size);
+            height: var(--header-logo-size);
+            border-radius: 8px;
+            background: white;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 22px;
+            border: 2px solid white;
+        }
+        .header-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .header-company {
             font-size: 18px;
-            font-weight: 700;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+        .header-location {
+            font-size: 11px;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
         .header-actions {
             display: flex;
@@ -198,400 +246,296 @@
             gap: 8px;
             background: rgba(255,255,255,0.2);
             padding: 8px 15px;
-            border-radius: 25px;
-            color: var(--white);
+            border-radius: 20px;
             font-size: 14px;
         }
         .btn-logout {
-            background: var(--white);
+            background: white;
             color: var(--primary-dark);
             border: none;
             padding: 8px 18px;
-            border-radius: 25px;
+            border-radius: 20px;
             cursor: pointer;
-            font-weight: 600;
-            transition: var(--transition);
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.3s;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
-        .btn-logout:hover {
-            background: #f0f0f0;
-            transform: translateY(-1px);
+        .btn-logout:hover { background: #e0e0e0; transform: translateY(-1px); }
+        .btn-toggle-sidebar {
+            display: none;
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
         }
 
         /* المحتوى */
-        .content-wrapper {
+        .main-layout {
             display: flex;
             flex: 1;
             overflow: hidden;
+            position: relative;
         }
 
         /* الشريط الجانبي */
         .sidebar {
-            width: 260px;
+            width: var(--sidebar-width);
             background: var(--sidebar-bg);
+            color: #b2bec3;
             overflow-y: auto;
-            padding: 16px 0;
+            padding: 10px 0;
             flex-shrink: 0;
+            transition: 0.3s;
+            z-index: 50;
         }
-        .sidebar-section {
-            padding: 8px 20px;
-            font-size: 11px;
-            font-weight: 700;
-            color: #94A3B8;
+        .sidebar.collapsed {
+            width: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .sidebar .section-title {
+            padding: 12px 20px;
+            font-size: 10px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            color: #636e72;
+            letter-spacing: 1.5px;
             margin-top: 10px;
+            font-weight: bold;
         }
-        .sidebar-item {
+        .sidebar .menu-item {
             padding: 13px 20px;
             cursor: pointer;
-            transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 12px;
-            color: #CBD5E1;
+            gap: 10px;
             font-size: 14px;
+            transition: 0.3s;
             border-right: 3px solid transparent;
-            margin: 2px 0;
+            white-space: nowrap;
         }
-        .sidebar-item:hover {
-            background: var(--sidebar-hover);
-            color: var(--white);
-        }
-        .sidebar-item.active {
-            background: var(--sidebar-hover);
-            color: var(--white);
+        .sidebar .menu-item:hover, .sidebar .menu-item.active {
+            background: #16213e;
+            color: white;
             border-right-color: var(--primary);
-            font-weight: 600;
         }
-        .sidebar-icon {
-            font-size: 20px;
-            width: 28px;
-            text-align: center;
-        }
-        .sidebar-badge {
+        .sidebar .menu-item .icon { font-size: 18px; width: 24px; text-align: center; }
+        .sidebar .badge {
             background: var(--primary);
-            color: var(--white);
+            color: white;
             padding: 2px 8px;
             border-radius: 10px;
-            font-size: 11px;
+            font-size: 10px;
             margin-right: auto;
         }
 
         /* المحتوى الرئيسي */
-        .main-content {
+        .content-area {
             flex: 1;
-            padding: 24px;
+            padding: 20px;
             overflow-y: auto;
             background: var(--bg);
         }
 
-        /* شاشة الترحيب */
+        /* شاشة الترحيب كعلامة مائية */
         .welcome-screen {
             text-align: center;
-            padding: 60px 20px;
+            padding: 40px 20px;
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .welcome-watermark {
+            position: absolute;
+            inset: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" width="500" height="350"><text x="150" y="60" font-size="22" text-anchor="middle" fill="%234CAF50" opacity="0.06" font-weight="bold">شركة الجزيرة الخضراء</text><text x="150" y="90" font-size="16" text-anchor="middle" fill="%234CAF50" opacity="0.05">لتجارة المواشي والأغنام</text><text x="150" y="120" font-size="14" text-anchor="middle" fill="%234CAF50" opacity="0.05">الإمارات - أبوظبي - مسلخ الشهامة</text><text x="150" y="150" font-size="12" text-anchor="middle" fill="%234CAF50" opacity="0.04">📞 0568504018</text></svg>');
+            background-repeat: repeat;
+            background-size: 400px 280px;
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: 0;
         }
         .welcome-card {
-            background: var(--white);
+            background: white;
             border-radius: var(--radius);
-            padding: 50px;
+            padding: 40px;
             box-shadow: var(--shadow);
-            display: inline-block;
-            max-width: 600px;
-            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            background: rgba(255,255,255,0.93);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(76,175,80,0.1);
         }
         .welcome-image {
-            width: 200px;
-            height: 200px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             object-fit: cover;
             margin-bottom: 20px;
             border: 5px solid var(--primary-light);
         }
         .welcome-text {
-            font-size: 28px;
+            font-size: 26px;
             color: var(--primary-dark);
-            font-weight: 700;
-            margin-bottom: 10px;
+            font-weight: bold;
+            margin-bottom: 5px;
         }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 30px;
+        .welcome-location {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 15px;
         }
-        .stat-card {
-            background: #F0FDF4;
-            padding: 20px;
-            border-radius: var(--radius-sm);
-            text-align: center;
+
+        /* البطاقات */
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
         }
-        .stat-number {
-            font-size: 28px;
-            font-weight: 700;
+        .card h3 {
             color: var(--primary-dark);
-        }
-        .stat-label {
-            font-size: 13px;
-            color: var(--text-light);
-            margin-top: 5px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8f5e9;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         /* الفورم */
-        .form-container {
-            background: var(--white);
-            padding: 28px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            margin-bottom: 24px;
-        }
-        .form-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 2px solid #F1F5F9;
-        }
-        .form-title {
-            font-size: 20px;
-            color: var(--primary-dark);
-            font-weight: 700;
-        }
-        .form-grid {
+        .form-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
         }
         .form-group {
             margin-bottom: 5px;
         }
         .form-group label {
             display: block;
-            margin-bottom: 6px;
-            color: var(--text);
+            margin-bottom: 5px;
             font-weight: 600;
             font-size: 13px;
+            color: #555;
         }
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 11px 14px;
+            padding: 10px 12px;
             border: 2px solid var(--border);
-            border-radius: var(--radius-sm);
+            border-radius: 6px;
             font-size: 14px;
-            transition: var(--transition);
-            background: #F8FAFC;
             font-family: inherit;
+            transition: 0.3s;
         }
+        .form-group textarea { resize: vertical; min-height: 80px; }
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
             border-color: var(--primary);
-            background: var(--white);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(76,175,80,0.06);
+            box-shadow: 0 0 0 3px rgba(76,175,80,0.08);
         }
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-        .btn-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            flex-wrap: wrap;
+        .form-group input[type="file"] {
+            padding: 8px;
+            border-style: dashed;
         }
 
         /* الأزرار */
         .btn {
-            padding: 10px 20px;
+            padding: 10px 18px;
             border: none;
-            border-radius: var(--radius-sm);
+            border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 14px;
-            transition: var(--transition);
+            font-size: 13px;
+            margin: 3px;
+            transition: 0.3s;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            font-family: inherit;
+            gap: 5px;
         }
-        .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: var(--shadow);
-        }
-        .btn:active {
-            transform: translateY(0);
-        }
-        .btn-primary { background: var(--primary); color: var(--white); }
-        .btn-primary:hover { background: var(--primary-dark); }
-        .btn-success { background: #10B981; color: var(--white); }
-        .btn-warning { background: #F59E0B; color: var(--white); }
-        .btn-danger { background: #EF4444; color: var(--white); }
-        .btn-info { background: #3B82F6; color: var(--white); }
-        .btn-secondary { background: #94A3B8; color: var(--white); }
-        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
-        .btn-outline:hover { background: var(--primary); color: var(--white); }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-success { background: #00b894; color: white; }
+        .btn-warning { background: #fdcb6e; color: #333; }
+        .btn-danger { background: #d63031; color: white; }
+        .btn-info { background: #0984e3; color: white; }
+        .btn-dark { background: #2d3436; color: white; }
+        .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 4px; }
 
         /* الجداول */
-        .table-container {
-            background: var(--white);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-        }
-        .table-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-            font-weight: 700;
-            font-size: 16px;
-        }
-        .table-responsive {
-            overflow-x: auto;
-        }
+        .table-wrapper { overflow-x: auto; }
         table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 13px;
         }
         th {
-            background: #F8FAFC;
-            padding: 14px 16px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 13px;
-            color: var(--text-light);
-            border-bottom: 2px solid var(--border);
+            background: #e8f5e9;
+            color: var(--primary-dark);
+            padding: 12px 10px;
+            font-weight: bold;
+            border-bottom: 2px solid var(--primary);
             white-space: nowrap;
         }
         td {
-            padding: 12px 16px;
+            padding: 10px;
             text-align: center;
             border-bottom: 1px solid var(--border);
-            font-size: 13px;
         }
-        tr:hover td {
-            background: #F8FAFC;
-        }
-        .actions-cell {
-            display: flex;
-            gap: 6px;
-            justify-content: center;
-        }
-        .btn-sm {
-            padding: 5px 10px;
-            font-size: 12px;
-            border-radius: 6px;
+        tr:hover td { background: #f8f8f8; }
+        .empty-row td {
+            padding: 30px;
+            color: #999;
+            font-size: 14px;
         }
 
         /* الفوتر */
         .footer {
-            height: 48px;
             background: var(--primary-dark);
-            color: var(--white);
+            color: white;
+            padding: 10px 20px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 0 24px;
+            align-items: center;
             font-size: 13px;
             flex-shrink: 0;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        .footer-info {
+        .footer .footer-left {
             display: flex;
-            gap: 20px;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
         }
-        .footer-time {
+        .footer .footer-right {
             display: flex;
             gap: 15px;
             align-items: center;
         }
-        .live-clock {
-            font-weight: 700;
+        .footer .clock {
+            font-weight: bold;
+            font-size: 15px;
             letter-spacing: 1px;
-        }
-
-        /* الإعدادات */
-        .settings-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-        }
-        .settings-tab {
-            padding: 10px 22px;
-            background: var(--white);
-            border: 2px solid var(--border);
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
-            transition: var(--transition);
-        }
-        .settings-tab.active {
-            background: var(--primary);
-            color: var(--white);
-            border-color: var(--primary);
-        }
-
-        /* شهادة الطباعة */
-        @media print {
-            body * { visibility: hidden; }
-            .print-area, .print-area * { visibility: visible; }
-            .print-area {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                padding: 40px;
-            }
-        }
-        .print-area {
-            display: none;
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal.active {
-            display: flex;
-        }
-        .modal-content {
-            background: var(--white);
-            padding: 30px;
-            border-radius: var(--radius);
-            max-width: 500px;
-            width: 90%;
-            box-shadow: var(--shadow-lg);
-            animation: slideUp 0.3s ease;
-        }
-
-        /* Empty state */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-light);
-        }
-        .empty-state .icon {
-            font-size: 60px;
-            margin-bottom: 15px;
-            opacity: 0.5;
-        }
-
-        .content-section {
-            display: none;
-        }
-        .content-section.active {
-            display: block;
+            background: rgba(255,255,255,0.15);
+            padding: 4px 12px;
+            border-radius: 15px;
         }
 
         /* Toast */
@@ -601,270 +545,614 @@
             left: 50%;
             transform: translateX(-50%);
             background: #333;
-            color: var(--white);
-            padding: 12px 24px;
+            color: white;
+            padding: 12px 25px;
             border-radius: 25px;
             z-index: 2000;
-            font-weight: 600;
-            animation: slideUp 0.3s ease;
+            font-weight: bold;
+            font-size: 14px;
             display: none;
+            animation: fadeIn 0.3s;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
-        .toast.success { background: var(--primary-dark); }
-        .toast.error { background: #EF4444; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        .toast.success { background: #00b894; }
+        .toast.error { background: #d63031; }
+
+        /* مودال */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1500;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-box {
+            background: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        /* للطباعة */
+        @media print {
+            body * { visibility: hidden; }
+            .print-section, .print-section * { visibility: visible; }
+            .print-section {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                padding: 0;
+            }
+            @page { size: A4; margin: 15mm; }
+        }
+        .print-section { display: none; }
+
+        .certificate-container {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+        .cert-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 15px;
+            margin-bottom: 10px;
+        }
+        .cert-header .cert-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #4CAF50;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            overflow: hidden;
+        }
+        .cert-header .cert-logo img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .cert-header .cert-info {
+            text-align: center;
+            flex: 1;
+        }
+        .cert-header .cert-company {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1B5E20;
+        }
+        .cert-header .cert-sub {
+            font-size: 14px;
+            color: #4CAF50;
+        }
+        .cert-header .cert-location {
+            font-size: 12px;
+            color: #666;
+            margin-top: 2px;
+        }
+        .cert-header .cert-meta {
+            text-align: left;
+            font-size: 13px;
+            color: #666;
+        }
+        .cert-title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #1B5E20;
+            margin: 20px 0;
+            padding: 10px;
+            background: #e8f5e9;
+            border-radius: 8px;
+        }
+        .cert-body {
+            font-size: 15px;
+            line-height: 2.2;
+            text-align: justify;
+            padding: 0 15px;
+        }
+        .cert-signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            padding: 0 30px;
+        }
+        .cert-signature {
+            text-align: center;
+            flex: 1;
+        }
+        .cert-signature .line {
+            width: 160px;
+            border-top: 1px solid #333;
+            margin: 0 auto 5px;
+        }
+        .cert-footer {
+            border-top: 2px solid #81C784;
+            margin-top: 25px;
+            padding-top: 12px;
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+        }
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .report-table th {
+            background: #4CAF50;
+            color: white;
+            padding: 10px;
+            font-size: 13px;
+            border: 1px solid #388E3C;
+        }
+        .report-table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            font-size: 12px;
+            text-align: center;
+        }
+        .report-table .total-row {
+            background: #e8f5e9;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                right: 0;
+                top: 80px;
+                bottom: 0;
+                z-index: 200;
+                box-shadow: 5px 0 20px rgba(0,0,0,0.3);
+            }
+            .sidebar.collapsed {
+                width: 0;
+            }
+            .btn-toggle-sidebar {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .content-area {
+                padding: 15px;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- ==================== تنبيه ==================== -->
+    <!-- Toast -->
     <div class="toast" id="toast"></div>
 
+    <!-- مودال -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-box" id="modalContent"></div>
+    </div>
+
     <!-- ==================== شاشة تسجيل الدخول ==================== -->
-    <div class="login-screen" id="loginScreen">
-        <div class="login-card">
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Ccircle cx='40' cy='40' r='38' fill='%234CAF50'/%3E%3Ctext x='40' y='48' text-anchor='middle' fill='white' font-size='24' font-weight='bold'%3EJG%3C/text%3E%3C/svg%3E" 
-                 alt="Logo" class="login-logo">
-            <div class="login-title">نظام الجزيرة الخضراء</div>
-            <div class="login-subtitle">النظام الإداري المتكامل</div>
+    <div class="login-overlay" id="loginScreen">
+        <div class="login-box">
+            <div class="logo-circle" id="loginLogoDisplay">JG</div>
+            <div class="company-name">شركة الجزيرة الخضراء</div>
+            <div class="company-location">📍 الإمارات العربية المتحدة - أبوظبي - مسلخ الشهامة</div>
+            <p class="subtitle">النظام الإداري المتكامل - بوابة دخول محمية</p>
             
-            <div class="input-group">
+            <div class="input-icon">
                 <span class="icon">👤</span>
-                <input type="text" id="loginEmpId" placeholder="الرقم الوظيفي" value="70062">
+                <input type="text" id="loginId" placeholder="الرقم الوظيفي" value="70062" autocomplete="off">
             </div>
-            <div class="input-group">
+            <div class="input-icon">
                 <span class="icon">🔒</span>
-                <input type="password" id="loginPassword" placeholder="كود الدخول (6 خانات)" maxlength="6" value="123456">
+                <input type="password" id="loginPass" placeholder="كود الدخول (6 خانات)" maxlength="6" value="123456" autocomplete="off">
             </div>
-            <button class="btn-login" onclick="handleLogin()">
-                🚀 تسجيل الدخول
-            </button>
-            <p class="login-error" id="loginError">❌ بيانات الدخول غير صحيحة</p>
+            <button onclick="doLogin()">🚀 دخول النظام</button>
+            <p class="login-error" id="loginError">❌ الرقم الوظيفي أو كود الدخول غير صحيح</p>
+            <div class="security-badge">🔐 اتصال آمن | تشفير محلي</div>
         </div>
     </div>
 
     <!-- ==================== الشاشة الرئيسية ==================== -->
-    <div class="main-container" id="mainContainer">
+    <div class="app-container" id="appContainer">
         <!-- الهيدر -->
         <header class="header">
             <div class="header-brand">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='42' height='42'%3E%3Ccircle cx='21' cy='21' r='19' fill='white'/%3E%3Ctext x='21' y='26' text-anchor='middle' fill='%234CAF50' font-size='14' font-weight='bold'%3EJG%3C/text%3E%3C/svg%3E" 
-                     alt="Logo" class="header-logo" id="headerLogo">
-                <span class="header-title">الجزيرة الخضراء</span>
+                <button class="btn-toggle-sidebar" onclick="toggleSidebar()" title="القائمة">☰</button>
+                <div id="headerLogoContainer">
+                    <div class="header-logo-placeholder" id="headerLogoPlaceholder">JG</div>
+                    <img src="" alt="Logo" class="header-logo" id="headerLogoImg" style="display:none;">
+                </div>
+                <div class="header-info">
+                    <span class="header-company">شركة الجزيرة الخضراء</span>
+                    <span class="header-location">📍 الإمارات - أبوظبي - مسلخ الشهامة</span>
+                </div>
             </div>
             <div class="header-actions">
                 <div class="user-badge">
                     👤 <span id="headerUser">مستخدم</span>
                 </div>
-                <button class="btn-logout" onclick="handleLogout()">
-                    🚪 تسجيل خروج
+                <button class="btn-logout" onclick="doLogout()">
+                    🚪 خروج
                 </button>
             </div>
         </header>
 
-        <div class="content-wrapper">
+        <div class="main-layout">
             <!-- الشريط الجانبي -->
             <nav class="sidebar" id="sidebar">
-                <div class="sidebar-section">🏠 الرئيسية</div>
-                <div class="sidebar-item active" data-section="welcome">
-                    <span class="sidebar-icon">📊</span> لوحة التحكم
+                <div class="section-title">🏠 الرئيسية</div>
+                <div class="menu-item active" data-page="dashboard">
+                    <span class="icon">📊</span> لوحة التحكم
                 </div>
 
-                <div class="sidebar-section">👥 إدارة الموظفين</div>
-                <div class="sidebar-item" data-section="employees">
-                    <span class="sidebar-icon">👨‍💼</span> بيانات الموظفين
-                    <span class="sidebar-badge" id="empCount">0</span>
+                <div class="section-title">👥 إدارة الموظفين</div>
+                <div class="menu-item" data-page="employees">
+                    <span class="icon">👨‍💼</span> بيانات الموظفين
+                    <span class="badge" id="empCount">0</span>
                 </div>
-                <div class="sidebar-item" data-section="attendance">
-                    <span class="sidebar-icon">📅</span> الحضور والانصراف
+                <div class="menu-item" data-page="attendance">
+                    <span class="icon">📅</span> الحضور والانصراف
                 </div>
-                <div class="sidebar-item" data-section="salaries">
-                    <span class="sidebar-icon">💰</span> كشف الرواتب
+                <div class="menu-item" data-page="salaries">
+                    <span class="icon">💰</span> كشف الرواتب
                 </div>
-                <div class="sidebar-item" data-section="leaves">
-                    <span class="sidebar-icon">🏖️</span> الإجازات
-                </div>
-
-                <div class="sidebar-section">🔧 الإدارات</div>
-                <div class="sidebar-item" data-section="maintenance">
-                    <span class="sidebar-icon">🔨</span> الصيانة والحركة
-                </div>
-                <div class="sidebar-item" data-section="inventory">
-                    <span class="sidebar-icon">📦</span> المخزون
-                    <span class="sidebar-badge" id="invCount">0</span>
-                </div>
-                <div class="sidebar-item" data-section="procurement">
-                    <span class="sidebar-icon">🛒</span> المشتريات
+                <div class="menu-item" data-page="leaves">
+                    <span class="icon">🏖️</span> الإجازات
                 </div>
 
-                <div class="sidebar-section">⚙️ النظام</div>
-                <div class="sidebar-item" data-section="settings" id="settingsMenu" style="display:none;">
-                    <span class="sidebar-icon">🔐</span> الإعدادات
+                <div class="section-title">🔧 الإدارات الفنية</div>
+                <div class="menu-item" data-page="maintenance">
+                    <span class="icon">🔨</span> الصيانة والحركة
+                </div>
+                <div class="menu-item" data-page="inventory">
+                    <span class="icon">📦</span> المخزون والمستودعات
+                    <span class="badge" id="invCount">0</span>
+                </div>
+                <div class="menu-item" data-page="procurement">
+                    <span class="icon">🛒</span> المشتريات والعقود
+                </div>
+
+                <div class="section-title">⚙️ إدارة النظام</div>
+                <div class="menu-item" data-page="settings" id="menuSettings" style="display:none;">
+                    <span class="icon">🔐</span> الإعدادات والصلاحيات
                 </div>
             </nav>
 
-            <!-- المحتوى -->
-            <main class="main-content" id="mainContent"></main>
+            <!-- المحتوى الرئيسي -->
+            <main class="content-area" id="contentArea"></main>
         </div>
 
         <!-- الفوتر -->
         <footer class="footer">
-            <div class="footer-info">
+            <div class="footer-left">
                 <span>📧 info@grisland.com</span>
-                <span>📍 شركة الجزيرة الخضراء لتجارة الأغنام والمواشي</span>
+                <span>📍 الإمارات - أبوظبي - مسلخ الشهامة</span>
+                <span>📞 0568504018</span>
             </div>
-            <div class="footer-time">
-                <span id="footerDate"></span>
-                <span class="live-clock" id="footerClock">⏰ --:--:--</span>
+            <div class="footer-right">
+                <span id="footerDate">-</span>
+                <span class="clock" id="footerClock">⏰ --:--:--</span>
             </div>
         </footer>
     </div>
 
-    <!-- ==================== منطقة الطباعة ==================== -->
-    <div class="print-area" id="printArea"></div>
-
-    <!-- ==================== مودال ==================== -->
-    <div class="modal" id="modal">
-        <div class="modal-content" id="modalContent"></div>
-    </div>
+    <!-- قسم الطباعة -->
+    <div class="print-section" id="printSection"></div>
 
     <script>
-        // ========== نظام التخزين ==========
-        const STORAGE_KEY = 'grisland_pro_db';
+        // ==================== نظام قاعدة البيانات المحلي ====================
+        const DB_KEY = 'grisland_uae_db_v1';
         
         function getDB() {
-            const data = localStorage.getItem(STORAGE_KEY);
-            if (data) return JSON.parse(data);
-            return getDefaultDB();
+            try {
+                const data = localStorage.getItem(DB_KEY);
+                return data ? JSON.parse(data) : getDefaultDB();
+            } catch(e) {
+                return getDefaultDB();
+            }
         }
-
+        
         function getDefaultDB() {
             return {
+                users: [
+                    { id: '70062', password: '123456', name: 'المدير العام', role: 'admin', permissions: ['all'] },
+                    { id: '70063', password: '111111', name: 'محاسب', role: 'user', permissions: ['employees', 'salaries', 'inventory', 'procurement'] },
+                    { id: '70064', password: '222222', name: 'مشرف مسالخ', role: 'user', permissions: ['employees', 'attendance', 'maintenance'] }
+                ],
                 employees: [],
                 attendance: [],
                 leaves: [],
                 inventory: [],
                 procurement: [],
                 maintenance: [],
-                users: [
-                    { id: '70062', password: '123456', role: 'admin', name: 'المدير العام' },
-                    { id: '70063', password: '111111', role: 'user', name: 'موظف' }
-                ],
                 settings: {
-                    logo: '',
+                    companyName: 'شركة الجزيرة الخضراء',
+                    companySub: 'لتجارة المواشي والأغنام',
+                    companyLocation: 'الإمارات العربية المتحدة - أبوظبي - مسلخ الشهامة',
+                    phone: '0568504018',
+                    email: 'info@grisland.com',
+                    logoText: 'JG',
                     welcomeImage: '',
-                    companyName: 'الجزيرة الخضراء',
-                    companyEmail: 'info@grisland.com',
-                    companyAddress: 'المملكة العربية السعودية'
+                    logoDataUrl: ''
                 },
-                currentUser: null
+                currentUser: null,
+                nextCertNumber: 1001,
+                lastSection: 'dashboard'
             };
         }
-
+        
         function saveDB(db) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
-        }
-
-        let DB = getDB();
-        let currentSection = 'welcome';
-
-        // ========== دوال المساعدة ==========
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = `toast ${type}`;
-            toast.style.display = 'block';
-            setTimeout(() => toast.style.display = 'none', 3000);
-        }
-
-        function showModal(title, content, onConfirm) {
-            const modal = document.getElementById('modal');
-            document.getElementById('modalContent').innerHTML = `
-                <h3 style="margin-bottom:16px;">${title}</h3>
-                <div>${content}</div>
-                <div style="margin-top:20px;display:flex;gap:10px;justify-content:flex-end;">
-                    <button class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
-                    <button class="btn btn-primary" id="modalConfirmBtn">تأكيد</button>
-                </div>
-            `;
-            modal.classList.add('active');
-            if (onConfirm) {
-                document.getElementById('modalConfirmBtn').onclick = () => {
-                    onConfirm();
-                    closeModal();
-                };
+            try {
+                localStorage.setItem(DB_KEY, JSON.stringify(db));
+            } catch(e) {
+                toast('⚠️ الذاكرة ممتلئة، يرجى تنظيف بعض البيانات', 'error');
             }
         }
-
-        function closeModal() {
-            document.getElementById('modal').classList.remove('active');
-        }
-
-        function formatDate(dateString) {
-            if (!dateString) return '-';
-            const d = new Date(dateString);
-            return d.toLocaleDateString('ar-SA');
-        }
-
-        // ========== تسجيل الدخول ==========
-        function handleLogin() {
-            const empId = document.getElementById('loginEmpId').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
+        
+        let DB = getDB();
+        
+        // ==================== تحديث شعار الهيدر ====================
+        function updateHeaderLogo() {
+            const placeholder = document.getElementById('headerLogoPlaceholder');
+            const img = document.getElementById('headerLogoImg');
             
-            const user = DB.users.find(u => u.id === empId && u.password === password);
+            if (DB.settings.logoDataUrl) {
+                placeholder.style.display = 'none';
+                img.style.display = 'block';
+                img.src = DB.settings.logoDataUrl;
+            } else {
+                placeholder.style.display = 'flex';
+                img.style.display = 'none';
+            }
+            
+            const loginLogo = document.getElementById('loginLogoDisplay');
+            if (loginLogo) {
+                if (DB.settings.logoDataUrl) {
+                    loginLogo.innerHTML = `<img src="${DB.settings.logoDataUrl}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;">`;
+                    loginLogo.style.background = 'transparent';
+                } else {
+                    loginLogo.innerHTML = DB.settings.logoText || 'JG';
+                    loginLogo.style.background = '';
+                }
+            }
+        }
+        
+        // ==================== دوال مساعدة ====================
+        function toast(msg, type = 'success') {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = `toast ${type}`;
+            t.style.display = 'block';
+            clearTimeout(t._timeout);
+            t._timeout = setTimeout(() => t.style.display = 'none', 3000);
+        }
+        
+        function formatDate(d) {
+            if (!d) return '-';
+            try { return new Date(d).toLocaleDateString('ar-SA'); } catch(e) { return d; }
+        }
+        
+        function formatDateTime() {
+            const now = new Date();
+            return now.toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        }
+        
+        function generateId() { return 'ID' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).substr(2, 4).toUpperCase(); }
+        
+        function getCertNumber() {
+            DB.nextCertNumber = (DB.nextCertNumber || 1000) + 1;
+            saveDB(DB);
+            return 'CERT-' + String(DB.nextCertNumber).padStart(5, '0');
+        }
+        
+        function hasPermission(page) {
+            if (!DB.currentUser) return false;
+            if (DB.currentUser.role === 'admin') return true;
+            if (DB.currentUser.permissions.includes('all')) return true;
+            return DB.currentUser.permissions.includes(page);
+        }
+        
+        function showModal(title, content, onConfirm) {
+            const overlay = document.getElementById('modalOverlay');
+            document.getElementById('modalContent').innerHTML = `
+                <h3 style="margin-bottom:15px;">${title}</h3>
+                <div>${content}</div>
+                <div style="margin-top:20px;display:flex;gap:10px;justify-content:flex-end;">
+                    <button class="btn btn-dark" onclick="closeModal()">إلغاء</button>
+                    ${onConfirm ? '<button class="btn btn-primary" id="modalConfirmBtn">تأكيد</button>' : ''}
+                </div>
+            `;
+            overlay.classList.add('active');
+            if (onConfirm) {
+                document.getElementById('modalConfirmBtn').onclick = () => { onConfirm(); closeModal(); };
+            }
+        }
+        
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
+        
+        // ==================== هيكل الطباعة ====================
+        function getPrintHeader(certNumber, certDate) {
+            const logoHtml = DB.settings.logoDataUrl ? 
+                `<img src="${DB.settings.logoDataUrl}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;">` : 
+                DB.settings.logoText;
+            return `
+                <div class="cert-header">
+                    <div class="cert-logo">${logoHtml}</div>
+                    <div class="cert-info">
+                        <div class="cert-company">${DB.settings.companyName}</div>
+                        <div class="cert-sub">${DB.settings.companySub}</div>
+                        <div class="cert-location">📍 ${DB.settings.companyLocation} | 📞 ${DB.settings.phone}</div>
+                    </div>
+                    <div class="cert-meta">
+                        <div><strong>الرقم:</strong> ${certNumber}</div>
+                        <div><strong>التاريخ:</strong> ${certDate}</div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function getPrintFooter() {
+            return `
+                <div class="cert-footer">
+                    <p>📍 ${DB.settings.companyLocation} | 📧 ${DB.settings.email} | 📞 ${DB.settings.phone}</p>
+                    <p style="margin-top:5px;">هذا المستند صادر من نظام ${DB.settings.companyName} الإداري © ${new Date().getFullYear()}</p>
+                </div>
+            `;
+        }
+        
+        function getPrintSignatures() {
+            return `
+                <div class="cert-signatures">
+                    <div class="cert-signature">
+                        <div class="line"></div>
+                        <strong>المدير العام</strong>
+                        <p style="font-size:10px;color:#888;">${DB.settings.companyName}</p>
+                    </div>
+                    <div class="cert-signature">
+                        <div class="line"></div>
+                        <strong>المدير الإداري</strong>
+                        <p style="font-size:10px;color:#888;">${DB.settings.companyLocation}</p>
+                    </div>
+                    <div class="cert-signature">
+                        <div class="line"></div>
+                        <strong>توقيع الأدمن الإلكتروني</strong>
+                        <p style="font-size:10px;color:#888;">معتمد من النظام</p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function printDocument(html) {
+            const ps = document.getElementById('printSection');
+            ps.innerHTML = `<div class="certificate-container">${html}</div>`;
+            ps.style.display = 'block';
+            setTimeout(() => {
+                window.print();
+                setTimeout(() => { ps.style.display = 'none'; }, 500);
+            }, 300);
+        }
+        
+        // ==================== تسجيل الدخول والخروج ====================
+        function doLogin() {
+            const id = document.getElementById('loginId').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+            
+            if (!id || !pass) {
+                document.getElementById('loginError').style.display = 'block';
+                document.getElementById('loginError').textContent = '❌ الرجاء إدخال الرقم الوظيفي وكود الدخول';
+                setTimeout(() => document.getElementById('loginError').style.display = 'none', 3000);
+                return;
+            }
+            
+            const user = DB.users.find(u => u.id === id && u.password === pass);
             
             if (user) {
                 DB.currentUser = user;
+                DB.lastSection = DB.lastSection || 'dashboard';
                 saveDB(DB);
                 
                 document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('mainContainer').classList.add('active');
-                document.getElementById('headerUser').textContent = user.name || user.id;
+                document.getElementById('appContainer').classList.add('active');
+                document.getElementById('headerUser').textContent = '👤 ' + user.name + ' (' + user.id + ')';
                 
                 if (user.role === 'admin') {
-                    document.getElementById('settingsMenu').style.display = 'block';
+                    document.getElementById('menuSettings').style.display = 'block';
                 }
                 
-                updateSidebarCounts();
-                navigateTo('welcome');
-                startClock();
-                showToast('✅ تم تسجيل الدخول بنجاح', 'success');
+                updateHeaderLogo();
+                updateBadges();
+                navigateTo(DB.lastSection);
+                updateClock();
+                setInterval(updateClock, 1000);
+                toast('✅ مرحباً ' + user.name + ' - تم تسجيل الدخول بنجاح');
+                
+                document.getElementById('loginPass').value = '';
             } else {
-                const errorEl = document.getElementById('loginError');
-                errorEl.style.display = 'block';
-                setTimeout(() => errorEl.style.display = 'none', 3000);
+                document.getElementById('loginError').style.display = 'block';
+                document.getElementById('loginError').textContent = '❌ الرقم الوظيفي أو كود الدخول غير صحيح';
+                setTimeout(() => document.getElementById('loginError').style.display = 'none', 3000);
+                document.getElementById('loginPass').value = '';
             }
         }
-
-        function handleLogout() {
+        
+        function doLogout() {
             DB.currentUser = null;
             saveDB(DB);
             document.getElementById('loginScreen').classList.remove('hidden');
-            document.getElementById('mainContainer').classList.remove('active');
-            document.getElementById('settingsMenu').style.display = 'none';
-            document.getElementById('loginPassword').value = '';
+            document.getElementById('appContainer').classList.remove('active');
+            document.getElementById('menuSettings').style.display = 'none';
+            document.getElementById('loginId').value = '';
+            document.getElementById('loginPass').value = '';
         }
-
-        // ========== التنقل ==========
-        function navigateTo(section) {
-            currentSection = section;
-            
-            // تحديث الشريط الجانبي
-            document.querySelectorAll('.sidebar-item').forEach(item => {
-                item.classList.remove('active');
-                if (item.dataset.section === section) item.classList.add('active');
-            });
-            
-            // عرض المحتوى
-            const mainContent = document.getElementById('mainContent');
-            mainContent.innerHTML = renderSection(section);
-            
-            // إعادة تهيئة الأحداث
-            initSectionEvents(section);
-            updateSidebarCounts();
+        
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
         }
-
-        function renderSection(section) {
-            switch(section) {
-                case 'welcome': return renderWelcome();
+        
+        function updateClock() {
+            document.getElementById('footerDate').textContent = formatDateTime();
+            document.getElementById('footerClock').textContent = '⏰ ' + new Date().toLocaleTimeString('ar-SA');
+        }
+        
+        function updateBadges() {
+            const empCountEl = document.getElementById('empCount');
+            const invCountEl = document.getElementById('invCount');
+            if (empCountEl) empCountEl.textContent = DB.employees.length;
+            if (invCountEl) invCountEl.textContent = DB.inventory.length;
+        }
+        
+        // ==================== التنقل بين الصفحات ====================
+        function navigateTo(page) {
+            if (!hasPermission(page) && page !== 'dashboard') {
+                toast('🔒 ليس لديك صلاحية للوصول إلى هذا القسم', 'error');
+                return;
+            }
+            
+            DB.lastSection = page;
+            saveDB(DB);
+            
+            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+            const item = document.querySelector(`[data-page="${page}"]`);
+            if (item) item.classList.add('active');
+            
+            document.getElementById('contentArea').innerHTML = renderPage(page);
+            initPageEvents(page);
+            updateBadges();
+            
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.add('collapsed');
+            }
+        }
+        
+        function renderPage(page) {
+            switch(page) {
+                case 'dashboard': return renderDashboard();
                 case 'employees': return renderEmployees();
                 case 'attendance': return renderAttendance();
                 case 'salaries': return renderSalaries();
@@ -873,187 +1161,102 @@
                 case 'inventory': return renderInventory();
                 case 'procurement': return renderProcurement();
                 case 'settings': return renderSettings();
-                default: return renderWelcome();
+                default: return renderDashboard();
             }
         }
-
-        function initSectionEvents(section) {
-            switch(section) {
-                case 'employees':
-                    populateNationalities();
-                    setupEmployeeEvents();
-                    break;
-                case 'inventory':
-                    setupInventoryEvents();
-                    break;
-                case 'leaves':
-                    populateEmployeesDropdown('leaveEmployee');
-                    populateEmployeesDropdown('leaveSubstitute');
-                    break;
-                case 'attendance':
-                    populateEmployeesDropdown('attEmployee');
-                    break;
-                case 'settings':
-                    initSettingsTabs();
-                    break;
-            }
+        
+        function initPageEvents(page) {
+            if (page === 'employees') populateNationalities();
+            if (['attendance', 'leaves'].includes(page)) populateEmployeeSelects();
         }
-
-        // ========== شاشة الترحيب ==========
-        function renderWelcome() {
-            const empCount = DB.employees.length;
-            const invCount = DB.inventory.length;
-            const leavesCount = DB.leaves.length;
-            
+        
+        // ==================== لوحة التحكم (مع علامة مائية) ====================
+        function renderDashboard() {
             return `
                 <div class="welcome-screen">
+                    <div class="welcome-watermark"></div>
                     <div class="welcome-card">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='100' cy='100' r='95' fill='%23e8f5e9'/%3E%3Ctext x='100' y='110' text-anchor='middle' fill='%234CAF50' font-size='40'%3E🏢%3C/text%3E%3C/svg%3E" 
-                             alt="Welcome" class="welcome-image">
-                        <h2 class="welcome-text">مرحباً بك في نظام الجزيرة الخضراء</h2>
-                        <p style="color:#64748B;">النظام الإداري المتكامل لإدارة الموظفين والمخزون والمشتريات</p>
-                        
-                        <div class="stats-grid">
-                            <div class="stat-card">
-                                <div class="stat-number">${empCount}</div>
-                                <div class="stat-label">👥 إجمالي الموظفين</div>
+                        ${DB.settings.welcomeImage ? 
+                            `<img src="${DB.settings.welcomeImage}" class="welcome-image" alt="Welcome">` :
+                            `<div class="welcome-image" style="background:#e8f5e9;display:flex;align-items:center;justify-content:center;font-size:60px;margin:0 auto 20px;">🏢</div>`
+                        }
+                        <h2 class="welcome-text">شركة الجزيرة الخضراء</h2>
+                        <p style="color:#4CAF50;font-weight:bold;margin-bottom:5px;">لتجارة المواشي والأغنام</p>
+                        <p class="welcome-location">📍 الإمارات العربية المتحدة - أبوظبي - مسلخ الشهامة</p>
+                        <p style="color:#888;margin-bottom:25px;">📞 0568504018 | النظام الإداري المتكامل</p>
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:15px;">
+                            <div style="background:#e8f5e9;padding:20px;border-radius:10px;">
+                                <h3 style="color:#2E7D32;font-size:28px;">${DB.employees.length}</h3>
+                                <p style="font-size:13px;">👥 موظف</p>
                             </div>
-                            <div class="stat-card">
-                                <div class="stat-number">${invCount}</div>
-                                <div class="stat-label">📦 أصناف المخزون</div>
+                            <div style="background:#e3f2fd;padding:20px;border-radius:10px;">
+                                <h3 style="color:#1565C0;font-size:28px;">${DB.inventory.length}</h3>
+                                <p style="font-size:13px;">📦 صنف</p>
                             </div>
-                            <div class="stat-card">
-                                <div class="stat-number">${leavesCount}</div>
-                                <div class="stat-label">🏖️ طلبات الإجازات</div>
+                            <div style="background:#fff3e0;padding:20px;border-radius:10px;">
+                                <h3 style="color:#E65100;font-size:28px;">${DB.leaves.length}</h3>
+                                <p style="font-size:13px;">🏖️ إجازة</p>
+                            </div>
+                            <div style="background:#fce4ec;padding:20px;border-radius:10px;">
+                                <h3 style="color:#C62828;font-size:28px;">${DB.maintenance.length}</h3>
+                                <p style="font-size:13px;">🔨 بلاغ</p>
                             </div>
                         </div>
                     </div>
                 </div>
             `;
         }
-
-        // ========== إدارة الموظفين ==========
+        
+        // ==================== إدارة الموظفين (مع حقل الموقع) ====================
         function renderEmployees() {
+            if (!hasPermission('employees')) return '<div class="card"><h3>🔒 غير مصرح بالوصول</h3></div>';
+            
             return `
-                <div class="form-container">
-                    <div class="form-header">
-                        <h3 class="form-title">👨‍💼 بيانات الموظفين</h3>
-                        <span style="color:#64748B;">إجمالي الموظفين: ${DB.employees.length}</span>
+                <div class="card">
+                    <h3>👨‍💼 إدارة بيانات الموظفين</h3>
+                    <div class="form-row">
+                        <div class="form-group"><label>رقم الموظف *</label><input type="text" id="empId" value="GI-${String(DB.employees.length+1).padStart(4,'0')}"></div>
+                        <div class="form-group"><label>اسم الموظف *</label><input type="text" id="empName" placeholder="الاسم الكامل"></div>
+                        <div class="form-group"><label>الجنسية</label><select id="empNationality"></select></div>
+                        <div class="form-group"><label>الموقع *</label><select id="empLocation"><option value="">اختر الموقع</option><option>مسلخ الشهامة - أبوظبي</option><option>مقر الإدارة - أبوظبي</option><option>مستودع خارجي</option><option>موقع آخر</option></select></div>
+                        <div class="form-group"><label>رقم الجواز</label><input type="text" id="empPassport" placeholder="رقم الجواز"></div>
+                        <div class="form-group"><label>رقم الهوية</label><input type="text" id="empIdNum" placeholder="رقم الهوية"></div>
+                        <div class="form-group"><label>رقم التلفون</label><input type="tel" id="empPhone" placeholder="05xxxxxxxx"></div>
+                        <div class="form-group"><label>الوظيفة</label><select id="empJob" onchange="toggleOtherJob()"><option value="">اختر الوظيفة</option><option>مدير عام</option><option>مستشار فني</option><option>مدير إداري</option><option>محاسب</option><option>مندوب علاقات عامة</option><option>مدير عمليات</option><option>مشرف مسالخ</option><option>مشرف مسلخ</option><option>مراقب</option><option>قصاب</option><option>عامل نظافة</option><option>حمال</option><option>فني صيانة</option><option value="__other__">أخرى...</option></select><input type="text" id="empOtherJob" placeholder="المسمى الوظيفي" style="display:none;margin-top:5px;"></div>
+                        <div class="form-group"><label>الراتب الشهري (درهم)</label><input type="number" id="empSalary" step="0.01" placeholder="0.00"></div>
+                        <div class="form-group"><label>تاريخ التعيين</label><input type="date" id="empHireDate"></div>
+                        <div class="form-group"><label>انتهاء الجواز</label><input type="date" id="empPassportExp"></div>
+                        <div class="form-group"><label>انتهاء الإقامة</label><input type="date" id="empResidenceExp"></div>
+                        <div class="form-group"><label>انتهاء الهوية</label><input type="date" id="empIdExp"></div>
                     </div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>رقم الموظف</label>
-                            <input type="text" id="empId" placeholder="GI-0001" value="GI-${String(DB.employees.length + 1).padStart(4, '0')}">
-                        </div>
-                        <div class="form-group">
-                            <label>اسم الموظف *</label>
-                            <input type="text" id="empName" placeholder="الاسم الكامل">
-                        </div>
-                        <div class="form-group">
-                            <label>الجنسية</label>
-                            <select id="empNationality"></select>
-                        </div>
-                        <div class="form-group">
-                            <label>رقم الجواز</label>
-                            <input type="text" id="empPassport" placeholder="رقم الجواز">
-                        </div>
-                        <div class="form-group">
-                            <label>رقم الهوية</label>
-                            <input type="text" id="empIdNumber" placeholder="رقم الهوية">
-                        </div>
-                        <div class="form-group">
-                            <label>رقم التلفون</label>
-                            <input type="tel" id="empPhone" placeholder="05xxxxxxxx">
-                        </div>
-                        <div class="form-group">
-                            <label>الوظيفة</label>
-                            <select id="empJob" onchange="handleJobChange()">
-                                <option value="">اختر الوظيفة</option>
-                                <option>مدير عام</option>
-                                <option>مستشار فني</option>
-                                <option>مدير إداري</option>
-                                <option>محاسب</option>
-                                <option>مندوب علاقات عامة</option>
-                                <option>مدير عمليات</option>
-                                <option>مشرف مسالخ</option>
-                                <option>مشرف مسلخ</option>
-                                <option>مراقب</option>
-                                <option>قصاب</option>
-                                <option>عامل نظافة</option>
-                                <option>حمال</option>
-                                <option>فني صيانة</option>
-                                <option value="__other__">أخرى...</option>
-                            </select>
-                            <input type="text" id="empOtherJob" placeholder="أدخل المسمى الوظيفي" style="display:none;margin-top:6px;">
-                        </div>
-                        <div class="form-group">
-                            <label>الراتب الشهري</label>
-                            <input type="number" id="empSalary" placeholder="0.00" step="0.01">
-                        </div>
-                        <div class="form-group">
-                            <label>تاريخ التعيين</label>
-                            <input type="date" id="empHireDate">
-                        </div>
-                        <div class="form-group">
-                            <label>انتهاء الجواز</label>
-                            <input type="date" id="empPassportExp">
-                        </div>
-                        <div class="form-group">
-                            <label>انتهاء الإقامة</label>
-                            <input type="date" id="empResidenceExp">
-                        </div>
-                        <div class="form-group">
-                            <label>انتهاء الهوية</label>
-                            <input type="date" id="empIdExp">
-                        </div>
-                        <div class="form-group" style="grid-column: 1/-1;">
-                            <label>ملاحظات</label>
-                            <textarea id="empNotes" placeholder="ملاحظات إضافية..."></textarea>
-                        </div>
-                    </div>
-                    <div class="btn-row">
+                    <div class="form-group"><label>ملاحظات</label><textarea id="empNotes" rows="2" placeholder="ملاحظات إضافية..."></textarea></div>
+                    <div style="margin-top:15px;">
                         <button class="btn btn-primary" onclick="addEmployee()">➕ إضافة موظف</button>
                         <button class="btn btn-warning" onclick="updateEmployee()">✏️ تعديل</button>
                         <button class="btn btn-info" onclick="printSalaryCertificate()">🖨️ شهادة راتب</button>
-                        <button class="btn btn-success" onclick="exportEmployeesPDF()">📄 تصدير PDF</button>
-                        <button class="btn btn-secondary" onclick="clearEmployeeForm()">🔄 مسح الحقول</button>
+                        <button class="btn btn-success" onclick="printEmployeeReport()">📄 تقرير PDF</button>
+                        <button class="btn btn-dark" onclick="clearEmpForm()">🔄 مسح الحقول</button>
                     </div>
                 </div>
                 
-                <div class="table-container">
-                    <div class="table-header">📋 سجل الموظفين</div>
-                    <div class="table-responsive">
+                <div class="card">
+                    <h3>📋 سجل الموظفين</h3>
+                    <div style="display:flex;gap:10px;margin-bottom:15px;">
+                        <input type="text" id="empSearch" placeholder="🔍 بحث بالاسم أو الرقم..." style="flex:1;padding:10px;border:2px solid #ddd;border-radius:6px;" oninput="filterEmployees()">
+                        <select id="empLocationFilter" onchange="filterEmployees()" style="padding:10px;border:2px solid #ddd;border-radius:6px;width:200px;">
+                            <option value="">جميع المواقع</option>
+                            <option>مسلخ الشهامة - أبوظبي</option>
+                            <option>مقر الإدارة - أبوظبي</option>
+                            <option>مستودع خارجي</option>
+                            <option>موقع آخر</option>
+                        </select>
+                    </div>
+                    <div class="table-wrapper">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>الرقم الوظيفي</th>
-                                    <th>الاسم</th>
-                                    <th>الجنسية</th>
-                                    <th>الوظيفة</th>
-                                    <th>الراتب</th>
-                                    <th>تاريخ التعيين</th>
-                                    <th>الإجراءات</th>
-                                </tr>
-                            </thead>
-                            <tbody id="employeesTableBody">
-                                ${DB.employees.length === 0 ? 
-                                    `<tr><td colspan="7"><div class="empty-state"><div class="icon">👥</div>لا يوجد موظفين مسجلين</div></td></tr>` :
-                                    DB.employees.map((e, i) => `
-                                        <tr>
-                                            <td><strong>${e.id}</strong></td>
-                                            <td>${e.name}</td>
-                                            <td>${e.nationality}</td>
-                                            <td>${e.job}</td>
-                                            <td>${Number(e.salary).toLocaleString()} ريال</td>
-                                            <td>${formatDate(e.hireDate)}</td>
-                                            <td>
-                                                <div class="actions-cell">
-                                                    <button class="btn btn-warning btn-sm" onclick="editEmployee(${i})">✏️</button>
-                                                    <button class="btn btn-danger btn-sm" onclick="deleteEmployee(${i})">🗑️</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    `).join('')
+                            <thead><tr><th>الرقم</th><th>الاسم</th><th>الجنسية</th><th>الموقع</th><th>الوظيفة</th><th>الراتب</th><th>تاريخ التعيين</th><th>إجراءات</th></tr></thead>
+                            <tbody id="empTableBody">
+                                ${DB.employees.length === 0 ? '<tr class="empty-row"><td colspan="8">👥 لا يوجد موظفين مسجلين بعد</td></tr>' :
+                                    DB.employees.map((e,i) => `<tr data-search="${e.name} ${e.id} ${e.location||''}"><td>${e.id}</td><td>${e.name}</td><td>${e.nationality}</td><td>${e.location||'-'}</td><td>${e.job}</td><td>${Number(e.salary).toLocaleString()} درهم</td><td>${formatDate(e.hireDate)}</td><td><button class="btn btn-warning btn-sm" onclick="editEmp(${i})">✏️</button> <button class="btn btn-danger btn-sm" onclick="deleteEmp(${i})">🗑️</button></td></tr>`).join('')
                                 }
                             </tbody>
                         </table>
@@ -1061,55 +1264,55 @@
                 </div>
             `;
         }
-
-        const countriesList = [
-            'السعودية', 'الإمارات', 'الكويت', 'قطر', 'البحرين', 'عمان', 'مصر', 'الأردن', 
-            'سوريا', 'لبنان', 'العراق', 'اليمن', 'فلسطين', 'ليبيا', 'تونس', 'الجزائر',
-            'المغرب', 'السودان', 'موريتانيا', 'جيبوتي', 'الصومال', 'الهند', 'باكستان',
-            'بنغلاديش', 'الفلبين', 'إندونيسيا', 'تركيا', 'أفغانستان', 'نيجيريا', 'أخرى'
-        ];
-
+        
+        function toggleOtherJob() {
+            const sel = document.getElementById('empJob');
+            const other = document.getElementById('empOtherJob');
+            if (other) other.style.display = sel.value === '__other__' ? 'block' : 'none';
+        }
+        
         function populateNationalities() {
-            const select = document.getElementById('empNationality');
-            if (select) {
-                select.innerHTML = '<option value="">اختر الجنسية</option>' + 
-                    countriesList.map(c => `<option>${c}</option>`).join('');
-            }
+            const sel = document.getElementById('empNationality');
+            if (!sel) return;
+            sel.innerHTML = '<option value="">اختر الجنسية</option>' + 
+                ['السعودية','الإمارات','الكويت','قطر','البحرين','عمان','مصر','الأردن','سوريا','لبنان','العراق','اليمن','فلسطين','ليبيا','تونس','الجزائر','المغرب','السودان','الهند','باكستان','الفلبين','تركيا','أخرى']
+                .map(c => `<option>${c}</option>`).join('');
         }
-
-        function populateEmployeesDropdown(elementId) {
-            const select = document.getElementById(elementId);
-            if (select) {
-                select.innerHTML = '<option value="">اختر الموظف</option>' + 
-                    DB.employees.map(e => `<option value="${e.id}">${e.name} - ${e.id}</option>`).join('');
-            }
+        
+        function populateEmployeeSelects() {
+            document.querySelectorAll('select[id*="Emp"], select[id*="emp"]').forEach(sel => {
+                if (sel && !['empJob','empNationality','empLocation','empLocationFilter'].includes(sel.id) && !sel.id.startsWith('empSearch')) {
+                    const currentVal = sel.value;
+                    sel.innerHTML = '<option value="">اختر الموظف</option>' + 
+                        DB.employees.map(e => `<option value="${e.id}">${e.name} (${e.id})</option>`).join('');
+                    if (currentVal) sel.value = currentVal;
+                }
+            });
         }
-
-        function handleJobChange() {
-            const jobSelect = document.getElementById('empJob');
-            const otherInput = document.getElementById('empOtherJob');
-            if (jobSelect && otherInput) {
-                otherInput.style.display = jobSelect.value === '__other__' ? 'block' : 'none';
-            }
+        
+        function filterEmployees() {
+            const search = document.getElementById('empSearch')?.value?.toLowerCase() || '';
+            const locationFilter = document.getElementById('empLocationFilter')?.value || '';
+            document.querySelectorAll('#empTableBody tr').forEach(row => {
+                if (row.dataset.search) {
+                    const matchSearch = row.dataset.search.toLowerCase().includes(search);
+                    const matchLocation = !locationFilter || row.dataset.search.includes(locationFilter);
+                    row.style.display = matchSearch && matchLocation ? '' : 'none';
+                }
+            });
         }
-
-        function setupEmployeeEvents() {
-            populateNationalities();
-        }
-
-        function getEmployeeFormData() {
-            const jobSelect = document.getElementById('empJob');
-            const jobValue = jobSelect.value === '__other__' ? 
-                document.getElementById('empOtherJob').value : jobSelect.value;
-            
+        
+        function getEmpFormData() {
+            const job = document.getElementById('empJob').value;
             return {
                 id: document.getElementById('empId').value.trim(),
                 name: document.getElementById('empName').value.trim(),
                 nationality: document.getElementById('empNationality').value,
+                location: document.getElementById('empLocation').value,
                 passport: document.getElementById('empPassport').value.trim(),
-                idNumber: document.getElementById('empIdNumber').value.trim(),
+                idNumber: document.getElementById('empIdNum').value.trim(),
                 phone: document.getElementById('empPhone').value.trim(),
-                job: jobValue,
+                job: job === '__other__' ? document.getElementById('empOtherJob').value.trim() : job,
                 salary: document.getElementById('empSalary').value,
                 hireDate: document.getElementById('empHireDate').value,
                 passportExp: document.getElementById('empPassportExp').value,
@@ -1118,1128 +1321,743 @@
                 notes: document.getElementById('empNotes').value
             };
         }
-
-        function setEmployeeFormData(emp) {
+        
+        function setEmpFormData(emp) {
             document.getElementById('empId').value = emp.id;
             document.getElementById('empName').value = emp.name;
             document.getElementById('empNationality').value = emp.nationality;
+            document.getElementById('empLocation').value = emp.location || '';
             document.getElementById('empPassport').value = emp.passport;
-            document.getElementById('empIdNumber').value = emp.idNumber;
+            document.getElementById('empIdNum').value = emp.idNumber;
             document.getElementById('empPhone').value = emp.phone;
-            
-            const jobSelect = document.getElementById('empJob');
-            const standardJobs = Array.from(jobSelect.options).map(o => o.value);
-            if (standardJobs.includes(emp.job) && emp.job !== '__other__') {
-                jobSelect.value = emp.job;
+            const jobSel = document.getElementById('empJob');
+            const allJobs = Array.from(jobSel.options).map(o => o.value);
+            if (allJobs.includes(emp.job) && emp.job !== '__other__') {
+                jobSel.value = emp.job;
                 document.getElementById('empOtherJob').style.display = 'none';
             } else {
-                jobSelect.value = '__other__';
+                jobSel.value = '__other__';
                 document.getElementById('empOtherJob').style.display = 'block';
                 document.getElementById('empOtherJob').value = emp.job;
             }
-            
             document.getElementById('empSalary').value = emp.salary;
             document.getElementById('empHireDate').value = emp.hireDate;
             document.getElementById('empPassportExp').value = emp.passportExp;
             document.getElementById('empResidenceExp').value = emp.residenceExp;
             document.getElementById('empIdExp').value = emp.idExp;
-            document.getElementById('empNotes').value = emp.notes;
+            document.getElementById('empNotes').value = emp.notes || '';
         }
-
+        
         function addEmployee() {
-            const data = getEmployeeFormData();
-            if (!data.name) {
-                showToast('⚠️ الرجاء إدخال اسم الموظف', 'error');
-                return;
-            }
-            if (!data.id) {
-                showToast('⚠️ الرجاء إدخال الرقم الوظيفي', 'error');
-                return;
-            }
-            
-            const exists = DB.employees.find(e => e.id === data.id);
-            if (exists) {
-                showToast('⚠️ الرقم الوظيفي موجود مسبقاً', 'error');
-                return;
-            }
-            
+            const data = getEmpFormData();
+            if (!data.name || !data.id) { toast('⚠️ الرجاء إدخال اسم ورقم الموظف', 'error'); return; }
+            if (!data.location) { toast('⚠️ الرجاء اختيار الموقع', 'error'); return; }
+            if (DB.employees.find(e => e.id === data.id)) { toast('⚠️ الرقم الوظيفي موجود مسبقاً', 'error'); return; }
             DB.employees.push(data);
             saveDB(DB);
-            clearEmployeeForm();
             navigateTo('employees');
-            showToast('✅ تم إضافة الموظف بنجاح');
+            toast('✅ تمت إضافة الموظف بنجاح');
         }
-
+        
         function updateEmployee() {
-            const data = getEmployeeFormData();
-            if (!data.name) {
-                showToast('⚠️ الرجاء إدخال اسم الموظف', 'error');
-                return;
-            }
-            
-            const index = DB.employees.findIndex(e => e.id === data.id);
-            if (index === -1) {
-                showToast('⚠️ الموظف غير موجود، استخدم زر الإضافة', 'error');
-                return;
-            }
-            
-            DB.employees[index] = data;
+            const data = getEmpFormData();
+            if (!data.id) { toast('⚠️ الرجاء إدخال الرقم الوظيفي', 'error'); return; }
+            const idx = DB.employees.findIndex(e => e.id === data.id);
+            if (idx === -1) { toast('⚠️ الموظف غير موجود، استخدم زر الإضافة', 'error'); return; }
+            DB.employees[idx] = data;
             saveDB(DB);
             navigateTo('employees');
-            showToast('✅ تم تحديث بيانات الموظف');
+            toast('✅ تم تحديث بيانات الموظف');
         }
-
-        function editEmployee(index) {
-            setEmployeeFormData(DB.employees[index]);
+        
+        function editEmp(index) {
+            setEmpFormData(DB.employees[index]);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        function deleteEmployee(index) {
+        
+        function deleteEmp(index) {
             showModal('تأكيد الحذف', 
-                `<p>هل أنت متأكد من حذف الموظف: <strong>${DB.employees[index].name}</strong>؟</p>`,
+                `<p>هل أنت متأكد من حذف الموظف: <strong>${DB.employees[index].name}</strong>؟</p>
+                 <p style="color:#d63031;font-size:13px;">⚠️ لا يمكن التراجع عن هذا الإجراء</p>`,
                 () => {
                     DB.employees.splice(index, 1);
                     saveDB(DB);
                     navigateTo('employees');
-                    showToast('🗑️ تم حذف الموظف');
+                    toast('🗑️ تم حذف الموظف');
                 }
             );
         }
-
-        function clearEmployeeForm() {
-            const nextId = 'GI-' + String(DB.employees.length + 1).padStart(4, '0');
-            document.getElementById('empId').value = nextId;
-            ['empName','empNationality','empPassport','empIdNumber','empPhone',
-             'empSalary','empHireDate','empPassportExp','empResidenceExp','empIdExp',
-             'empNotes','empOtherJob'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.value = '';
+        
+        function clearEmpForm() {
+            document.getElementById('empId').value = 'GI-' + String(DB.employees.length+1).padStart(4,'0');
+            ['empName','empLocation','empPassport','empIdNum','empPhone','empSalary','empHireDate','empPassportExp','empResidenceExp','empIdExp','empNotes'].forEach(id => {
+                const el = document.getElementById(id); if (el) el.value = '';
             });
             document.getElementById('empJob').value = '';
-            document.getElementById('empOtherJob').style.display = 'none';
+            document.getElementById('empNationality').value = '';
+            const other = document.getElementById('empOtherJob');
+            if (other) { other.style.display = 'none'; other.value = ''; }
         }
-
-        // ========== شهادة الراتب ==========
+        
+        // ==================== شهادة الراتب ====================
         function printSalaryCertificate() {
-            const data = getEmployeeFormData();
-            if (!data.name || !data.id) {
-                showToast('⚠️ الرجاء اختيار موظف صحيح', 'error');
-                return;
-            }
+            const data = getEmpFormData();
+            if (!data.name) { toast('⚠️ الرجاء اختيار موظف أو إدخال بياناته', 'error'); return; }
+            saveDB(DB);
+            const certNum = getCertNumber();
+            const today = formatDate(new Date().toISOString());
             
-            const printArea = document.getElementById('printArea');
-            printArea.innerHTML = `
-                <div style="text-align:center;padding:40px;border:3px solid #4CAF50;border-radius:15px;max-width:700px;margin:0 auto;font-family:'Cairo',sans-serif;">
-                    <div style="border-bottom:2px solid #81C784;padding-bottom:20px;margin-bottom:30px;">
-                        <div style="font-size:24px;color:#2E7D32;font-weight:bold;">شركة الجزيرة الخضراء</div>
-                        <div style="font-size:16px;color:#666;">لتجارة الأغنام والمواشي</div>
-                    </div>
-                    
-                    <h2 style="color:#2E7D32;margin-bottom:30px;">شهادة راتب</h2>
-                    
-                    <div style="font-size:17px;line-height:2.2;text-align:justify;">
-                        <p>تشهد شركة الجزيرة الخضراء لتجارة الأغنام والمواشي</p>
-                        <p>بأن الموظف: <strong style="font-size:18px;">${data.name}</strong></p>
-                        <p>يعمل لدينا بوظيفة: <strong>${data.job}</strong></p>
-                        <p>بالرقم الوظيفي: <strong>${data.id}</strong></p>
-                        <p>جنسيته: <strong>${data.nationality}</strong></p>
-                        <p>برقم الجواز: <strong>${data.passport}</strong></p>
-                        <p>والهوية: <strong>${data.idNumber}</strong></p>
-                        <p>منذ: <strong>${formatDate(data.hireDate)}</strong></p>
-                        <br>
-                        <p>وهذه شهادة منا لمن يهمه الأمر</p>
-                        <p>دون تحمل الشركة أي مسؤولية تجاهها.</p>
-                    </div>
-                    
-                    <div style="margin-top:60px;display:flex;justify-content:space-between;">
-                        <div style="text-align:center;">
-                            <div style="border-top:1px solid #333;width:180px;margin-bottom:5px;"></div>
-                            <strong>المدير العام</strong>
-                        </div>
-                        <div style="text-align:center;">
-                            <div style="border-top:1px solid #333;width:180px;margin-bottom:5px;"></div>
-                            <strong>المدير الإداري</strong>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top:40px;padding-top:20px;border-top:2px solid #81C784;font-size:13px;color:#888;">
-                        <p>📍 ${DB.settings.companyAddress} | 📧 ${DB.settings.companyEmail}</p>
-                    </div>
+            const html = `
+                ${getPrintHeader(certNum, today)}
+                <div class="cert-title">شهادة راتب</div>
+                <div class="cert-body">
+                    <p>تشهد ${DB.settings.companyName} ${DB.settings.companySub}</p>
+                    <p>الكائنة في: <strong>${DB.settings.companyLocation}</strong></p>
+                    <p>بأن الموظف: <strong>${data.name}</strong></p>
+                    <p>يعمل لدينا بوظيفة: <strong>${data.job}</strong></p>
+                    <p>بالرقم الوظيفي: <strong>${data.id}</strong></p>
+                    <p>جنسيته: <strong>${data.nationality}</strong></p>
+                    <p>الموقع: <strong>${data.location}</strong></p>
+                    <p>برقم الجواز: <strong>${data.passport}</strong></p>
+                    <p>والهوية: <strong>${data.idNumber}</strong></p>
+                    <p>منذ: <strong>${formatDate(data.hireDate)}</strong></p>
+                    <p>وراتبه الشهري: <strong>${Number(data.salary).toLocaleString()} درهم إماراتي</strong></p>
+                    <br>
+                    <p>وهذه شهادة منا لمن يهمه الأمر، دون تحمل الشركة أي مسؤولية تجاهها.</p>
                 </div>
+                ${getPrintSignatures()}
+                ${getPrintFooter()}
             `;
+            printDocument(html);
+        }
+        
+        function printEmployeeReport() {
+            saveDB(DB);
+            const certNum = getCertNumber();
+            const today = formatDate(new Date().toISOString());
+            const totalSalary = DB.employees.reduce((s,e) => s + Number(e.salary||0), 0);
             
-            printArea.style.display = 'block';
-            window.print();
-            printArea.style.display = 'none';
+            const html = `
+                ${getPrintHeader(certNum, today)}
+                <div class="cert-title">كشف بيانات الموظفين</div>
+                <table class="report-table">
+                    <thead><tr><th>الرقم</th><th>الاسم</th><th>الجنسية</th><th>الموقع</th><th>الوظيفة</th><th>الراتب (درهم)</th><th>تاريخ التعيين</th></tr></thead>
+                    <tbody>${DB.employees.map(e => `<tr><td>${e.id}</td><td>${e.name}</td><td>${e.nationality}</td><td>${e.location||'-'}</td><td>${e.job}</td><td>${Number(e.salary).toLocaleString()}</td><td>${formatDate(e.hireDate)}</td></tr>`).join('')}</tbody>
+                    <tfoot><tr class="total-row"><td colspan="5">إجمالي الموظفين: ${DB.employees.length}</td><td colspan="2">إجمالي الرواتب: ${totalSalary.toLocaleString()} درهم</td></tr></tfoot>
+                </table>
+                ${getPrintSignatures()}
+                ${getPrintFooter()}
+            `;
+            printDocument(html);
         }
-
-        function exportEmployeesPDF() {
-            showToast('📄 جاري إعداد تقرير PDF...');
-            setTimeout(() => {
-                window.print();
-                showToast('✅ تم فتح نافذة الطباعة');
-            }, 500);
-        }
-
-        // ========== الحضور والانصراف ==========
+        
+        // ==================== الحضور والانصراف ====================
         function renderAttendance() {
             return `
-                <div class="form-container">
-                    <div class="form-header">
-                        <h3 class="form-title">📅 تقرير الحضور والانصراف</h3>
+                <div class="card">
+                    <h3>📅 تسجيل الحضور والانصراف</h3>
+                    <div class="form-row">
+                        <div class="form-group"><label>الموظف</label><select id="attEmp"></select></div>
+                        <div class="form-group"><label>الموقع</label><select id="attLocation"><option value="">اختر الموقع</option><option>مسلخ الشهامة - أبوظبي</option><option>مقر الإدارة - أبوظبي</option><option>مستودع خارجي</option><option>موقع آخر</option></select></div>
+                        <div class="form-group"><label>التاريخ</label><input type="date" id="attDate" value="${new Date().toISOString().split('T')[0]}"></div>
+                        <div class="form-group"><label>ملاحظة</label><input type="text" id="attNote" placeholder="ملاحظة اختيارية"></div>
                     </div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>الموظف</label>
-                            <select id="attEmployee"></select>
-                        </div>
-                        <div class="form-group">
-                            <label>من تاريخ</label>
-                            <input type="date" id="attFromDate">
-                        </div>
-                        <div class="form-group">
-                            <label>إلى تاريخ</label>
-                            <input type="date" id="attToDate">
-                        </div>
-                    </div>
-                    <div class="btn-row">
-                        <button class="btn btn-primary" onclick="recordAttendance('present')">✅ تسجيل حضور</button>
-                        <button class="btn btn-danger" onclick="recordAttendance('absent')">❌ تسجيل غياب</button>
-                        <button class="btn btn-info" onclick="generateAttendanceReport()">📄 تقرير PDF</button>
-                    </div>
+                    <button class="btn btn-primary" onclick="markAttendance('present')">✅ تسجيل حضور</button>
+                    <button class="btn btn-danger" onclick="markAttendance('absent')">❌ تسجيل غياب</button>
+                    <button class="btn btn-info" onclick="printAttendanceReport()">📄 تقرير الحضور PDF</button>
                 </div>
-                
-                <div class="table-container">
-                    <div class="table-header">📋 سجل الحضور</div>
-                    <div class="table-responsive">
+                <div class="card">
+                    <h3>📋 سجل الحضور</h3>
+                    <div class="table-wrapper">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>التاريخ</th>
-                                    <th>الموظف</th>
-                                    <th>الحالة</th>
-                                    <th>وقت التسجيل</th>
-                                </tr>
-                            </thead>
+                            <thead><tr><th>التاريخ</th><th>الموظف</th><th>الموقع</th><th>الحالة</th><th>الوقت</th><th>ملاحظة</th></tr></thead>
                             <tbody>
-                                ${DB.attendance.length === 0 ? 
-                                    `<tr><td colspan="4"><div class="empty-state"><div class="icon">📅</div>لا توجد سجلات حضور</div></td></tr>` :
-                                    DB.attendance.slice(-20).reverse().map(a => `
-                                        <tr>
-                                            <td>${formatDate(a.date)}</td>
-                                            <td>${a.employeeName} (${a.employeeId})</td>
-                                            <td><span style="color:${a.status==='present'?'#10B981':'#EF4444'};font-weight:bold;">${a.status==='present'?'✅ حاضر':'❌ غائب'}</span></td>
-                                            <td>${a.time || '-'}</td>
-                                        </tr>
-                                    `).join('')
-                                }
+                                ${DB.attendance.slice(-30).reverse().map(a => `
+                                    <tr>
+                                        <td>${formatDate(a.date)}</td><td>${a.empName}</td><td>${a.location||'-'}</td>
+                                        <td style="color:${a.status==='present'?'green':'red'};font-weight:bold;">${a.status==='present'?'✅ حاضر':'❌ غائب'}</td>
+                                        <td>${a.time||'-'}</td><td>${a.note||'-'}</td>
+                                    </tr>
+                                `).join('') || '<tr class="empty-row"><td colspan="6">📅 لا توجد سجلات حضور بعد</td></tr>'}
                             </tbody>
                         </table>
                     </div>
                 </div>
             `;
         }
-
-        function recordAttendance(status) {
-            const empSelect = document.getElementById('attEmployee');
-            const empId = empSelect?.value;
-            
-            if (!empId) {
-                showToast('⚠️ الرجاء اختيار موظف', 'error');
-                return;
-            }
-            
-            const employee = DB.employees.find(e => e.id === empId);
-            const now = new Date();
-            
+        
+        function markAttendance(status) {
+            const empId = document.getElementById('attEmp')?.value;
+            if (!empId) { toast('⚠️ الرجاء اختيار موظف', 'error'); return; }
+            const emp = DB.employees.find(e => e.id === empId);
             DB.attendance.push({
-                id: Date.now(),
-                employeeId: empId,
-                employeeName: employee?.name || '',
-                date: now.toISOString().split('T')[0],
-                time: now.toLocaleTimeString('ar-SA'),
-                status: status
+                id: generateId(),
+                empId: empId,
+                empName: emp?.name || '',
+                location: document.getElementById('attLocation')?.value || '',
+                date: document.getElementById('attDate')?.value || new Date().toISOString().split('T')[0],
+                time: new Date().toLocaleTimeString('ar-SA'),
+                status: status,
+                note: document.getElementById('attNote')?.value || ''
             });
-            
             saveDB(DB);
             navigateTo('attendance');
-            populateEmployeesDropdown('attEmployee');
-            showToast(`✅ تم تسجيل ${status === 'present' ? 'الحضور' : 'الغياب'} بنجاح`);
+            populateEmployeeSelects();
+            toast(status === 'present' ? '✅ تم تسجيل الحضور' : '❌ تم تسجيل الغياب');
         }
-
-        function generateAttendanceReport() {
-            const fromDate = document.getElementById('attFromDate')?.value;
-            const toDate = document.getElementById('attToDate')?.value;
-            const empId = document.getElementById('attEmployee')?.value;
-            
-            let filtered = DB.attendance;
-            if (fromDate) filtered = filtered.filter(a => a.date >= fromDate);
-            if (toDate) filtered = filtered.filter(a => a.date <= toDate);
-            if (empId) filtered = filtered.filter(a => a.employeeId === empId);
-            
-            const printArea = document.getElementById('printArea');
-            printArea.innerHTML = `
-                <div style="padding:30px;font-family:'Cairo',sans-serif;">
-                    <h2 style="text-align:center;color:#2E7D32;">تقرير الحضور والانصراف</h2>
-                    <p style="text-align:center;">${fromDate ? 'من: '+formatDate(fromDate) : ''} ${toDate ? 'إلى: '+formatDate(toDate) : ''}</p>
-                    <table style="width:100%;border-collapse:collapse;margin-top:20px;" border="1">
-                        <tr style="background:#81C784;color:white;"><th>التاريخ</th><th>الموظف</th><th>الحالة</th><th>الوقت</th></tr>
-                        ${filtered.map(a => `
-                            <tr>
-                                <td>${formatDate(a.date)}</td>
-                                <td>${a.employeeName}</td>
-                                <td>${a.status === 'present' ? 'حاضر' : 'غائب'}</td>
-                                <td>${a.time}</td>
-                            </tr>
-                        `).join('')}
-                    </table>
-                </div>
+        
+        function printAttendanceReport() {
+            saveDB(DB);
+            const certNum = getCertNumber();
+            const today = formatDate(new Date().toISOString());
+            const html = `
+                ${getPrintHeader(certNum, today)}
+                <div class="cert-title">تقرير الحضور والانصراف</div>
+                <table class="report-table">
+                    <thead><tr><th>التاريخ</th><th>الموظف</th><th>الموقع</th><th>الحالة</th><th>الوقت</th></tr></thead>
+                    <tbody>${DB.attendance.map(a => `<tr><td>${formatDate(a.date)}</td><td>${a.empName}</td><td>${a.location||'-'}</td><td>${a.status==='present'?'حاضر':'غائب'}</td><td>${a.time}</td></tr>`).join('')}</tbody>
+                </table>
+                ${getPrintSignatures()}
+                ${getPrintFooter()}
             `;
-            printArea.style.display = 'block';
-            window.print();
-            printArea.style.display = 'none';
+            printDocument(html);
         }
-
-        // ========== الرواتب ==========
+        
+        // ==================== الرواتب ====================
         function renderSalaries() {
+            const total = DB.employees.reduce((s,e) => s + Number(e.salary||0), 0);
             return `
-                <div class="form-container">
-                    <div class="form-header">
-                        <h3 class="form-title">💰 كشف الرواتب</h3>
-                    </div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>الشهر</label>
-                            <select id="salaryMonth">
-                                ${['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر']
-                                    .map(m => `<option>${m}</option>`).join('')}
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>السنة</label>
-                            <input type="number" id="salaryYear" value="${new Date().getFullYear()}">
-                        </div>
-                    </div>
+                <div class="card">
+                    <h3>💰 كشف الرواتب</h3>
                     <button class="btn btn-info" onclick="printSalaryReport()">📄 طباعة كشف الرواتب</button>
                 </div>
-                
-                <div class="table-container">
-                    <div class="table-header">📋 كشف الرواتب</div>
-                    <div class="table-responsive">
+                <div class="card">
+                    <div class="table-wrapper">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>الرقم الوظيفي</th>
-                                    <th>الاسم</th>
-                                    <th>الوظيفة</th>
-                                    <th>الراتب الأساسي</th>
-                                    <th>صافي الراتب</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${DB.employees.map(e => `
-                                    <tr>
-                                        <td>${e.id}</td>
-                                        <td>${e.name}</td>
-                                        <td>${e.job}</td>
-                                        <td>${Number(e.salary).toLocaleString()} ريال</td>
-                                        <td><strong>${Number(e.salary).toLocaleString()} ريال</strong></td>
-                                    </tr>
-                                `).join('')}
-                                ${DB.employees.length === 0 ? '<tr><td colspan="5"><div class="empty-state">لا يوجد موظفين</div></td></tr>' : ''}
-                            </tbody>
-                            <tfoot>
-                                <tr style="background:#F0FDF4;font-weight:bold;">
-                                    <td colspan="4">الإجمالي</td>
-                                    <td>${DB.employees.reduce((sum, e) => sum + Number(e.salary || 0), 0).toLocaleString()} ريال</td>
-                                </tr>
-                            </tfoot>
+                            <thead><tr><th>الرقم</th><th>الاسم</th><th>الموقع</th><th>الوظيفة</th><th>الراتب الأساسي</th></tr></thead>
+                            <tbody>${DB.employees.map(e => `<tr><td>${e.id}</td><td>${e.name}</td><td>${e.location||'-'}</td><td>${e.job}</td><td>${Number(e.salary).toLocaleString()} درهم</td></tr>`).join('')}</tbody>
+                            <tfoot><tr style="background:#e8f5e9;font-weight:bold;"><td colspan="4">الإجمالي</td><td>${total.toLocaleString()} درهم</td></tr></tfoot>
                         </table>
                     </div>
                 </div>
             `;
         }
-
+        
         function printSalaryReport() {
-            const printArea = document.getElementById('printArea');
-            const total = DB.employees.reduce((sum, e) => sum + Number(e.salary || 0), 0);
-            
-            printArea.innerHTML = `
-                <div style="padding:30px;font-family:'Cairo',sans-serif;">
-                    <h2 style="text-align:center;color:#2E7D32;">كشف الرواتب</h2>
-                    <p style="text-align:center;">${document.getElementById('salaryMonth')?.value || ''} ${document.getElementById('salaryYear')?.value || ''}</p>
-                    <table style="width:100%;border-collapse:collapse;margin-top:20px;" border="1">
-                        <tr style="background:#81C784;color:white;"><th>الرقم</th><th>الاسم</th><th>الوظيفة</th><th>الراتب</th></tr>
-                        ${DB.employees.map(e => `
-                            <tr><td>${e.id}</td><td>${e.name}</td><td>${e.job}</td><td>${Number(e.salary).toLocaleString()}</td></tr>
-                        `).join('')}
-                        <tr style="font-weight:bold;background:#F0FDF4;"><td colspan="3">الإجمالي</td><td>${total.toLocaleString()} ريال</td></tr>
-                    </table>
-                </div>
+            saveDB(DB);
+            const certNum = getCertNumber();
+            const today = formatDate(new Date().toISOString());
+            const total = DB.employees.reduce((s,e) => s + Number(e.salary||0), 0);
+            const html = `
+                ${getPrintHeader(certNum, today)}
+                <div class="cert-title">كشف الرواتب الشهري</div>
+                <table class="report-table">
+                    <thead><tr><th>الرقم</th><th>الاسم</th><th>الموقع</th><th>الوظيفة</th><th>الراتب (درهم)</th></tr></thead>
+                    <tbody>${DB.employees.map(e => `<tr><td>${e.id}</td><td>${e.name}</td><td>${e.location||'-'}</td><td>${e.job}</td><td>${Number(e.salary).toLocaleString()}</td></tr>`).join('')}</tbody>
+                    <tfoot><tr class="total-row"><td colspan="4">الإجمالي</td><td>${total.toLocaleString()} درهم</td></tr></tfoot>
+                </table>
+                ${getPrintSignatures()}
+                ${getPrintFooter()}
             `;
-            printArea.style.display = 'block';
-            window.print();
-            printArea.style.display = 'none';
+            printDocument(html);
         }
-
-        // ========== الإجازات ==========
+        
+        // ==================== الإجازات ====================
         function renderLeaves() {
             return `
-                <div class="form-container">
-                    <div class="form-header">
-                        <h3 class="form-title">🏖️ طلب إجازة</h3>
+                <div class="card">
+                    <h3>🏖️ طلب إجازة</h3>
+                    <div class="form-row">
+                        <div class="form-group"><label>الموظف</label><select id="leaveEmp"></select></div>
+                        <div class="form-group"><label>الموقع</label><select id="leaveLocation"><option value="">اختر الموقع</option><option>مسلخ الشهامة - أبوظبي</option><option>مقر الإدارة - أبوظبي</option><option>مستودع خارجي</option><option>موقع آخر</option></select></div>
+                        <div class="form-group"><label>نوع الإجازة</label><select id="leaveType"><option>سنوية</option><option>مرضية</option><option>طارئة</option><option>بدون راتب</option></select></div>
+                        <div class="form-group"><label>من تاريخ</label><input type="date" id="leaveFrom"></div>
+                        <div class="form-group"><label>إلى تاريخ</label><input type="date" id="leaveTo"></div>
+                        <div class="form-group"><label>مكان الإجازة</label><input type="text" id="leavePlace"></div>
+                        <div class="form-group"><label>تلفون الإجازة</label><input type="tel" id="leavePhone"></div>
+                        <div class="form-group"><label>الموظف البديل</label><select id="leaveSub"></select></div>
                     </div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>الموظف</label>
-                            <select id="leaveEmployee"></select>
-                        </div>
-                        <div class="form-group">
-                            <label>نوع الإجازة</label>
-                            <select id="leaveType">
-                                <option>سنوية</option>
-                                <option>مرضية</option>
-                                <option>طارئة</option>
-                                <option>بدون راتب</option>
-                                <option>أخرى</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>من تاريخ</label>
-                            <input type="date" id="leaveFrom">
-                        </div>
-                        <div class="form-group">
-                            <label>إلى تاريخ</label>
-                            <input type="date" id="leaveTo">
-                        </div>
-                        <div class="form-group">
-                            <label>مكان الإجازة</label>
-                            <input type="text" id="leavePlace" placeholder="المدينة / الدولة">
-                        </div>
-                        <div class="form-group">
-                            <label>تلفون أثناء الإجازة</label>
-                            <input type="tel" id="leavePhone" placeholder="05xxxxxxxx">
-                        </div>
-                        <div class="form-group">
-                            <label>الموظف البديل</label>
-                            <select id="leaveSubstitute"></select>
-                        </div>
-                        <div class="form-group">
-                            <label>تلفون البديل</label>
-                            <input type="tel" id="leaveSubPhone" placeholder="05xxxxxxxx">
-                        </div>
-                        <div class="form-group" style="grid-column: 1/-1;">
-                            <label>تفاصيل الاتصال والطوارئ</label>
-                            <textarea id="leaveEmergency" placeholder="معلومات الاتصال في حالات الطوارئ..."></textarea>
-                        </div>
-                    </div>
-                    <div class="btn-row">
-                        <button class="btn btn-primary" onclick="submitLeave()">📝 تقديم طلب الإجازة</button>
-                        <button class="btn btn-info" onclick="printLeaveReport()">🖨️ طباعة التقرير</button>
-                    </div>
+                    <button class="btn btn-primary" onclick="submitLeave()">📝 تقديم الطلب</button>
+                    <button class="btn btn-info" onclick="printLeaveReport()">📄 تقرير الإجازات</button>
                 </div>
-                
-                <div class="table-container">
-                    <div class="table-header">📋 طلبات الإجازات</div>
-                    <div class="table-responsive">
+                <div class="card">
+                    <h3>📋 طلبات الإجازات</h3>
+                    <div class="table-wrapper">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>الموظف</th>
-                                    <th>النوع</th>
-                                    <th>من</th>
-                                    <th>إلى</th>
-                                    <th>الحالة</th>
-                                    <th>الإجراءات</th>
-                                </tr>
-                            </thead>
+                            <thead><tr><th>الموظف</th><th>الموقع</th><th>النوع</th><th>من</th><th>إلى</th><th>الحالة</th><th>إجراء</th></tr></thead>
                             <tbody>
-                                ${DB.leaves.length === 0 ? 
-                                    `<tr><td colspan="6"><div class="empty-state"><div class="icon">🏖️</div>لا توجد طلبات إجازات</div></td></tr>` :
-                                    DB.leaves.map((l, i) => `
-                                        <tr>
-                                            <td>${l.employeeName}</td>
-                                            <td>${l.type}</td>
-                                            <td>${formatDate(l.from)}</td>
-                                            <td>${formatDate(l.to)}</td>
-                                            <td><span style="color:${l.status==='approved'?'#10B981':l.status==='rejected'?'#EF4444':'#F59E0B'};font-weight:bold;">${l.status==='approved'?'✅ معتمد':l.status==='rejected'?'❌ مرفوض':'⏳ قيد الانتظار'}</span></td>
-                                            <td>
-                                                <div class="actions-cell">
-                                                    <button class="btn btn-success btn-sm" onclick="approveLeave(${i})">✅</button>
-                                                    <button class="btn btn-danger btn-sm" onclick="rejectLeave(${i})">❌</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    `).join('')
-                                }
+                                ${DB.leaves.map((l,i) => `
+                                    <tr>
+                                        <td>${l.empName}</td><td>${l.location||'-'}</td><td>${l.type}</td>
+                                        <td>${formatDate(l.from)}</td><td>${formatDate(l.to)}</td>
+                                        <td style="font-weight:bold;color:${l.status==='✅ معتمد'?'green':l.status==='❌ مرفوض'?'red':'#fdcb6e'}">${l.status}</td>
+                                        <td>
+                                            ${l.status === 'قيد الانتظار' ? `
+                                                <button class="btn btn-success btn-sm" onclick="approveLeave(${i})">✅ اعتماد</button>
+                                                <button class="btn btn-danger btn-sm" onclick="rejectLeave(${i})">❌ رفض</button>
+                                            ` : '-'}
+                                        </td>
+                                    </tr>
+                                `).join('') || '<tr class="empty-row"><td colspan="7">🏖️ لا توجد طلبات إجازات</td></tr>'}
                             </tbody>
                         </table>
                     </div>
                 </div>
             `;
         }
-
+        
         function submitLeave() {
-            const empSelect = document.getElementById('leaveEmployee');
-            const empId = empSelect?.value;
-            
-            if (!empId) {
-                showToast('⚠️ الرجاء اختيار الموظف', 'error');
-                return;
-            }
-            
-            const employee = DB.employees.find(e => e.id === empId);
-            
-            const leave = {
-                id: Date.now(),
-                employeeId: empId,
-                employeeName: employee?.name || '',
+            const empId = document.getElementById('leaveEmp')?.value;
+            if (!empId) { toast('⚠️ اختر موظفاً', 'error'); return; }
+            const emp = DB.employees.find(e => e.id === empId);
+            DB.leaves.push({
+                id: generateId(),
+                empId, empName: emp?.name || '',
+                location: document.getElementById('leaveLocation')?.value || '',
                 type: document.getElementById('leaveType').value,
                 from: document.getElementById('leaveFrom').value,
                 to: document.getElementById('leaveTo').value,
                 place: document.getElementById('leavePlace').value,
                 phone: document.getElementById('leavePhone').value,
-                substituteId: document.getElementById('leaveSubstitute').value,
-                substitutePhone: document.getElementById('leaveSubPhone').value,
-                emergency: document.getElementById('leaveEmergency').value,
-                status: 'pending',
-                submitDate: new Date().toISOString()
-            };
-            
-            DB.leaves.push(leave);
-            saveDB(DB);
-            navigateTo('leaves');
-            populateEmployeesDropdown('leaveEmployee');
-            populateEmployeesDropdown('leaveSubstitute');
-            showToast('✅ تم تقديم طلب الإجازة بنجاح');
+                subId: document.getElementById('leaveSub').value,
+                status: 'قيد الانتظار',
+                date: new Date().toISOString()
+            });
+            saveDB(DB); navigateTo('leaves'); populateEmployeeSelects();
+            toast('✅ تم تقديم طلب الإجازة');
         }
-
-        function approveLeave(index) {
-            DB.leaves[index].status = 'approved';
-            saveDB(DB);
-            navigateTo('leaves');
-            populateEmployeesDropdown('leaveEmployee');
-            populateEmployeesDropdown('leaveSubstitute');
-            showToast('✅ تم اعتماد الإجازة');
-        }
-
-        function rejectLeave(index) {
-            DB.leaves[index].status = 'rejected';
-            saveDB(DB);
-            navigateTo('leaves');
-            populateEmployeesDropdown('leaveEmployee');
-            populateEmployeesDropdown('leaveSubstitute');
-            showToast('❌ تم رفض الإجازة');
-        }
-
+        
+        function approveLeave(i) { DB.leaves[i].status = '✅ معتمد'; saveDB(DB); navigateTo('leaves'); toast('تم اعتماد الإجازة'); }
+        function rejectLeave(i) { DB.leaves[i].status = '❌ مرفوض'; saveDB(DB); navigateTo('leaves'); toast('تم رفض الإجازة'); }
+        
         function printLeaveReport() {
-            const printArea = document.getElementById('printArea');
-            const leaves = DB.leaves;
-            
-            printArea.innerHTML = `
-                <div style="padding:30px;font-family:'Cairo',sans-serif;">
-                    <h2 style="text-align:center;color:#2E7D32;">تقرير الإجازات</h2>
-                    <table style="width:100%;border-collapse:collapse;margin-top:20px;" border="1">
-                        <tr style="background:#81C784;color:white;"><th>الموظف</th><th>النوع</th><th>من</th><th>إلى</th><th>الحالة</th></tr>
-                        ${leaves.map(l => `
-                            <tr><td>${l.employeeName}</td><td>${l.type}</td><td>${formatDate(l.from)}</td><td>${formatDate(l.to)}</td><td>${l.status}</td></tr>
-                        `).join('')}
-                    </table>
-                </div>
+            saveDB(DB);
+            const certNum = getCertNumber();
+            const today = formatDate(new Date().toISOString());
+            const html = `
+                ${getPrintHeader(certNum, today)}
+                <div class="cert-title">تقرير الإجازات</div>
+                <table class="report-table">
+                    <thead><tr><th>الموظف</th><th>الموقع</th><th>النوع</th><th>من</th><th>إلى</th><th>المكان</th><th>الحالة</th></tr></thead>
+                    <tbody>${DB.leaves.map(l => `<tr><td>${l.empName}</td><td>${l.location||'-'}</td><td>${l.type}</td><td>${formatDate(l.from)}</td><td>${formatDate(l.to)}</td><td>${l.place||'-'}</td><td>${l.status}</td></tr>`).join('')}</tbody>
+                </table>
+                ${getPrintSignatures()}
+                ${getPrintFooter()}
             `;
-            printArea.style.display = 'block';
-            window.print();
-            printArea.style.display = 'none';
+            printDocument(html);
         }
-
-        // ========== الصيانة ==========
+        
+        // ==================== الصيانة (مع حقل الموقع) ====================
         function renderMaintenance() {
             return `
-                <div class="form-container">
-                    <div class="form-header">
-                        <h3 class="form-title">🔨 طلب صيانة</h3>
+                <div class="card">
+                    <h3>🔨 بلاغات الصيانة والأعطال</h3>
+                    <div class="form-row">
+                        <div class="form-group"><label>الموقع *</label><select id="maintLocation"><option value="">اختر الموقع</option><option>مسلخ الشهامة - أبوظبي</option><option>مقر الإدارة - أبوظبي</option><option>مستودع خارجي</option><option>موقع آخر</option></select></div>
+                        <div class="form-group"><label>نوع العطل</label><select id="maintType"><option>كهربائي</option><option>سباكة</option><option>تكييف</option><option>معدات</option><option>سيارات</option><option>أخرى</option></select></div>
+                        <div class="form-group"><label>الأولوية</label><select id="maintPriority"><option>عادية</option><option>عاجلة</option><option>طارئة جداً</option></select></div>
                     </div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>نوع العطل</label>
-                            <select id="maintenanceType">
-                                <option>كهربائي</option>
-                                <option>سباكة</option>
-                                <option>تكييف</option>
-                                <option>معدات</option>
-                                <option>سيارات</option>
-                                <option>أخرى</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>الأولوية</label>
-                            <select id="maintenancePriority">
-                                <option>عادية</option>
-                                <option>عاجلة</option>
-                                <option>طارئة جداً</option>
-                            </select>
-                        </div>
-                        <div class="form-group" style="grid-column: 1/-1;">
-                            <label>وصف العطل</label>
-                            <textarea id="maintenanceDesc" rows="4" placeholder="وصف مفصل للعطل..."></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>رفع ملفات داعمة</label>
-                            <input type="file" id="maintenanceFiles" multiple accept="image/*,.pdf,.doc,.docx">
-                            <small style="color:#64748B;">الصيغ المدعومة: صور، PDF، Word</small>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" onclick="submitMaintenance()">📤 تقديم طلب الصيانة</button>
+                    <div class="form-group"><label>وصف العطل</label><textarea id="maintDesc" rows="3" placeholder="وصف تفصيلي للعطل..."></textarea></div>
+                    <button class="btn btn-primary" onclick="submitMaintenance()">📤 تقديم بلاغ الصيانة</button>
+                    <button class="btn btn-info" onclick="printMaintenanceReport()">📄 تقرير الصيانة PDF</button>
                 </div>
-                
-                <div class="table-container">
-                    <div class="table-header">📋 طلبات الصيانة</div>
-                    <div class="table-responsive">
+                <div class="card">
+                    <h3>📋 سجل بلاغات الصيانة</h3>
+                    <div style="margin-bottom:15px;">
+                        <select id="maintLocationFilter" onchange="filterMaintenance()" style="padding:10px;border:2px solid #ddd;border-radius:6px;width:200px;">
+                            <option value="">جميع المواقع</option>
+                            <option>مسلخ الشهامة - أبوظبي</option>
+                            <option>مقر الإدارة - أبوظبي</option>
+                            <option>مستودع خارجي</option>
+                            <option>موقع آخر</option>
+                        </select>
+                    </div>
+                    <div class="table-wrapper">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>رقم الطلب</th>
-                                    <th>النوع</th>
-                                    <th>الأولوية</th>
-                                    <th>التاريخ</th>
-                                    <th>الحالة</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${DB.maintenance.length === 0 ? 
-                                    `<tr><td colspan="5"><div class="empty-state"><div class="icon">🔨</div>لا توجد طلبات صيانة</div></td></tr>` :
-                                    DB.maintenance.slice(-10).reverse().map(m => `
-                                        <tr>
-                                            <td>#${m.id}</td>
-                                            <td>${m.type}</td>
-                                            <td><span style="color:${m.priority==='طارئة جداً'?'#EF4444':m.priority==='عاجلة'?'#F59E0B':'#10B981'}">${m.priority}</span></td>
-                                            <td>${formatDate(m.date)}</td>
-                                            <td>${m.status}</td>
-                                        </tr>
-                                    `).join('')
-                                }
+                            <thead><tr><th>رقم البلاغ</th><th>الموقع</th><th>النوع</th><th>الأولوية</th><th>التاريخ</th><th>الحالة</th></tr></thead>
+                            <tbody id="maintTableBody">
+                                ${DB.maintenance.slice(-20).reverse().map(m => `
+                                    <tr data-location="${m.location||''}"><td>#${m.id.slice(-6)}</td><td>${m.location||'-'}</td><td>${m.type}</td><td style="color:${m.priority==='طارئة جداً'?'red':m.priority==='عاجلة'?'#fdcb6e':'green'}">${m.priority}</td><td>${formatDate(m.date)}</td><td>${m.status}</td></tr>
+                                `).join('') || '<tr class="empty-row"><td colspan="6">🔨 لا توجد بلاغات صيانة</td></tr>'}
                             </tbody>
                         </table>
                     </div>
                 </div>
             `;
         }
-
+        
         function submitMaintenance() {
-            const maintenance = {
-                id: Date.now(),
-                type: document.getElementById('maintenanceType')?.value || '',
-                priority: document.getElementById('maintenancePriority')?.value || '',
-                description: document.getElementById('maintenanceDesc')?.value || '',
+            const location = document.getElementById('maintLocation')?.value;
+            if (!location) { toast('⚠️ الرجاء اختيار الموقع', 'error'); return; }
+            DB.maintenance.push({
+                id: generateId(),
+                location: location,
+                type: document.getElementById('maintType')?.value || '',
+                priority: document.getElementById('maintPriority')?.value || '',
+                description: document.getElementById('maintDesc')?.value || '',
                 date: new Date().toISOString(),
                 status: 'قيد المعالجة'
-            };
-            
-            DB.maintenance.push(maintenance);
-            saveDB(DB);
-            navigateTo('maintenance');
-            showToast('✅ تم تقديم طلب الصيانة');
+            });
+            saveDB(DB); navigateTo('maintenance'); toast('✅ تم تقديم بلاغ الصيانة');
         }
-
-        // ========== المخزون ==========
+        
+        function filterMaintenance() {
+            const filter = document.getElementById('maintLocationFilter')?.value || '';
+            document.querySelectorAll('#maintTableBody tr').forEach(row => {
+                if (row.dataset.location !== undefined) {
+                    row.style.display = !filter || row.dataset.location === filter ? '' : 'none';
+                }
+            });
+        }
+        
+        function printMaintenanceReport() {
+            saveDB(DB);
+            const certNum = getCertNumber();
+            const today = formatDate(new Date().toISOString());
+            const html = `
+                ${getPrintHeader(certNum, today)}
+                <div class="cert-title">تقرير الصيانة والأعطال</div>
+                <table class="report-table">
+                    <thead><tr><th>رقم البلاغ</th><th>الموقع</th><th>النوع</th><th>الأولوية</th><th>التاريخ</th><th>الحالة</th></tr></thead>
+                    <tbody>${DB.maintenance.map(m => `<tr><td>#${m.id.slice(-6)}</td><td>${m.location||'-'}</td><td>${m.type}</td><td>${m.priority}</td><td>${formatDate(m.date)}</td><td>${m.status}</td></tr>`).join('')}</tbody>
+                </table>
+                ${getPrintSignatures()}
+                ${getPrintFooter()}
+            `;
+            printDocument(html);
+        }
+        
+        // ==================== المخزون (مع حقل الموقع) ====================
         function renderInventory() {
             return `
-                <div class="form-container">
-                    <div class="form-header">
-                        <h3 class="form-title">📦 إدارة المخزون</h3>
+                <div class="card">
+                    <h3>📦 إدارة المخزون والمستودعات</h3>
+                    <div class="form-row">
+                        <div class="form-group"><label>الموقع *</label><select id="invLocation"><option value="">اختر الموقع</option><option>مسلخ الشهامة - أبوظبي</option><option>مقر الإدارة - أبوظبي</option><option>مستودع خارجي</option><option>موقع آخر</option></select></div>
+                        <div class="form-group"><label>كود الصنف</label><input type="text" id="invCode" placeholder="ITM-001"></div>
+                        <div class="form-group"><label>اسم الصنف</label><input type="text" id="invName" placeholder="اسم الصنف"></div>
+                        <div class="form-group"><label>نوع الكمية</label><select id="invUnit"><option>عدد</option><option>كرتونة</option><option>لتر</option><option>كيلو</option><option>أخرى</option></select></div>
+                        <div class="form-group"><label>الكمية</label><input type="number" id="invQty" placeholder="0"></div>
+                        <div class="form-group"><label>السعر (درهم)</label><input type="number" id="invPrice" step="0.01" placeholder="0.00"></div>
+                        <div class="form-group"><label>تاريخ الصلاحية</label><input type="date" id="invExpiry"></div>
+                        <div class="form-group"><label>نوع التخزين</label><select id="invStorage"><option>مستودع رئيسي</option><option>ثلاجة</option><option>مجمدة</option><option>مستودع خارجي</option></select></div>
+                        <div class="form-group"><label>الحركة</label><select id="invMovement"><option value="in">📥 وارد</option><option value="out">📤 صادر</option></select></div>
+                        <div class="form-group"><label>رقم الفاتورة</label><input type="text" id="invInvoice"></div>
                     </div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>كود الصنف</label>
-                            <input type="text" id="itemCode" placeholder="ITM-001">
-                        </div>
-                        <div class="form-group">
-                            <label>اسم الصنف</label>
-                            <input type="text" id="itemName" placeholder="اسم الصنف">
-                        </div>
-                        <div class="form-group">
-                            <label>نوع الكمية</label>
-                            <select id="itemUnitType" onchange="handleUnitChange()">
-                                <option>عدد</option>
-                                <option>كرتونة</option>
-                                <option>لتر</option>
-                                <option>كيلو</option>
-                                <option value="__other__">أخرى...</option>
-                            </select>
-                            <input type="text" id="itemOtherUnit" placeholder="أدخل نوع الكمية" style="display:none;margin-top:6px;">
-                        </div>
-                        <div class="form-group">
-                            <label>الكمية</label>
-                            <input type="number" id="itemQuantity" placeholder="0">
-                        </div>
-                        <div class="form-group">
-                            <label>السعر (للمشتريات)</label>
-                            <input type="number" id="itemPrice" placeholder="0.00" step="0.01">
-                        </div>
-                        <div class="form-group">
-                            <label>تاريخ الصلاحية</label>
-                            <input type="date" id="itemExpiry">
-                        </div>
-                        <div class="form-group">
-                            <label>نوع التخزين</label>
-                            <select id="itemStorage">
-                                <option>مستودع رئيسي</option>
-                                <option>ثلاجة</option>
-                                <option>مجمدة</option>
-                                <option>مستودع خارجي</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>نوع الحركة</label>
-                            <select id="itemMovement">
-                                <option value="in">📥 وارد</option>
-                                <option value="out">📤 صادر</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>رقم الفاتورة</label>
-                            <input type="text" id="itemInvoice" placeholder="رقم الفاتورة">
-                        </div>
-                    </div>
-                    <div class="btn-row">
-                        <button class="btn btn-primary" onclick="addInventoryItem()">➕ إضافة</button>
-                        <button class="btn btn-danger" onclick="deleteInventoryItem()">🗑️ حذف</button>
-                        <button class="btn btn-info" onclick="printInventoryReport()">📄 تقرير PDF</button>
-                    </div>
+                    <button class="btn btn-primary" onclick="addInventory()">➕ إضافة للمخزون</button>
+                    <button class="btn btn-danger" onclick="deleteInventory()">🗑️ حذف صنف</button>
+                    <button class="btn btn-info" onclick="printInventoryReport()">📄 تقرير المخزون PDF</button>
                 </div>
-                
-                <div class="table-container">
-                    <div class="table-header">📋 المخزون الحالي</div>
-                    <div class="table-responsive">
+                <div class="card">
+                    <h3>📋 جرد المخزون الحالي</h3>
+                    <div style="margin-bottom:15px;">
+                        <select id="invLocationFilter" onchange="filterInventory()" style="padding:10px;border:2px solid #ddd;border-radius:6px;width:200px;">
+                            <option value="">جميع المواقع</option>
+                            <option>مسلخ الشهامة - أبوظبي</option>
+                            <option>مقر الإدارة - أبوظبي</option>
+                            <option>مستودع خارجي</option>
+                            <option>موقع آخر</option>
+                        </select>
+                    </div>
+                    <div class="table-wrapper">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>الكود</th>
-                                    <th>الصنف</th>
-                                    <th>الكمية</th>
-                                    <th>النوع</th>
-                                    <th>الحركة</th>
-                                    <th>الرصيد</th>
-                                    <th>تاريخ الصلاحية</th>
-                                </tr>
-                            </thead>
-                            <tbody id="inventoryTableBody">
-                                ${DB.inventory.length === 0 ? 
-                                    `<tr><td colspan="7"><div class="empty-state"><div class="icon">📦</div>المخزون فارغ</div></td></tr>` :
-                                    DB.inventory.map((item, i) => `
-                                        <tr>
-                                            <td><strong>${item.code}</strong></td>
-                                            <td>${item.name}</td>
-                                            <td>${item.quantity}</td>
-                                            <td>${item.unitType}</td>
-                                            <td><span style="color:${item.movement==='in'?'#10B981':'#EF4444'}">${item.movement==='in'?'📥 وارد':'📤 صادر'}</span></td>
-                                            <td><strong>${calculateBalance(item.code)}</strong></td>
-                                            <td>${formatDate(item.expiry)}</td>
-                                        </tr>
-                                    `).join('')
-                                }
+                            <thead><tr><th>الموقع</th><th>الكود</th><th>الصنف</th><th>الكمية</th><th>النوع</th><th>الحركة</th><th>الرصيد</th><th>الصلاحية</th></tr></thead>
+                            <tbody id="invTableBody">
+                                ${DB.inventory.map(i => `
+                                    <tr data-location="${i.location||''}"><td>${i.location||'-'}</td><td>${i.code}</td><td>${i.name}</td><td>${i.quantity}</td><td>${i.unit}</td><td>${i.movement==='in'?'📥 وارد':'📤 صادر'}</td><td><strong>${getItemBalance(i.code)}</strong></td><td>${formatDate(i.expiry)}</td></tr>
+                                `).join('') || '<tr class="empty-row"><td colspan="8">📦 المخزون فارغ - قم بإضافة أصناف</td></tr>'}
                             </tbody>
                         </table>
                     </div>
                 </div>
             `;
         }
-
-        function calculateBalance(code) {
+        
+        function getItemBalance(code) {
             const items = DB.inventory.filter(i => i.code === code);
-            const totalIn = items.filter(i => i.movement === 'in').reduce((s, i) => s + Number(i.quantity || 0), 0);
-            const totalOut = items.filter(i => i.movement === 'out').reduce((s, i) => s + Number(i.quantity || 0), 0);
-            return totalIn - totalOut;
+            const inQty = items.filter(i => i.movement === 'in').reduce((s,i) => s + Number(i.quantity||0), 0);
+            const outQty = items.filter(i => i.movement === 'out').reduce((s,i) => s + Number(i.quantity||0), 0);
+            return inQty - outQty;
         }
-
-        function handleUnitChange() {
-            const select = document.getElementById('itemUnitType');
-            const otherInput = document.getElementById('itemOtherUnit');
-            if (select && otherInput) {
-                otherInput.style.display = select.value === '__other__' ? 'block' : 'none';
-            }
-        }
-
-        function setupInventoryEvents() {
-            // تهيئة أحداث المخزون
-        }
-
-        function addInventoryItem() {
-            const unitSelect = document.getElementById('itemUnitType');
-            const unitValue = unitSelect.value === '__other__' ? 
-                document.getElementById('itemOtherUnit').value : unitSelect.value;
-            
+        
+        function addInventory() {
+            const location = document.getElementById('invLocation')?.value;
+            if (!location) { toast('⚠️ الرجاء اختيار الموقع', 'error'); return; }
             const item = {
-                id: Date.now(),
-                code: document.getElementById('itemCode').value.trim(),
-                name: document.getElementById('itemName').value.trim(),
-                unitType: unitValue,
-                quantity: document.getElementById('itemQuantity').value,
-                price: document.getElementById('itemPrice').value,
-                expiry: document.getElementById('itemExpiry').value,
-                storage: document.getElementById('itemStorage').value,
-                movement: document.getElementById('itemMovement').value,
-                invoice: document.getElementById('itemInvoice').value,
+                id: generateId(),
+                location: location,
+                code: document.getElementById('invCode')?.value || '',
+                name: document.getElementById('invName')?.value || '',
+                unit: document.getElementById('invUnit')?.value || '',
+                quantity: document.getElementById('invQty')?.value || '0',
+                price: document.getElementById('invPrice')?.value || '0',
+                expiry: document.getElementById('invExpiry')?.value || '',
+                storage: document.getElementById('invStorage')?.value || '',
+                movement: document.getElementById('invMovement')?.value || 'in',
+                invoice: document.getElementById('invInvoice')?.value || '',
                 date: new Date().toISOString()
             };
-            
-            if (!item.code || !item.name) {
-                showToast('⚠️ الرجاء إدخال كود واسم الصنف', 'error');
-                return;
-            }
-            
+            if (!item.code || !item.name) { toast('⚠️ الرجاء إدخال كود واسم الصنف', 'error'); return; }
             DB.inventory.push(item);
             saveDB(DB);
             navigateTo('inventory');
-            showToast('✅ تمت إضافة الصنف للمخزون');
+            toast('✅ تمت إضافة الصنف للمخزون');
         }
-
-        function deleteInventoryItem() {
-            const code = document.getElementById('itemCode')?.value;
-            if (!code) {
-                showToast('⚠️ الرجاء إدخال كود الصنف', 'error');
-                return;
-            }
-            
-            showModal('تأكيد الحذف', 
-                `<p>هل أنت متأكد من حذف جميع سجلات الصنف: <strong>${code}</strong>؟</p>`,
-                () => {
-                    DB.inventory = DB.inventory.filter(i => i.code !== code);
-                    saveDB(DB);
-                    navigateTo('inventory');
-                    showToast('🗑️ تم حذف الصنف');
+        
+        function deleteInventory() {
+            const code = document.getElementById('invCode')?.value;
+            if (!code) { toast('⚠️ أدخل كود الصنف للحذف', 'error'); return; }
+            showModal('تأكيد الحذف', `<p>حذف جميع سجلات الصنف: <strong>${code}</strong>؟</p>`, () => {
+                DB.inventory = DB.inventory.filter(i => i.code !== code);
+                saveDB(DB);
+                navigateTo('inventory');
+                toast('🗑️ تم حذف الصنف من المخزون');
+            });
+        }
+        
+        function filterInventory() {
+            const filter = document.getElementById('invLocationFilter')?.value || '';
+            document.querySelectorAll('#invTableBody tr').forEach(row => {
+                if (row.dataset.location !== undefined) {
+                    row.style.display = !filter || row.dataset.location === filter ? '' : 'none';
                 }
-            );
+            });
         }
-
+        
         function printInventoryReport() {
-            const printArea = document.getElementById('printArea');
-            printArea.innerHTML = `
-                <div style="padding:30px;font-family:'Cairo',sans-serif;">
-                    <h2 style="text-align:center;color:#2E7D32;">تقرير المخزون</h2>
-                    <table style="width:100%;border-collapse:collapse;margin-top:20px;" border="1">
-                        <tr style="background:#81C784;color:white;"><th>الكود</th><th>الصنف</th><th>الكمية</th><th>النوع</th><th>الرصيد</th></tr>
-                        ${DB.inventory.map(i => `
-                            <tr><td>${i.code}</td><td>${i.name}</td><td>${i.quantity}</td><td>${i.unitType}</td><td>${calculateBalance(i.code)}</td></tr>
-                        `).join('')}
-                    </table>
-                </div>
+            saveDB(DB);
+            const certNum = getCertNumber();
+            const today = formatDate(new Date().toISOString());
+            const html = `
+                ${getPrintHeader(certNum, today)}
+                <div class="cert-title">تقرير جرد المخزون</div>
+                <table class="report-table">
+                    <thead><tr><th>الموقع</th><th>الكود</th><th>الصنف</th><th>الكمية</th><th>النوع</th><th>الحركة</th><th>السعر (درهم)</th><th>الرصيد</th></tr></thead>
+                    <tbody>${DB.inventory.map(i => `<tr><td>${i.location||'-'}</td><td>${i.code}</td><td>${i.name}</td><td>${i.quantity}</td><td>${i.unit}</td><td>${i.movement==='in'?'وارد':'صادر'}</td><td>${i.price}</td><td>${getItemBalance(i.code)}</td></tr>`).join('')}</tbody>
+                </table>
+                ${getPrintSignatures()}
+                ${getPrintFooter()}
             `;
-            printArea.style.display = 'block';
-            window.print();
-            printArea.style.display = 'none';
+            printDocument(html);
         }
-
-        // ========== المشتريات ==========
+        
+        // ==================== المشتريات (مع حقل الموقع) ====================
         function renderProcurement() {
             return `
-                <div class="form-container">
-                    <div class="form-header">
-                        <h3 class="form-title">🛒 المشتريات</h3>
+                <div class="card">
+                    <h3>🛒 المشتريات والعقود</h3>
+                    <div class="form-row">
+                        <div class="form-group"><label>الموقع *</label><select id="procLocation"><option value="">اختر الموقع</option><option>مسلخ الشهامة - أبوظبي</option><option>مقر الإدارة - أبوظبي</option><option>مستودع خارجي</option><option>موقع آخر</option></select></div>
+                        <div class="form-group"><label>رقم الفاتورة</label><input type="text" id="procInvoice"></div>
+                        <div class="form-group"><label>المورد</label><input type="text" id="procSupplier"></div>
+                        <div class="form-group"><label>تاريخ الفاتورة</label><input type="date" id="procInvDate"></div>
+                        <div class="form-group"><label>تاريخ الاستلام</label><input type="date" id="procRecDate"></div>
+                        <div class="form-group"><label>المبلغ الإجمالي (درهم)</label><input type="number" id="procAmount" step="0.01"></div>
                     </div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>رقم الفاتورة</label>
-                            <input type="text" id="procInvoice" placeholder="INV-001">
-                        </div>
-                        <div class="form-group">
-                            <label>تاريخ الفاتورة</label>
-                            <input type="date" id="procInvoiceDate">
-                        </div>
-                        <div class="form-group">
-                            <label>تاريخ الاستلام</label>
-                            <input type="date" id="procReceiptDate">
-                        </div>
-                        <div class="form-group">
-                            <label>المورد</label>
-                            <input type="text" id="procSupplier" placeholder="اسم المورد">
-                        </div>
-                        <div class="form-group">
-                            <label>المبلغ الإجمالي</label>
-                            <input type="number" id="procAmount" placeholder="0.00" step="0.01">
-                        </div>
-                        <div class="form-group">
-                            <label>رفع ملفات (حتى 20 جيجا)</label>
-                            <input type="file" id="procurementFiles" multiple>
-                        </div>
-                        <div class="form-group" style="grid-column: 1/-1;">
-                            <label>ملاحظات</label>
-                            <textarea id="procNotes" rows="3" placeholder="ملاحظات إضافية..."></textarea>
-                        </div>
-                    </div>
+                    <div class="form-group"><label>ملاحظات</label><textarea id="procNotes" rows="2"></textarea></div>
                     <button class="btn btn-primary" onclick="submitProcurement()">📤 حفظ المشتريات</button>
+                    <button class="btn btn-info" onclick="printProcurementReport()">📄 تقرير المشتريات PDF</button>
                 </div>
-                
-                <div class="table-container">
-                    <div class="table-header">📋 سجل المشتريات</div>
-                    <div class="table-responsive">
+                <div class="card">
+                    <h3>📋 سجل المشتريات</h3>
+                    <div style="margin-bottom:15px;">
+                        <select id="procLocationFilter" onchange="filterProcurement()" style="padding:10px;border:2px solid #ddd;border-radius:6px;width:200px;">
+                            <option value="">جميع المواقع</option>
+                            <option>مسلخ الشهامة - أبوظبي</option>
+                            <option>مقر الإدارة - أبوظبي</option>
+                            <option>مستودع خارجي</option>
+                            <option>موقع آخر</option>
+                        </select>
+                    </div>
+                    <div class="table-wrapper">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>رقم الفاتورة</th>
-                                    <th>المورد</th>
-                                    <th>المبلغ</th>
-                                    <th>تاريخ الفاتورة</th>
-                                    <th>تاريخ الاستلام</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${DB.procurement.length === 0 ? 
-                                    `<tr><td colspan="5"><div class="empty-state"><div class="icon">🛒</div>لا توجد مشتريات مسجلة</div></td></tr>` :
-                                    DB.procurement.slice(-10).reverse().map(p => `
-                                        <tr>
-                                            <td><strong>${p.invoice}</strong></td>
-                                            <td>${p.supplier}</td>
-                                            <td>${Number(p.amount).toLocaleString()} ريال</td>
-                                            <td>${formatDate(p.invoiceDate)}</td>
-                                            <td>${formatDate(p.receiptDate)}</td>
-                                        </tr>
-                                    `).join('')
-                                }
+                            <thead><tr><th>الموقع</th><th>الفاتورة</th><th>المورد</th><th>المبلغ</th><th>تاريخ الفاتورة</th><th>تاريخ الاستلام</th></tr></thead>
+                            <tbody id="procTableBody">
+                                ${DB.procurement.slice(-20).reverse().map(p => `
+                                    <tr data-location="${p.location||''}"><td>${p.location||'-'}</td><td>${p.invoice}</td><td>${p.supplier}</td><td>${Number(p.amount).toLocaleString()} درهم</td><td>${formatDate(p.invoiceDate)}</td><td>${formatDate(p.receiptDate)}</td></tr>
+                                `).join('') || '<tr class="empty-row"><td colspan="6">🛒 لا توجد مشتريات مسجلة</td></tr>'}
                             </tbody>
                         </table>
                     </div>
                 </div>
             `;
         }
-
+        
         function submitProcurement() {
-            const procurement = {
-                id: Date.now(),
+            const location = document.getElementById('procLocation')?.value;
+            if (!location) { toast('⚠️ الرجاء اختيار الموقع', 'error'); return; }
+            const proc = {
+                id: generateId(),
+                location: location,
                 invoice: document.getElementById('procInvoice')?.value || '',
-                invoiceDate: document.getElementById('procInvoiceDate')?.value || '',
-                receiptDate: document.getElementById('procReceiptDate')?.value || '',
                 supplier: document.getElementById('procSupplier')?.value || '',
-                amount: document.getElementById('procAmount')?.value || '',
+                invoiceDate: document.getElementById('procInvDate')?.value || '',
+                receiptDate: document.getElementById('procRecDate')?.value || '',
+                amount: document.getElementById('procAmount')?.value || '0',
                 notes: document.getElementById('procNotes')?.value || '',
                 date: new Date().toISOString()
             };
-            
-            if (!procurement.invoice) {
-                showToast('⚠️ الرجاء إدخال رقم الفاتورة', 'error');
-                return;
-            }
-            
-            DB.procurement.push(procurement);
+            if (!proc.invoice) { toast('⚠️ الرجاء إدخال رقم الفاتورة', 'error'); return; }
+            DB.procurement.push(proc);
             saveDB(DB);
             navigateTo('procurement');
-            showToast('✅ تم حفظ المشتريات');
+            toast('✅ تم حفظ المشتريات بنجاح');
         }
-
-        // ========== الإعدادات ==========
+        
+        function filterProcurement() {
+            const filter = document.getElementById('procLocationFilter')?.value || '';
+            document.querySelectorAll('#procTableBody tr').forEach(row => {
+                if (row.dataset.location !== undefined) {
+                    row.style.display = !filter || row.dataset.location === filter ? '' : 'none';
+                }
+            });
+        }
+        
+        function printProcurementReport() {
+            saveDB(DB);
+            const certNum = getCertNumber();
+            const today = formatDate(new Date().toISOString());
+            const total = DB.procurement.reduce((s,p) => s + Number(p.amount||0), 0);
+            const html = `
+                ${getPrintHeader(certNum, today)}
+                <div class="cert-title">تقرير المشتريات</div>
+                <table class="report-table">
+                    <thead><tr><th>الموقع</th><th>رقم الفاتورة</th><th>المورد</th><th>المبلغ (درهم)</th><th>تاريخ الفاتورة</th><th>تاريخ الاستلام</th></tr></thead>
+                    <tbody>${DB.procurement.map(p => `<tr><td>${p.location||'-'}</td><td>${p.invoice}</td><td>${p.supplier}</td><td>${Number(p.amount).toLocaleString()}</td><td>${formatDate(p.invoiceDate)}</td><td>${formatDate(p.receiptDate)}</td></tr>`).join('')}</tbody>
+                    <tfoot><tr class="total-row"><td colspan="3">الإجمالي</td><td>${total.toLocaleString()} درهم</td><td colspan="2"></td></tr></tfoot>
+                </table>
+                ${getPrintSignatures()}
+                ${getPrintFooter()}
+            `;
+            printDocument(html);
+        }
+        
+        // ==================== الإعدادات ====================
         function renderSettings() {
             if (!DB.currentUser || DB.currentUser.role !== 'admin') {
-                return `<div class="empty-state"><div class="icon">🔒</div><h3>غير مصرح بالوصول</h3></div>`;
+                return '<div class="card"><h3>🔒 غير مصرح - صلاحيات المدير فقط</h3></div>';
             }
-            
             return `
-                <div class="settings-tabs">
-                    <button class="settings-tab active" onclick="showSettingsTab('users')">👥 المستخدمين</button>
-                    <button class="settings-tab" onclick="showSettingsTab('permissions')">🔐 الصلاحيات</button>
-                    <button class="settings-tab" onclick="showSettingsTab('appearance')">🎨 المظهر</button>
+                <div class="card">
+                    <h3>👥 إدارة المستخدمين والصلاحيات</h3>
+                    <div class="form-row">
+                        <div class="form-group"><label>الرقم الوظيفي</label><input type="text" id="newUserId" placeholder="مثال: 70065"></div>
+                        <div class="form-group"><label>كود الدخول (6 خانات)</label><input type="password" id="newUserPass" maxlength="6" placeholder="******"></div>
+                        <div class="form-group"><label>الاسم</label><input type="text" id="newUserName" placeholder="اسم المستخدم"></div>
+                        <div class="form-group"><label>الصلاحية</label><select id="newUserRole"><option value="user">مستخدم عادي</option><option value="admin">مدير كامل</option></select></div>
+                    </div>
+                    <button class="btn btn-primary" onclick="addUser()">➕ إضافة مستخدم</button>
                 </div>
-                
-                <div id="settingsUsers" class="settings-content">
-                    <div class="form-container">
-                        <h3>إضافة مستخدم جديد</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>الرقم الوظيفي</label>
-                                <input type="text" id="newUserId" placeholder="70064">
-                            </div>
-                            <div class="form-group">
-                                <label>كود الدخول (6 خانات)</label>
-                                <input type="password" id="newUserPassword" maxlength="6" placeholder="******">
-                            </div>
-                            <div class="form-group">
-                                <label>الاسم</label>
-                                <input type="text" id="newUserName" placeholder="اسم المستخدم">
-                            </div>
-                            <div class="form-group">
-                                <label>الصلاحية</label>
-                                <select id="newUserRole">
-                                    <option value="user">مستخدم عادي</option>
-                                    <option value="admin">مدير كامل</option>
-                                </select>
-                            </div>
+                <div class="card">
+                    <h3>👥 المستخدمين الحاليين</h3>
+                    <table>
+                        <thead><tr><th>الرقم</th><th>الاسم</th><th>الصلاحية</th><th>الحالة</th></tr></thead>
+                        <tbody>
+                            ${DB.users.map(u => `
+                                <tr>
+                                    <td>${u.id}</td><td>${u.name}</td>
+                                    <td>${u.role==='admin'?'👑 مدير كامل':'👤 مستخدم'}</td>
+                                    <td>${u.id==='70062'?'🔒 محمي':'✅ نشط'}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>🎨 تخصيص المظهر والشعار</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>رفع شعار الشركة (60×60 بكسل)</label>
+                            <input type="file" accept="image/*" onchange="handleLogoUpload(event)">
                         </div>
-                        <button class="btn btn-primary" onclick="addUser()">➕ إضافة مستخدم</button>
-                    </div>
-                    
-                    <div class="table-container">
-                        <div class="table-header">المستخدمين الحاليين</div>
-                        <table>
-                            <thead><tr><th>الرقم</th><th>الاسم</th><th>الصلاحية</th><th>حذف</th></tr></thead>
-                            <tbody>
-                                ${DB.users.map((u, i) => `
-                                    <tr>
-                                        <td>${u.id}</td>
-                                        <td>${u.name}</td>
-                                        <td>${u.role === 'admin' ? '👑 مدير' : '👤 مستخدم'}</td>
-                                        <td>${u.id !== '70062' ? `<button class="btn btn-danger btn-sm" onclick="deleteUser(${i})">🗑️</button>` : '🔒'}</td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <div id="settingsPermissions" class="settings-content" style="display:none;">
-                    <div class="form-container">
-                        <h3>صلاحيات المستخدمين</h3>
-                        <table>
-                            <thead><tr><th>المستخدم</th><th>الموظفين</th><th>المخزون</th><th>المشتريات</th><th>الإعدادات</th></tr></thead>
-                            <tbody>
-                                ${DB.users.map(u => `
-                                    <tr>
-                                        <td>${u.name}</td>
-                                        <td>✅</td>
-                                        <td>✅</td>
-                                        <td>✅</td>
-                                        <td>${u.role === 'admin' ? '✅' : '❌'}</td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <div id="settingsAppearance" class="settings-content" style="display:none;">
-                    <div class="form-container">
-                        <h3>تخصيص المظهر</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>رفع شعار جديد (20×20)</label>
-                                <input type="file" accept="image/*" onchange="handleLogoUpload(event)">
-                            </div>
-                            <div class="form-group">
-                                <label>اسم الشركة</label>
-                                <input type="text" id="settingsCompanyName" value="${DB.settings.companyName}">
-                            </div>
-                            <div class="form-group">
-                                <label>البريد الإلكتروني</label>
-                                <input type="email" id="settingsEmail" value="${DB.settings.companyEmail}">
-                            </div>
+                        <div class="form-group">
+                            <label>صورة شاشة الترحيب</label>
+                            <input type="file" accept="image/*" onchange="handleWelcomeUpload(event)">
                         </div>
-                        <button class="btn btn-primary" onclick="saveAppearance()">💾 حفظ التغييرات</button>
                     </div>
+                    ${DB.settings.logoDataUrl ? `<p style="margin-top:10px;color:green;">✅ الشعار الحالي: <img src="${DB.settings.logoDataUrl}" style="width:60px;height:60px;border-radius:8px;object-fit:cover;vertical-align:middle;"></p>` : ''}
                 </div>
             `;
         }
-
-        function showSettingsTab(tab) {
-            document.querySelectorAll('.settings-content').forEach(c => c.style.display = 'none');
-            document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(`settings${tab.charAt(0).toUpperCase() + tab.slice(1)}`).style.display = 'block';
-            document.querySelector(`[onclick="showSettingsTab('${tab}')"]`).classList.add('active');
-        }
-
-        function initSettingsTabs() {
-            // الإعدادات جاهزة
-        }
-
+        
         function addUser() {
-            const id = document.getElementById('newUserId')?.value.trim();
-            const password = document.getElementById('newUserPassword')?.value.trim();
-            const name = document.getElementById('newUserName')?.value.trim();
+            const id = document.getElementById('newUserId')?.value?.trim();
+            const pass = document.getElementById('newUserPass')?.value?.trim();
+            const name = document.getElementById('newUserName')?.value?.trim();
             const role = document.getElementById('newUserRole')?.value;
             
-            if (!id || !password || password.length < 6) {
-                showToast('⚠️ الرجاء إدخال بيانات صحيحة (كود 6 خانات)', 'error');
-                return;
-            }
+            if (!id || !pass || pass.length < 6) { toast('⚠️ بيانات غير صحيحة - الكود يجب أن يكون 6 خانات', 'error'); return; }
+            if (DB.users.find(u => u.id === id)) { toast('⚠️ الرقم الوظيفي موجود مسبقاً', 'error'); return; }
             
-            if (DB.users.find(u => u.id === id)) {
-                showToast('⚠️ الرقم الوظيفي موجود مسبقاً', 'error');
-                return;
-            }
-            
-            DB.users.push({ id, password, role, name: name || id });
+            DB.users.push({ id, password: pass, name: name || id, role, permissions: role === 'admin' ? ['all'] : ['employees', 'salaries'] });
             saveDB(DB);
             navigateTo('settings');
-            showToast('✅ تم إضافة المستخدم');
+            toast('✅ تم إضافة المستخدم بنجاح');
         }
-
-        function deleteUser(index) {
-            if (DB.users[index].id === '70062') {
-                showToast('⚠️ لا يمكن حذف المدير الرئيسي', 'error');
-                return;
-            }
-            showModal('تأكيد', '<p>هل أنت متأكد من حذف هذا المستخدم؟</p>', () => {
-                DB.users.splice(index, 1);
-                saveDB(DB);
-                navigateTo('settings');
-                showToast('🗑️ تم حذف المستخدم');
-            });
-        }
-
+        
         function handleLogoUpload(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    DB.settings.logo = e.target.result;
+                    DB.settings.logoDataUrl = e.target.result;
                     saveDB(DB);
-                    showToast('✅ تم رفع الشعار');
+                    updateHeaderLogo();
+                    toast('✅ تم تحديث شعار الشركة (60×60)');
                 };
                 reader.readAsDataURL(file);
             }
         }
-
-        function saveAppearance() {
-            DB.settings.companyName = document.getElementById('settingsCompanyName')?.value || DB.settings.companyName;
-            DB.settings.companyEmail = document.getElementById('settingsEmail')?.value || DB.settings.companyEmail;
-            saveDB(DB);
-            showToast('✅ تم حفظ الإعدادات');
-        }
-
-        // ========== الساعة ==========
-        function startClock() {
-            function update() {
-                const now = new Date();
-                document.getElementById('footerDate').textContent = now.toLocaleDateString('ar-SA', {
-                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-                });
-                document.getElementById('footerClock').textContent = '⏰ ' + now.toLocaleTimeString('ar-SA');
+        
+        function handleWelcomeUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    DB.settings.welcomeImage = e.target.result;
+                    saveDB(DB);
+                    toast('✅ تم تحديث صورة الترحيب');
+                };
+                reader.readAsDataURL(file);
             }
-            update();
-            setInterval(update, 1000);
         }
-
-        // ========== تحديث العدادات ==========
-        function updateSidebarCounts() {
-            const empCountEl = document.getElementById('empCount');
-            const invCountEl = document.getElementById('invCount');
-            if (empCountEl) empCountEl.textContent = DB.employees.length;
-            if (invCountEl) invCountEl.textContent = DB.inventory.length;
-        }
-
-        // ========== أحداث النقر على الشريط الجانبي ==========
+        
+        // ==================== الأحداث ====================
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('sidebar').addEventListener('click', function(e) {
-                const item = e.target.closest('.sidebar-item');
-                if (item && item.dataset.section) {
-                    navigateTo(item.dataset.section);
+                const item = e.target.closest('.menu-item');
+                if (item && item.dataset.page) {
+                    navigateTo(item.dataset.page);
                 }
             });
             
-            // Enter key for login
             document.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && !document.getElementById('mainContainer').classList.contains('active')) {
-                    handleLogin();
+                if (e.key === 'Enter' && !document.getElementById('appContainer').classList.contains('active')) {
+                    doLogin();
                 }
             });
             
-            // Close modal on click outside
-            document.getElementById('modal').addEventListener('click', function(e) {
+            document.getElementById('modalOverlay').addEventListener('click', function(e) {
                 if (e.target === this) closeModal();
             });
+            
+            updateHeaderLogo();
         });
-
-        // ========== بدء التشغيل ==========
-        console.log('🚀 نظام الجزيرة الخضراء الإداري جاهز');
-        console.log('👤 بيانات الدخول الافتراضية: 70062 / 123456');
-        console.log('📦 إصدار احترافي متكامل');
+        
+        window.addEventListener('beforeunload', function() {
+            saveDB(DB);
+        });
+        
+        // ==================== بدء التشغيل ====================
+        console.log('🚀 نظام شركة الجزيرة الخضراء الإداري');
+        console.log('📍 الإمارات العربية المتحدة - أبوظبي - مسلخ الشهامة');
+        console.log('📞 0568504018');
+        console.log('🔐 مدير النظام: 70062 / 123456');
+        console.log('👤 محاسب: 70063 / 111111');
+        console.log('👤 مشرف: 70064 / 222222');
+        console.log('💰 العملة: درهم إماراتي');
+        console.log('✅ جميع التقارير تحتوي على توقيع الأدمن الإلكتروني');
+        console.log('📍 فلترة الموقع متاحة في جميع الأقسام');
     </script>
 </body>
 </html>
